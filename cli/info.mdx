@@ -1,0 +1,225 @@
+---
+title: shadcn info
+description: Get information about your project
+---
+
+The `info` command displays information about your project configuration and environment. Use it to debug issues or verify your setup.
+
+## Usage
+
+```bash
+shadcn info
+```
+
+## Options
+
+<ParamField path="--cwd" type="string" optional>
+  The working directory. Defaults to the current directory.
+</ParamField>
+
+## Examples
+
+### Get project information
+
+```bash
+shadcn info
+```
+
+Output:
+```bash
+> project info
+{
+  framework: {
+    name: 'next-app',
+    label: 'Next.js',
+    links: {
+      installation: 'https://ui.shadcn.com/docs/installation/next'
+    }
+  },
+  tailwindVersion: 'v3',
+  aliasPrefix: '@'
+}
+
+> components.json
+{
+  $schema: 'https://ui.shadcn.com/schema.json',
+  style: 'new-york',
+  rsc: true,
+  tsx: true,
+  tailwind: {
+    config: 'tailwind.config.ts',
+    css: 'app/globals.css',
+    baseColor: 'zinc',
+    cssVariables: true,
+    prefix: ''
+  },
+  aliases: {
+    components: '@/components',
+    utils: '@/lib/utils',
+    ui: '@/components/ui',
+    lib: '@/lib',
+    hooks: '@/hooks'
+  },
+  iconLibrary: 'lucide'
+}
+```
+
+### Get info for specific directory
+
+```bash
+shadcn info --cwd ./my-project
+```
+
+## Output details
+
+### Project info
+
+Shows detected framework and environment:
+
+- `framework.name` - Detected framework (next-app, next-pages, vite, etc.)
+- `framework.label` - Human-readable framework name
+- `framework.links` - Documentation links
+- `tailwindVersion` - Detected Tailwind CSS version (v3 or v4)
+- `aliasPrefix` - Import alias prefix (@, ~, etc.)
+
+### Components.json
+
+Displays your complete shadcn/ui configuration:
+
+- `$schema` - Schema URL for validation
+- `style` - Selected style (new-york, default, etc.)
+- `rsc` - React Server Components enabled
+- `tsx` - TypeScript enabled
+- `tailwind` - Tailwind CSS configuration
+  - `config` - Path to tailwind.config file
+  - `css` - Path to global CSS file
+  - `baseColor` - Base color palette
+  - `cssVariables` - CSS variables enabled
+  - `prefix` - Tailwind prefix (if any)
+- `aliases` - Import path aliases
+- `iconLibrary` - Icon library in use (lucide, etc.)
+- `rtl` - RTL support enabled (if configured)
+- `registries` - Custom registries (if configured)
+
+## Use cases
+
+### Debug configuration issues
+
+Check if your configuration is correct:
+
+```bash
+shadcn info
+```
+
+### Verify framework detection
+
+Ensure shadcn detected your framework correctly:
+
+```bash
+shadcn info | grep framework
+```
+
+### Check Tailwind version
+
+Verify which Tailwind CSS version is detected:
+
+```bash
+shadcn info | grep tailwindVersion
+```
+
+### Share configuration
+
+When reporting issues, share your configuration:
+
+```bash
+shadcn info > config.txt
+```
+
+### Verify aliases
+
+Check configured import aliases:
+
+```bash
+shadcn info | grep -A 6 "aliases"
+```
+
+## Working with output
+
+The output is formatted JavaScript objects. You can:
+
+### Save to file
+
+```bash
+shadcn info > project-info.txt
+```
+
+### Extract specific values
+
+```bash
+# Using grep
+shadcn info | grep "style:"
+
+# Using awk
+shadcn info | awk '/framework:/{flag=1} flag; /}$/{flag=0}'
+```
+
+### Compare configurations
+
+```bash
+shadcn info --cwd ./project1 > p1.txt
+shadcn info --cwd ./project2 > p2.txt
+diff p1.txt p2.txt
+```
+
+## Framework detection
+
+The command automatically detects:
+
+- **Next.js** (App Router or Pages Router)
+- **Vite** (React)
+- **Remix**
+- **Astro**
+- **Laravel**
+- **Gatsby**
+- **TanStack Start**
+
+## Tailwind CSS version detection
+
+Detects Tailwind CSS version from:
+
+1. `tailwind.config.js` or `tailwind.config.ts`
+2. `package.json` dependencies
+3. Import statements in config file
+
+## Troubleshooting
+
+### No output
+
+If no information is displayed:
+
+1. Ensure you're in the correct directory
+2. Check if `components.json` exists
+3. Run `shadcn init` if needed
+
+### Incorrect framework
+
+If framework is detected incorrectly:
+
+1. Check your project structure
+2. Ensure framework dependencies are installed
+3. Verify package.json is present
+
+### Missing configuration
+
+If components.json is missing values:
+
+1. Run `shadcn init` to recreate it
+2. Or manually add missing fields
+
+## Notes
+
+- Output format is JavaScript object notation
+- Does not modify any files
+- Safe to run at any time
+- Useful for debugging and support
+- Works with partial configurations

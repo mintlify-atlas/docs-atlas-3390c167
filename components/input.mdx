@@ -1,0 +1,315 @@
+---
+title: Input
+description: A text input component for forms and user data entry with built-in styling and accessibility features.
+---
+
+## Installation
+
+No external dependencies required.
+
+Or use the CLI:
+
+```bash
+npx shadcn@latest add input
+```
+
+## Usage
+
+```tsx
+import { Input } from "@/components/ui/input"
+```
+
+```tsx
+<Input />
+```
+
+## Component API
+
+### Input
+
+A styled input component built on the native HTML `<input>` element.
+
+**Props:**
+- All standard HTML input attributes
+- `type` - Input type (default: `"text"`)
+- `disabled` - Disable the input
+- `placeholder` - Placeholder text
+- `className` - Additional CSS classes
+- `aria-invalid` - Mark as invalid for error states
+
+## Examples
+
+### Basic
+
+A simple input field:
+
+```tsx
+import { Input } from "@/components/ui/input"
+
+export function BasicInput() {
+  return <Input placeholder="Enter your email" />
+}
+```
+
+### With Label
+
+Combine with a label:
+
+```tsx
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
+
+export function LabeledInput() {
+  return (
+    <div className="grid w-full max-w-sm items-center gap-1.5">
+      <Label htmlFor="email">Email</Label>
+      <Input type="email" id="email" placeholder="Email" />
+    </div>
+  )
+}
+```
+
+### With Description
+
+Add a description below the input:
+
+```tsx
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
+
+export function InputWithDescription() {
+  return (
+    <div className="grid w-full max-w-sm items-center gap-1.5">
+      <Label htmlFor="email">Email</Label>
+      <Input type="email" id="email" placeholder="Email" />
+      <p className="text-sm text-muted-foreground">
+        We'll never share your email with anyone else.
+      </p>
+    </div>
+  )
+}
+```
+
+### Disabled
+
+Disable the input:
+
+```tsx
+import { Input } from "@/components/ui/input"
+
+export function DisabledInput() {
+  return <Input placeholder="Email" disabled />
+}
+```
+
+### Invalid State
+
+Show an error state:
+
+```tsx
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
+
+export function InvalidInput() {
+  return (
+    <div className="grid w-full max-w-sm items-center gap-1.5">
+      <Label htmlFor="email" className="text-destructive">
+        Email
+      </Label>
+      <Input
+        type="email"
+        id="email"
+        placeholder="Email"
+        aria-invalid
+      />
+      <p className="text-sm text-destructive">
+        Please enter a valid email address.
+      </p>
+    </div>
+  )
+}
+```
+
+### File Input
+
+Create a file input:
+
+```tsx
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
+
+export function FileInput() {
+  return (
+    <div className="grid w-full max-w-sm items-center gap-1.5">
+      <Label htmlFor="picture">Picture</Label>
+      <Input id="picture" type="file" />
+    </div>
+  )
+}
+```
+
+### With Button
+
+Combine input with a button:
+
+```tsx
+import { Input } from "@/components/ui/input"
+import { Button } from "@/components/ui/button"
+
+export function InputWithButton() {
+  return (
+    <div className="flex w-full max-w-sm items-center space-x-2">
+      <Input type="email" placeholder="Email" />
+      <Button type="submit">Subscribe</Button>
+    </div>
+  )
+}
+```
+
+### Form
+
+Use in a form with React Hook Form:
+
+```tsx
+import { zodResolver } from "@hookform/resolvers/zod"
+import { useForm } from "react-hook-form"
+import { z } from "zod"
+import { Button } from "@/components/ui/button"
+import {
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form"
+import { Input } from "@/components/ui/input"
+
+const formSchema = z.object({
+  username: z.string().min(2, {
+    message: "Username must be at least 2 characters.",
+  }),
+})
+
+export function InputForm() {
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      username: "",
+    },
+  })
+
+  function onSubmit(values: z.infer<typeof formSchema>) {
+    console.log(values)
+  }
+
+  return (
+    <Form {...form}>
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+        <FormField
+          control={form.control}
+          name="username"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Username</FormLabel>
+              <FormControl>
+                <Input placeholder="shadcn" {...field} />
+              </FormControl>
+              <FormDescription>
+                This is your public display name.
+              </FormDescription>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <Button type="submit">Submit</Button>
+      </form>
+    </Form>
+  )
+}
+```
+
+### Different Types
+
+<Tabs defaultValue="text">
+  <TabsList>
+    <TabsTrigger value="text">Text</TabsTrigger>
+    <TabsTrigger value="email">Email</TabsTrigger>
+    <TabsTrigger value="password">Password</TabsTrigger>
+    <TabsTrigger value="number">Number</TabsTrigger>
+    <TabsTrigger value="search">Search</TabsTrigger>
+  </TabsList>
+  <TabsContent value="text">
+```tsx
+<Input type="text" placeholder="Enter text" />
+```
+  </TabsContent>
+  <TabsContent value="email">
+```tsx
+<Input type="email" placeholder="Enter email" />
+```
+  </TabsContent>
+  <TabsContent value="password">
+```tsx
+<Input type="password" placeholder="Enter password" />
+```
+  </TabsContent>
+  <TabsContent value="number">
+```tsx
+<Input type="number" placeholder="Enter number" />
+```
+  </TabsContent>
+  <TabsContent value="search">
+```tsx
+<Input type="search" placeholder="Search..." />
+```
+  </TabsContent>
+</Tabs>
+
+### With Icon
+
+Add an icon to the input using Input Group:
+
+```tsx
+import { Search } from "lucide-react"
+import { Input } from "@/components/ui/input"
+
+export function InputWithIcon() {
+  return (
+    <div className="relative">
+      <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
+      <Input placeholder="Search" className="pl-8" />
+    </div>
+  )
+}
+```
+
+### Required
+
+Mark input as required:
+
+```tsx
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
+
+export function RequiredInput() {
+  return (
+    <div className="grid w-full max-w-sm items-center gap-1.5">
+      <Label htmlFor="email">
+        Email <span className="text-destructive">*</span>
+      </Label>
+      <Input type="email" id="email" placeholder="Email" required />
+    </div>
+  )
+}
+```
+
+## Accessibility
+
+- Built on native HTML input element
+- Supports all standard input attributes
+- Proper focus styles
+- Error states with `aria-invalid`
+- Works with label associations
+- Keyboard accessible

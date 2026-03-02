@@ -1,0 +1,295 @@
+---
+title: Typography
+description: Style text elements including headings, paragraphs, lists, and inline code with shadcn/ui's typography utilities.
+---
+
+Shadcn/ui doesn't ship with default typography styles. Instead, it provides utility classes and examples to help you style text elements consistently across your application.
+
+## Typography Examples
+
+Here are common typography patterns you can use in your application:
+
+### Headings
+
+#### h1
+
+```tsx
+<h1 className="scroll-m-20 text-4xl font-extrabold tracking-tight text-balance">
+  Taxing Laughter: The Joke Tax Chronicles
+</h1>
+```
+
+<Note>
+The `text-balance` utility helps create more visually balanced text wrapping.
+</Note>
+
+#### h2
+
+```tsx
+<h2 className="mt-10 scroll-m-20 border-b pb-2 text-3xl font-semibold tracking-tight transition-colors first:mt-0">
+  The King's Plan
+</h2>
+```
+
+#### h3
+
+```tsx
+<h3 className="mt-8 scroll-m-20 text-2xl font-semibold tracking-tight">
+  The Joke Tax
+</h3>
+```
+
+#### h4
+
+```tsx
+<h4 className="mt-8 scroll-m-20 text-xl font-semibold tracking-tight">
+  People stopped telling jokes
+</h4>
+```
+
+### Paragraph
+
+Default paragraph styling:
+
+```tsx
+<p className="leading-7 [&:not(:first-child)]:mt-6">
+  The king, seeing how much happier his subjects were, realized the error of
+  his ways and repealed the joke tax.
+</p>
+```
+
+### Blockquote
+
+```tsx
+<blockquote className="mt-6 border-l-2 pl-6 italic">
+  "After all," he said, "everyone enjoys a good joke, so it's only fair that
+  they should pay for the privilege."
+</blockquote>
+```
+
+### Lists
+
+Unordered list:
+
+```tsx
+<ul className="my-6 ml-6 list-disc [&>li]:mt-2">
+  <li>1st level of puns: 5 gold coins</li>
+  <li>2nd level of jokes: 10 gold coins</li>
+  <li>3rd level of one-liners: 20 gold coins</li>
+</ul>
+```
+
+Ordered list:
+
+```tsx
+<ol className="my-6 ml-6 list-decimal [&>li]:mt-2">
+  <li>First step</li>
+  <li>Second step</li>
+  <li>Third step</li>
+</ol>
+```
+
+### Inline Code
+
+```tsx
+<code className="relative rounded bg-muted px-[0.3rem] py-[0.2rem] font-mono text-sm font-semibold">
+  @radix-ui/react-alert-dialog
+</code>
+```
+
+### Lead Text
+
+Larger paragraph text for introductions:
+
+```tsx
+<p className="text-xl text-muted-foreground">
+  A modal dialog that interrupts the user with important content and expects
+  a response.
+</p>
+```
+
+### Large Text
+
+```tsx
+<div className="text-lg font-semibold">
+  Are you absolutely sure?
+</div>
+```
+
+### Small Text
+
+```tsx
+<small className="text-sm font-medium leading-none">
+  Email address
+</small>
+```
+
+### Muted Text
+
+```tsx
+<p className="text-sm text-muted-foreground">
+  Enter your email address.
+</p>
+```
+
+## Complete Example
+
+Here's a complete example combining various typography elements:
+
+```tsx
+export function TypographyExample() {
+  return (
+    <div>
+      <h1 className="scroll-m-20 text-4xl font-extrabold tracking-tight text-balance">
+        Taxing Laughter: The Joke Tax Chronicles
+      </h1>
+      <p className="text-xl leading-7 text-muted-foreground [&:not(:first-child)]:mt-6">
+        Once upon a time, in a far-off land, there was a very lazy king who
+        spent all day lounging on his throne. One day, his advisors came to him
+        with a problem: the kingdom was running out of money.
+      </p>
+      <h2 className="mt-10 scroll-m-20 border-b pb-2 text-3xl font-semibold tracking-tight transition-colors first:mt-0">
+        The King's Plan
+      </h2>
+      <p className="leading-7 [&:not(:first-child)]:mt-6">
+        The king thought long and hard, and finally came up with{" "}
+        <a
+          href="#"
+          className="font-medium text-primary underline underline-offset-4"
+        >
+          a brilliant plan
+        </a>
+        : he would tax the jokes in the kingdom.
+      </p>
+      <blockquote className="mt-6 border-l-2 pl-6 italic">
+        "After all," he said, "everyone enjoys a good joke, so it's only fair
+        that they should pay for the privilege."
+      </blockquote>
+      <h3 className="mt-8 scroll-m-20 text-2xl font-semibold tracking-tight">
+        The Joke Tax
+      </h3>
+      <p className="leading-7 [&:not(:first-child)]:mt-6">
+        The king's subjects were not amused. They grumbled and complained,
+        but the king was firm:
+      </p>
+      <ul className="my-6 ml-6 list-disc [&>li]:mt-2">
+        <li>1st level of puns: 5 gold coins</li>
+        <li>2nd level of jokes: 10 gold coins</li>
+        <li>3rd level of one-liners: 20 gold coins</li>
+      </ul>
+    </div>
+  )
+}
+```
+
+## Tables
+
+For table styling, use the Table component or these utility classes:
+
+```tsx
+<div className="my-6 w-full overflow-y-auto">
+  <table className="w-full">
+    <thead>
+      <tr className="m-0 border-t p-0 even:bg-muted">
+        <th className="border px-4 py-2 text-left font-bold [&[align=center]]:text-center [&[align=right]]:text-right">
+          King's Treasury
+        </th>
+        <th className="border px-4 py-2 text-left font-bold [&[align=center]]:text-center [&[align=right]]:text-right">
+          People's happiness
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr className="m-0 border-t p-0 even:bg-muted">
+        <td className="border px-4 py-2 text-left [&[align=center]]:text-center [&[align=right]]:text-right">
+          Empty
+        </td>
+        <td className="border px-4 py-2 text-left [&[align=center]]:text-center [&[align=right]]:text-right">
+          Overflowing
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+```
+
+## Links
+
+Style links with these utilities:
+
+```tsx
+<a href="#" className="font-medium text-primary underline underline-offset-4">
+  Learn more
+</a>
+```
+
+## Utility Classes Reference
+
+<Tabs items={["Spacing", "Font Sizes", "Font Weights", "Colors"]}>
+  <Tab value="Spacing">
+    Common spacing utilities for typography:
+
+    - `leading-7` - Line height for body text
+    - `scroll-m-20` - Scroll margin for anchor links
+    - `[&:not(:first-child)]:mt-6` - Top margin for all but first element
+    - `my-6` - Vertical margin for block elements
+  </Tab>
+  <Tab value="Font Sizes">
+    Recommended font sizes:
+
+    - `text-4xl` - h1 headings
+    - `text-3xl` - h2 headings
+    - `text-2xl` - h3 headings
+    - `text-xl` - h4 headings, lead text
+    - `text-lg` - Large text
+    - `text-base` - Default body text
+    - `text-sm` - Small text
+  </Tab>
+  <Tab value="Font Weights">
+    Font weight utilities:
+
+    - `font-extrabold` - h1 headings
+    - `font-semibold` - h2-h4 headings
+    - `font-medium` - Emphasis, links
+    - `font-normal` - Body text
+  </Tab>
+  <Tab value="Colors">
+    Text color utilities:
+
+    - `text-foreground` - Default text color
+    - `text-muted-foreground` - Muted/secondary text
+    - `text-primary` - Primary color for links
+    - `text-destructive` - Error/warning text
+  </Tab>
+</Tabs>
+
+## Responsive Typography
+
+Adjust typography for different screen sizes:
+
+```tsx
+<h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold">
+  Responsive Heading
+</h1>
+
+<p className="text-base md:text-lg leading-relaxed">
+  Responsive body text that increases in size on larger screens.
+</p>
+```
+
+## Right-to-Left (RTL) Support
+
+For RTL language support, see the [RTL configuration guide](/docs/rtl).
+
+## Best Practices
+
+<Note>
+- Use semantic HTML elements (`h1`, `p`, `ul`, etc.) for better accessibility
+- Apply `text-balance` to headings for better text wrapping
+- Use `scroll-m-*` utilities to add scroll margin for anchor links
+- Maintain consistent spacing with utility patterns like `[&:not(:first-child)]:mt-6`
+</Note>
+
+<Warning>
+Avoid applying global typography styles. Use utility classes directly on elements for maximum flexibility and to prevent specificity issues.
+</Warning>

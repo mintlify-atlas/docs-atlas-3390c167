@@ -1,0 +1,231 @@
+---
+title: Button
+description: Displays a button or a component that looks like a button.
+---
+
+## Installation
+
+<CodeGroup>
+
+```bash npm
+npx shadcn@latest add button
+```
+
+```bash yarn
+yarn dlx shadcn@latest add button
+```
+
+```bash pnpm
+pnpm dlx shadcn@latest add button
+```
+
+</CodeGroup>
+
+## Usage
+
+```tsx
+import { Button } from "@/components/ui/button"
+```
+
+```tsx
+<Button variant="outline">Button</Button>
+```
+
+## Component Code
+
+```tsx
+import * as React from "react"
+import { cva, type VariantProps } from "class-variance-authority"
+import { Slot } from "radix-ui"
+import { cn } from "@/lib/utils"
+
+const buttonVariants = cva(
+  "inline-flex shrink-0 items-center justify-center gap-2 rounded-md text-sm font-medium whitespace-nowrap transition-all outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
+  {
+    variants: {
+      variant: {
+        default: "bg-primary text-primary-foreground hover:bg-primary/90",
+        destructive:
+          "bg-destructive text-white hover:bg-destructive/90",
+        outline:
+          "border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground",
+        secondary:
+          "bg-secondary text-secondary-foreground hover:bg-secondary/80",
+        ghost:
+          "hover:bg-accent hover:text-accent-foreground",
+        link: "text-primary underline-offset-4 hover:underline",
+      },
+      size: {
+        default: "h-9 px-4 py-2 has-[>svg]:px-3",
+        xs: "h-6 gap-1 rounded-md px-2 text-xs has-[>svg]:px-1.5",
+        sm: "h-8 gap-1.5 rounded-md px-3 has-[>svg]:px-2.5",
+        lg: "h-10 rounded-md px-6 has-[>svg]:px-4",
+        icon: "size-9",
+        "icon-xs": "size-6 rounded-md",
+        "icon-sm": "size-8",
+        "icon-lg": "size-10",
+      },
+    },
+    defaultVariants: {
+      variant: "default",
+      size: "default",
+    },
+  }
+)
+
+function Button({
+  className,
+  variant = "default",
+  size = "default",
+  asChild = false,
+  ...props
+}: React.ComponentProps<"button"> &
+  VariantProps<typeof buttonVariants> & {
+    asChild?: boolean
+  }) {
+  const Comp = asChild ? Slot.Root : "button"
+
+  return (
+    <Comp
+      data-slot="button"
+      data-variant={variant}
+      data-size={size}
+      className={cn(buttonVariants({ variant, size, className }))}
+      {...props}
+    />
+  )
+}
+
+export { Button, buttonVariants }
+```
+
+## Examples
+
+<Tabs>
+
+<Tab title="Default">
+
+The default button variant.
+
+```tsx
+<Button>Button</Button>
+```
+
+</Tab>
+
+<Tab title="Outline">
+
+Use the `outline` variant for a subtle button.
+
+```tsx
+<Button variant="outline">Outline</Button>
+```
+
+</Tab>
+
+<Tab title="Secondary">
+
+Use the `secondary` variant for less prominent actions.
+
+```tsx
+<Button variant="secondary">Secondary</Button>
+```
+
+</Tab>
+
+<Tab title="Ghost">
+
+Use the `ghost` variant for minimal styling.
+
+```tsx
+<Button variant="ghost">Ghost</Button>
+```
+
+</Tab>
+
+<Tab title="Destructive">
+
+Use the `destructive` variant for destructive actions.
+
+```tsx
+<Button variant="destructive">Delete</Button>
+```
+
+</Tab>
+
+<Tab title="With Icon">
+
+Add icons to buttons for additional context.
+
+```tsx
+<Button>
+  <PlusIcon data-icon="inline-start" />
+  Add Item
+</Button>
+```
+
+</Tab>
+
+<Tab title="Icon">
+
+Use the `icon` size for icon-only buttons.
+
+```tsx
+<Button size="icon">
+  <SearchIcon />
+</Button>
+```
+
+</Tab>
+
+<Tab title="Sizes">
+
+Different button sizes.
+
+```tsx
+<div className="flex items-center gap-2">
+  <Button size="xs">Extra Small</Button>
+  <Button size="sm">Small</Button>
+  <Button size="default">Default</Button>
+  <Button size="lg">Large</Button>
+</div>
+```
+
+</Tab>
+
+</Tabs>
+
+## Variants
+
+The Button component supports the following variants:
+
+- `default` - Primary button style
+- `destructive` - For destructive actions
+- `outline` - Outlined button with transparent background
+- `secondary` - Secondary, less prominent style
+- `ghost` - Minimal styling, visible on hover
+- `link` - Styled as a link
+
+## Sizes
+
+Available sizes:
+
+- `xs` - Extra small (h-6)
+- `sm` - Small (h-8)
+- `default` - Default (h-9)
+- `lg` - Large (h-10)
+- `icon` - Square icon button (size-9)
+- `icon-xs` - Extra small icon (size-6)
+- `icon-sm` - Small icon (size-8)
+- `icon-lg` - Large icon (size-10)
+
+## API Reference
+
+### Button
+
+| Prop | Type | Default |
+| --- | --- | --- |
+| `variant` | `"default" \| "outline" \| "ghost" \| "destructive" \| "secondary" \| "link"` | `"default"` |
+| `size` | `"default" \| "xs" \| "sm" \| "lg" \| "icon" \| "icon-xs" \| "icon-sm" \| "icon-lg"` | `"default"` |
+| `asChild` | `boolean` | `false` |
+| `className` | `string` | - |

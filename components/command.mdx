@@ -1,0 +1,310 @@
+---
+title: Command
+description: Command menu for search and quick actions.
+---
+
+## Installation
+
+<CodeGroup>
+
+```bash npm
+npm install cmdk
+```
+
+```bash pnpm
+pnpm add cmdk
+```
+
+```bash yarn
+yarn add cmdk
+```
+
+```bash bun
+bun add cmdk
+```
+
+</CodeGroup>
+
+Or use the CLI:
+
+```bash
+npx shadcn@latest add command
+```
+
+## About
+
+The Command component is built on top of [`cmdk`](https://github.com/dip/cmdk) by [Dip](https://www.dip.org/).
+
+## Usage
+
+```tsx
+import {
+  Command,
+  CommandDialog,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
+  CommandSeparator,
+  CommandShortcut,
+} from "@/components/ui/command"
+```
+
+```tsx
+<Command className="max-w-sm rounded-lg border">
+  <CommandInput placeholder="Type a command or search..." />
+  <CommandList>
+    <CommandEmpty>No results found.</CommandEmpty>
+    <CommandGroup heading="Suggestions">
+      <CommandItem>Calendar</CommandItem>
+      <CommandItem>Search Emoji</CommandItem>
+      <CommandItem>Calculator</CommandItem>
+    </CommandGroup>
+    <CommandSeparator />
+    <CommandGroup heading="Settings">
+      <CommandItem>Profile</CommandItem>
+      <CommandItem>Billing</CommandItem>
+      <CommandItem>Settings</CommandItem>
+    </CommandGroup>
+  </CommandList>
+</Command>
+```
+
+## Component API
+
+### Command
+
+The root command menu component.
+
+**Props:**
+- Standard React component props
+- `className` - Additional CSS classes
+
+### CommandDialog
+
+A command menu rendered inside a dialog.
+
+**Props:**
+- `title` - Dialog title (default: `"Command Palette"`)
+- `description` - Dialog description
+- `showCloseButton` - Show close button (default: `true`)
+- `open` - Control dialog open state
+- `onOpenChange` - Callback when open state changes
+
+### CommandInput
+
+The search input field.
+
+**Props:**
+- `placeholder` - Placeholder text
+- `value` - Controlled input value
+- `onValueChange` - Callback when value changes
+
+### CommandList
+
+Container for command items with scroll overflow.
+
+**Props:**
+- `className` - Additional CSS classes
+
+### CommandEmpty
+
+Displayed when no results are found.
+
+**Props:**
+- Children to display when empty
+
+### CommandGroup
+
+Groups related commands together.
+
+**Props:**
+- `heading` - Group heading text
+- `className` - Additional CSS classes
+
+### CommandItem
+
+An individual command item.
+
+**Props:**
+- `onSelect` - Callback when item is selected
+- `disabled` - Disable the item
+- `value` - Search value for filtering
+
+### CommandShortcut
+
+Displays keyboard shortcuts.
+
+**Props:**
+- Children to display (typically keyboard shortcut text)
+
+### CommandSeparator
+
+Visual separator between groups.
+
+## Examples
+
+### Dialog
+
+Open the command menu in a dialog:
+
+```tsx
+import * as React from "react"
+import {
+  CommandDialog,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
+} from "@/components/ui/command"
+
+export function CommandDialogExample() {
+  const [open, setOpen] = React.useState(false)
+
+  React.useEffect(() => {
+    const down = (e: KeyboardEvent) => {
+      if (e.key === "k" && (e.metaKey || e.ctrlKey)) {
+        e.preventDefault()
+        setOpen((open) => !open)
+      }
+    }
+    document.addEventListener("keydown", down)
+    return () => document.removeEventListener("keydown", down)
+  }, [])
+
+  return (
+    <CommandDialog open={open} onOpenChange={setOpen}>
+      <CommandInput placeholder="Type a command or search..." />
+      <CommandList>
+        <CommandEmpty>No results found.</CommandEmpty>
+        <CommandGroup heading="Suggestions">
+          <CommandItem>Calendar</CommandItem>
+          <CommandItem>Search Emoji</CommandItem>
+          <CommandItem>Calculator</CommandItem>
+        </CommandGroup>
+      </CommandList>
+    </CommandDialog>
+  )
+}
+```
+
+### Shortcuts
+
+Add keyboard shortcuts to command items:
+
+```tsx
+import {
+  Command,
+  CommandGroup,
+  CommandItem,
+  CommandList,
+  CommandShortcut,
+} from "@/components/ui/command"
+
+export function ShortcutsExample() {
+  return (
+    <Command>
+      <CommandList>
+        <CommandGroup heading="Suggestions">
+          <CommandItem>
+            New File
+            <CommandShortcut>⌘N</CommandShortcut>
+          </CommandItem>
+          <CommandItem>
+            New Window
+            <CommandShortcut>⌘⇧N</CommandShortcut>
+          </CommandItem>
+          <CommandItem>
+            Open File
+            <CommandShortcut>⌘O</CommandShortcut>
+          </CommandItem>
+        </CommandGroup>
+      </CommandList>
+    </Command>
+  )
+}
+```
+
+### With Icons
+
+Add icons to command items:
+
+```tsx
+import { Calendar, Smile, Calculator } from "lucide-react"
+import {
+  Command,
+  CommandGroup,
+  CommandItem,
+  CommandList,
+} from "@/components/ui/command"
+
+export function IconsExample() {
+  return (
+    <Command>
+      <CommandList>
+        <CommandGroup heading="Suggestions">
+          <CommandItem>
+            <Calendar />
+            Calendar
+          </CommandItem>
+          <CommandItem>
+            <Smile />
+            Search Emoji
+          </CommandItem>
+          <CommandItem>
+            <Calculator />
+            Calculator
+          </CommandItem>
+        </CommandGroup>
+      </CommandList>
+    </Command>
+  )
+}
+```
+
+### Groups and Separators
+
+Organize commands with groups and separators:
+
+```tsx
+import {
+  Command,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
+  CommandSeparator,
+} from "@/components/ui/command"
+
+export function GroupsExample() {
+  return (
+    <Command>
+      <CommandInput placeholder="Type a command or search..." />
+      <CommandList>
+        <CommandGroup heading="Suggestions">
+          <CommandItem>Calendar</CommandItem>
+          <CommandItem>Search Emoji</CommandItem>
+        </CommandGroup>
+        <CommandSeparator />
+        <CommandGroup heading="Settings">
+          <CommandItem>Profile</CommandItem>
+          <CommandItem>Billing</CommandItem>
+        </CommandGroup>
+      </CommandList>
+    </Command>
+  )
+}
+```
+
+## Accessibility
+
+- Full keyboard navigation support
+- ARIA labels and roles
+- Focus management
+- Screen reader compatible
+
+## API Reference
+
+See the [cmdk documentation](https://github.com/dip/cmdk) for complete API details.

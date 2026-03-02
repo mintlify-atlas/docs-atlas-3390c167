@@ -1,0 +1,139 @@
+---
+title: Progress
+description: Displays an indicator showing the completion progress of a task, typically displayed as a progress bar.
+---
+
+## Installation
+
+<CodeGroup>
+
+```bash npm
+npx shadcn@latest add progress
+```
+
+```bash yarn
+yarn dlx shadcn@latest add progress
+```
+
+```bash pnpm
+pnpm dlx shadcn@latest add progress
+```
+
+</CodeGroup>
+
+## Usage
+
+```tsx
+import { Progress } from "@/components/ui/progress"
+```
+
+```tsx
+<Progress value={33} />
+```
+
+## Component API
+
+### Progress
+
+Progress indicator component built on Radix UI Progress.
+
+```tsx
+function Progress({
+  className,
+  value,
+  ...props
+}: React.ComponentProps<typeof ProgressPrimitive.Root>)
+```
+
+**Props:**
+- `value` - Current progress value (0-100)
+- `max` - Maximum value (default: 100)
+- All standard Radix UI Progress props
+
+## Implementation
+
+The component uses Radix UI's Progress primitive with custom styling:
+
+```tsx
+<ProgressPrimitive.Root
+  className="relative h-2 w-full overflow-hidden rounded-full bg-primary/20"
+  {...props}
+>
+  <ProgressPrimitive.Indicator
+    className="h-full w-full flex-1 bg-primary transition-all"
+    style={{ transform: `translateX(-${100 - (value || 0)}%)` }}
+  />
+</ProgressPrimitive.Root>
+```
+
+## Examples
+
+### Basic Progress
+
+A simple progress bar:
+
+```tsx
+<Progress value={60} />
+```
+
+### With Label
+
+Progress bar with a label showing the percentage:
+
+```tsx
+<div className="space-y-2">
+  <div className="flex items-center justify-between">
+    <span className="text-sm font-medium">Progress</span>
+    <span className="text-sm text-muted-foreground">60%</span>
+  </div>
+  <Progress value={60} />
+</div>
+```
+
+### Controlled Progress
+
+Progress bar controlled by state:
+
+```tsx
+function ControlledProgress() {
+  const [progress, setProgress] = React.useState(0)
+
+  React.useEffect(() => {
+    const timer = setTimeout(() => setProgress(66), 500)
+    return () => clearTimeout(timer)
+  }, [])
+
+  return <Progress value={progress} />
+}
+```
+
+### Different Sizes
+
+Customize the height with className:
+
+```tsx
+<div className="space-y-4">
+  <Progress value={60} className="h-1" />
+  <Progress value={60} className="h-2" />
+  <Progress value={60} className="h-4" />
+</div>
+```
+
+### Loading State
+
+Indeterminate progress for loading states:
+
+```tsx
+<Progress value={null} className="animate-pulse" />
+```
+
+## Accessibility
+
+The Progress component:
+- Uses semantic `role="progressbar"` attributes
+- Includes `aria-valuenow`, `aria-valuemin`, and `aria-valuemax` for screen readers
+- Provides visual and programmatic progress indication
+
+## API Reference
+
+See the [Radix UI Progress documentation](https://www.radix-ui.com/primitives/docs/components/progress) for complete API reference.

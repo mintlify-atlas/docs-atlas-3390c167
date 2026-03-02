@@ -1,0 +1,462 @@
+---
+title: Dark Mode
+description: Implement dark mode in your shadcn/ui application with support for Next.js, Vite, Astro, and other frameworks.
+---
+
+Shadcn/ui provides built-in support for dark mode through CSS variables. This guide covers implementation for different frameworks.
+
+## How it Works
+
+Dark mode in shadcn/ui works by:
+
+1. Adding a `.dark` class to the root element
+2. Applying different CSS variable values under the `.dark` selector
+3. Components automatically adapt based on the active theme
+
+```css
+:root {
+  --background: oklch(1 0 0); /* Light mode */
+}
+
+.dark {
+  --background: oklch(0.145 0 0); /* Dark mode */
+}
+```
+
+## Framework Integration
+
+<Tabs items={["Next.js", "Vite", "Astro", "Remix"]}>
+  <Tab value="Next.js">
+    ### Next.js
+
+    For Next.js applications, use the `next-themes` package.
+
+    <Steps>
+      ### Install next-themes
+
+      ```bash
+      npm install next-themes
+      ```
+
+      ### Create a theme provider
+
+      ```tsx title="components/theme-provider.tsx"
+      "use client"
+
+      import * as React from "react"
+      import { ThemeProvider as NextThemesProvider } from "next-themes"
+
+      export function ThemeProvider({
+        children,
+        ...props
+      }: React.ComponentProps<typeof NextThemesProvider>) {
+        return <NextThemesProvider {...props}>{children}</NextThemesProvider>
+      }
+      ```
+
+      ### Wrap your root layout
+
+      Add the `ThemeProvider` to your root layout and add the `suppressHydrationWarning` prop to the `html` tag.
+
+      ```tsx title="app/layout.tsx" {1,6,9-14}
+      import { ThemeProvider } from "@/components/theme-provider"
+
+      export default function RootLayout({ children }: RootLayoutProps) {
+        return (
+          <>
+            <html lang="en" suppressHydrationWarning>
+              <head />
+              <body>
+                <ThemeProvider
+                  attribute="class"
+                  defaultTheme="system"
+                  enableSystem
+                  disableTransitionOnChange
+                >
+                  {children}
+                </ThemeProvider>
+              </body>
+            </html>
+          </>
+        )
+      }
+      ```
+
+      ### Add a mode toggle
+
+      Create a component to toggle between light and dark mode:
+
+      ```tsx title="components/mode-toggle.tsx"
+      "use client"
+
+      import * as React from "react"
+      import { Moon, Sun } from "lucide-react"
+      import { useTheme } from "next-themes"
+
+      import { Button } from "@/components/ui/button"
+      import {
+        DropdownMenu,
+        DropdownMenuContent,
+        DropdownMenuItem,
+        DropdownMenuTrigger,
+      } from "@/components/ui/dropdown-menu"
+
+      export function ModeToggle() {
+        const { setTheme } = useTheme()
+
+        return (
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="outline" size="icon">
+                <Sun className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
+                <Moon className="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
+                <span className="sr-only">Toggle theme</span>
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              <DropdownMenuItem onClick={() => setTheme("light")}>
+                Light
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => setTheme("dark")}>
+                Dark
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => setTheme("system")}>
+                System
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        )
+      }
+      ```
+    </Steps>
+  </Tab>
+  <Tab value="Vite">
+    ### Vite
+
+    For Vite applications, create a custom theme provider.
+
+    <Steps>
+      ### Create a theme provider
+
+      ```tsx title="components/theme-provider.tsx"
+      import { createContext, useContext, useEffect, useState } from "react"
+
+      type Theme = "dark" | "light" | "system"
+
+      type ThemeProviderProps = {
+        children: React.ReactNode
+        defaultTheme?: Theme
+        storageKey?: string
+      }
+
+      type ThemeProviderState = {
+        theme: Theme
+        setTheme: (theme: Theme) => void
+      }
+
+      const initialState: ThemeProviderState = {
+        theme: "system",
+        setTheme: () => null,
+      }
+
+      const ThemeProviderContext = createContext<ThemeProviderState>(initialState)
+
+      export function ThemeProvider({
+        children,
+        defaultTheme = "system",
+        storageKey = "vite-ui-theme",
+        ...props
+      }: ThemeProviderProps) {
+        const [theme, setTheme] = useState<Theme>(
+          () => (localStorage.getItem(storageKey) as Theme) || defaultTheme
+        )
+
+        useEffect(() => {
+          const root = window.document.documentElement
+
+          root.classList.remove("light", "dark")
+
+          if (theme === "system") {
+            const systemTheme = window.matchMedia("(prefers-color-scheme: dark)")
+              .matches
+              ? "dark"
+              : "light"
+
+            root.classList.add(systemTheme)
+            return
+          }
+
+          root.classList.add(theme)
+        }, [theme])
+
+        const value = {
+          theme,
+          setTheme: (theme: Theme) => {
+            localStorage.setItem(storageKey, theme)
+            setTheme(theme)
+          },
+        }
+
+        return (
+          <ThemeProviderContext.Provider {...props} value={value}>
+            {children}
+          </ThemeProviderContext.Provider>
+        )
+      }
+
+      export const useTheme = () => {
+        const context = useContext(ThemeProviderContext)
+
+        if (context === undefined)
+          throw new Error("useTheme must be used within a ThemeProvider")
+
+        return context
+      }
+      ```
+
+      ### Wrap your app
+
+      ```tsx title="App.tsx" {1,5-7}
+      import { ThemeProvider } from "@/components/theme-provider"
+
+      function App() {
+        return (
+          <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
+            {children}
+          </ThemeProvider>
+        )
+      }
+
+      export default App
+      ```
+
+      ### Add a mode toggle
+
+      ```tsx title="components/mode-toggle.tsx"
+      import { Moon, Sun } from "lucide-react"
+
+      import { Button } from "@/components/ui/button"
+      import {
+        DropdownMenu,
+        DropdownMenuContent,
+        DropdownMenuItem,
+        DropdownMenuTrigger,
+      } from "@/components/ui/dropdown-menu"
+      import { useTheme } from "@/components/theme-provider"
+
+      export function ModeToggle() {
+        const { setTheme } = useTheme()
+
+        return (
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="outline" size="icon">
+                <Sun className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
+                <Moon className="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
+                <span className="sr-only">Toggle theme</span>
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              <DropdownMenuItem onClick={() => setTheme("light")}>
+                Light
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => setTheme("dark")}>
+                Dark
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => setTheme("system")}>
+                System
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        )
+      }
+      ```
+    </Steps>
+  </Tab>
+  <Tab value="Astro">
+    ### Astro
+
+    For Astro applications, implement theme switching with a client-side script.
+
+    <Steps>
+      ### Add the theme script
+
+      Create a script to handle theme switching in your layout:
+
+      ```astro title="src/layouts/Layout.astro"
+      ---
+      // Your layout frontmatter
+      ---
+
+      <html lang="en">
+        <head>
+          <script is:inline>
+            const getThemePreference = () => {
+              if (typeof localStorage !== 'undefined' && localStorage.getItem('theme')) {
+                return localStorage.getItem('theme');
+              }
+              return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+            };
+            const isDark = getThemePreference() === 'dark';
+            document.documentElement.classList[isDark ? 'add' : 'remove']('dark');
+
+            if (typeof localStorage !== 'undefined') {
+              const observer = new MutationObserver(() => {
+                const isDark = document.documentElement.classList.contains('dark');
+                localStorage.setItem('theme', isDark ? 'dark' : 'light');
+              });
+              observer.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
+            }
+          </script>
+        </head>
+        <body>
+          <slot />
+        </body>
+      </html>
+      ```
+
+      ### Create a theme toggle component
+
+      ```tsx title="src/components/ThemeToggle.tsx"
+      import { useEffect, useState } from "react"
+      import { Moon, Sun } from "lucide-react"
+
+      export function ThemeToggle() {
+        const [theme, setTheme] = useState<"light" | "dark">("light")
+
+        useEffect(() => {
+          const isDark = document.documentElement.classList.contains("dark")
+          setTheme(isDark ? "dark" : "light")
+        }, [])
+
+        const toggleTheme = () => {
+          const newTheme = theme === "light" ? "dark" : "light"
+          document.documentElement.classList.toggle("dark")
+          setTheme(newTheme)
+        }
+
+        return (
+          <button
+            onClick={toggleTheme}
+            className="rounded-md border p-2 hover:bg-accent"
+            aria-label="Toggle theme"
+          >
+            {theme === "light" ? (
+              <Moon className="h-5 w-5" />
+            ) : (
+              <Sun className="h-5 w-5" />
+            )}
+          </button>
+        )
+      }
+      ```
+    </Steps>
+  </Tab>
+  <Tab value="Remix">
+    ### Remix
+
+    For Remix applications, use the remix-themes package.
+
+    <Steps>
+      ### Install remix-themes
+
+      ```bash
+      npm install remix-themes
+      ```
+
+      ### Configure the theme session
+
+      ```tsx title="app/sessions.server.tsx"
+      import { createThemeSessionResolver } from "remix-themes"
+
+      export const themeSessionResolver = createThemeSessionResolver(
+        // your session storage here
+      )
+      ```
+
+      ### Update your root layout
+
+      ```tsx title="app/root.tsx"
+      import { ThemeProvider } from "remix-themes"
+      import { themeSessionResolver } from "./sessions.server"
+
+      export async function loader({ request }: LoaderFunctionArgs) {
+        const { getTheme } = await themeSessionResolver(request)
+        return {
+          theme: getTheme(),
+        }
+      }
+
+      export default function App() {
+        const data = useLoaderData<typeof loader>()
+
+        return (
+          <ThemeProvider specifiedTheme={data.theme} themeAction="/action/set-theme">
+            <html lang="en" suppressHydrationWarning>
+              <head>
+                <meta charSet="utf-8" />
+                <meta name="viewport" content="width=device-width, initial-scale=1" />
+                <Meta />
+                <Links />
+              </head>
+              <body>
+                {children}
+                <ScrollRestoration />
+                <Scripts />
+              </body>
+            </html>
+          </ThemeProvider>
+        )
+      }
+      ```
+
+      ### Add a mode toggle
+
+      Use the same mode toggle component from the Next.js example, importing `useTheme` from `remix-themes` instead.
+    </Steps>
+  </Tab>
+</Tabs>
+
+## Customizing Dark Mode Colors
+
+Customize dark mode colors by modifying the `.dark` selector in your CSS:
+
+```css title="app/globals.css"
+.dark {
+  --background: oklch(0.145 0 0);
+  --foreground: oklch(0.985 0 0);
+  --primary: oklch(0.922 0 0);
+  --primary-foreground: oklch(0.205 0 0);
+  /* Customize other colors */
+}
+```
+
+<Note>
+All color variables in the `.dark` selector override the light mode values when dark mode is active.
+</Note>
+
+## System Preference
+
+Most theme providers support automatic detection of the user's system preference:
+
+```tsx
+<ThemeProvider defaultTheme="system" enableSystem>
+  {children}
+</ThemeProvider>
+```
+
+This will automatically apply dark mode when the user's OS is set to dark mode.
+
+## Preventing Flash of Wrong Theme
+
+<Warning>
+Always include the theme initialization script before any content renders to prevent a flash of the wrong theme.
+</Warning>
+
+For Next.js:
+- Use `suppressHydrationWarning` on the `<html>` tag
+- The `next-themes` package handles this automatically
+
+For other frameworks:
+- Add an inline script in the `<head>` to set the theme class before rendering
+- This script should run synchronously before the page renders

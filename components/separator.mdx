@@ -1,0 +1,188 @@
+---
+title: Separator
+description: Visually or semantically separates content.
+---
+
+## Installation
+
+<CodeGroup>
+
+```bash npm
+npx shadcn@latest add separator
+```
+
+```bash yarn
+yarn dlx shadcn@latest add separator
+```
+
+```bash pnpm
+pnpm dlx shadcn@latest add separator
+```
+
+</CodeGroup>
+
+## Usage
+
+```tsx
+import { Separator } from "@/components/ui/separator"
+```
+
+```tsx
+<Separator />
+```
+
+## Component API
+
+### Separator
+
+Visual or semantic separator. Built on Radix UI Separator.
+
+```tsx
+function Separator({
+  className,
+  orientation = "horizontal",
+  decorative = true,
+  ...props
+}: React.ComponentProps<typeof SeparatorPrimitive.Root>)
+```
+
+**Props:**
+- `orientation` - Separator direction (`"horizontal"` | `"vertical"`)
+- `decorative` - Whether separator is purely visual (`true`) or semantic (`false`)
+
+## Implementation
+
+```tsx
+<SeparatorPrimitive.Root
+  decorative={decorative}
+  orientation={orientation}
+  className="shrink-0 bg-border data-[orientation=horizontal]:h-px data-[orientation=horizontal]:w-full data-[orientation=vertical]:h-full data-[orientation=vertical]:w-px"
+/>
+```
+
+## Examples
+
+### Horizontal Separator
+
+Default horizontal separator:
+
+```tsx
+<div>
+  <div className="space-y-1">
+    <h4 className="text-sm font-medium leading-none">Radix Primitives</h4>
+    <p className="text-sm text-muted-foreground">
+      An open-source UI component library.
+    </p>
+  </div>
+  <Separator className="my-4" />
+  <div className="flex h-5 items-center space-x-4 text-sm">
+    <div>Blog</div>
+    <Separator orientation="vertical" />
+    <div>Docs</div>
+    <Separator orientation="vertical" />
+    <div>Source</div>
+  </div>
+</div>
+```
+
+### Vertical Separator
+
+Separate inline elements:
+
+```tsx
+<div className="flex h-5 items-center space-x-4">
+  <div>Item 1</div>
+  <Separator orientation="vertical" />
+  <div>Item 2</div>
+  <Separator orientation="vertical" />
+  <div>Item 3</div>
+</div>
+```
+
+### Menu Items
+
+Separate menu sections:
+
+```tsx
+<div className="space-y-1">
+  <button className="w-full px-2 py-1.5 text-sm text-left">Profile</button>
+  <button className="w-full px-2 py-1.5 text-sm text-left">Settings</button>
+  <Separator className="my-1" />
+  <button className="w-full px-2 py-1.5 text-sm text-left text-destructive">
+    Logout
+  </button>
+</div>
+```
+
+### List Items
+
+Separate list entries:
+
+```tsx
+<div className="space-y-4">
+  <div className="text-sm">Item 1</div>
+  <Separator />
+  <div className="text-sm">Item 2</div>
+  <Separator />
+  <div className="text-sm">Item 3</div>
+</div>
+```
+
+### Card Sections
+
+Separate card content:
+
+```tsx
+<Card>
+  <CardHeader>
+    <CardTitle>Title</CardTitle>
+  </CardHeader>
+  <Separator />
+  <CardContent className="pt-6">
+    <p>Content goes here</p>
+  </CardContent>
+  <Separator />
+  <CardFooter>
+    <Button>Action</Button>
+  </CardFooter>
+</Card>
+```
+
+### Custom Styling
+
+Customize appearance:
+
+```tsx
+<Separator className="bg-red-500" />
+<Separator className="my-8 h-px" />
+<Separator orientation="vertical" className="mx-4 h-full w-px" />
+```
+
+### Semantic Separator
+
+For accessibility, use `decorative={false}` when the separator conveys meaning:
+
+```tsx
+<div>
+  <section>
+    <h2>Section 1</h2>
+    <p>Content for section 1</p>
+  </section>
+  <Separator decorative={false} className="my-6" />
+  <section>
+    <h2>Section 2</h2>
+    <p>Content for section 2</p>
+  </section>
+</div>
+```
+
+## Accessibility
+
+- Uses `role="separator"` when `decorative={false}`
+- Uses `role="none"` when `decorative={true}`
+- Proper orientation attributes for screen readers
+- No interactive elements (not focusable)
+
+## API Reference
+
+See the [Radix UI Separator documentation](https://www.radix-ui.com/primitives/docs/components/separator) for complete API reference.

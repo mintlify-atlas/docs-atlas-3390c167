@@ -1,0 +1,256 @@
+---
+title: Switch
+description: A control that allows the user to toggle between checked and not checked.
+---
+
+## Installation
+
+<CodeGroup>
+
+```bash npm
+npx shadcn@latest add switch
+```
+
+```bash yarn
+yarn dlx shadcn@latest add switch
+```
+
+```bash pnpm
+pnpm dlx shadcn@latest add switch
+```
+
+</CodeGroup>
+
+## Usage
+
+```tsx
+import { Switch } from "@/components/ui/switch"
+```
+
+```tsx
+<Switch />
+```
+
+## Component API
+
+### Switch
+
+Toggle switch component built on Radix UI Switch.
+
+```tsx
+function Switch({
+  className,
+  size = "default",
+  ...props
+}: React.ComponentProps<typeof SwitchPrimitive.Root> & {
+  size?: "sm" | "default"
+})
+```
+
+**Props:**
+- `size` - Switch size (`"sm"` | `"default"`)
+- `checked` - Controlled checked state
+- `defaultChecked` - Default checked state
+- `onCheckedChange` - Callback when checked state changes
+- `disabled` - Disables the switch
+- `aria-invalid` - Shows error state styling
+
+## Implementation
+
+The switch includes a thumb that animates:
+
+```tsx
+<SwitchPrimitive.Root
+  className="inline-flex items-center rounded-full border shadow-xs transition-all"
+>
+  <SwitchPrimitive.Thumb
+    className="block rounded-full bg-background transition-transform data-[state=checked]:translate-x-[calc(100%-2px)]"
+  />
+</SwitchPrimitive.Root>
+```
+
+## Examples
+
+### Basic Switch
+
+```tsx
+<Switch />
+```
+
+### With Label
+
+Switch with associated label:
+
+```tsx
+<div className="flex items-center space-x-2">
+  <Switch id="airplane-mode" />
+  <Label htmlFor="airplane-mode">Airplane Mode</Label>
+</div>
+```
+
+### Controlled Switch
+
+```tsx
+function ControlledSwitch() {
+  const [checked, setChecked] = React.useState(false)
+
+  return (
+    <div className="flex items-center space-x-2">
+      <Switch
+        id="controlled"
+        checked={checked}
+        onCheckedChange={setChecked}
+      />
+      <Label htmlFor="controlled">
+        {checked ? "On" : "Off"}
+      </Label>
+    </div>
+  )
+}
+```
+
+### With Description
+
+Switch with label and description:
+
+```tsx
+<div className="flex items-center justify-between">
+  <div className="space-y-0.5">
+    <Label htmlFor="marketing">Marketing emails</Label>
+    <p className="text-sm text-muted-foreground">
+      Receive emails about new products and features.
+    </p>
+  </div>
+  <Switch id="marketing" />
+</div>
+```
+
+### Disabled State
+
+```tsx
+<Switch disabled />
+<Switch disabled checked />
+```
+
+### Invalid State
+
+Show validation error:
+
+```tsx
+<div className="space-y-2">
+  <div className="flex items-center space-x-2">
+    <Switch id="terms" aria-invalid />
+    <Label htmlFor="terms">Accept terms and conditions</Label>
+  </div>
+  <p className="text-sm text-destructive">You must accept the terms</p>
+</div>
+```
+
+### Different Sizes
+
+```tsx
+<div className="flex items-center gap-4">
+  <Switch size="sm" />
+  <Switch size="default" />
+</div>
+```
+
+### Settings Panel
+
+Practical example:
+
+```tsx
+function SettingsPanel() {
+  const [settings, setSettings] = React.useState({
+    marketing: false,
+    security: true,
+    notifications: false,
+  })
+
+  return (
+    <div className="space-y-4">
+      <div className="flex items-center justify-between">
+        <div>
+          <Label>Marketing emails</Label>
+          <p className="text-sm text-muted-foreground">
+            Receive emails about new products
+          </p>
+        </div>
+        <Switch
+          checked={settings.marketing}
+          onCheckedChange={(checked) =>
+            setSettings({ ...settings, marketing: checked })
+          }
+        />
+      </div>
+      <div className="flex items-center justify-between">
+        <div>
+          <Label>Security alerts</Label>
+          <p className="text-sm text-muted-foreground">
+            Get notified about account activity
+          </p>
+        </div>
+        <Switch
+          checked={settings.security}
+          onCheckedChange={(checked) =>
+            setSettings({ ...settings, security: checked })
+          }
+        />
+      </div>
+    </div>
+  )
+}
+```
+
+### Form Integration
+
+With React Hook Form:
+
+```tsx
+import { useForm } from "react-hook-form"
+
+function FormExample() {
+  const { register, handleSubmit } = useForm()
+
+  return (
+    <form onSubmit={handleSubmit(onSubmit)}>
+      <div className="flex items-center space-x-2">
+        <Switch {...register("notifications")} />
+        <Label>Enable notifications</Label>
+      </div>
+    </form>
+  )
+}
+```
+
+### Choice Card
+
+Clickable card-style switch:
+
+```tsx
+<label
+  htmlFor="choice"
+  className="flex items-center justify-between rounded-lg border p-4 cursor-pointer hover:bg-accent"
+>
+  <div>
+    <div className="font-medium">Enable feature</div>
+    <div className="text-sm text-muted-foreground">
+      This enables the advanced features
+    </div>
+  </div>
+  <Switch id="choice" />
+</label>
+```
+
+## Accessibility
+
+- Uses `role="switch"` semantics
+- Keyboard accessible (Space to toggle)
+- Proper ARIA attributes
+- Focus visible states
+- Associated labels via `htmlFor`
+- Screen reader announcements
+
+## API Reference
+
+See the [Radix UI Switch documentation](https://www.radix-ui.com/primitives/docs/components/switch) for complete API reference.

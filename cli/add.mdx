@@ -1,0 +1,168 @@
+---
+title: shadcn add
+description: Add a component to your project
+---
+
+The `add` command adds components to your project. It fetches components from the registry, transforms them based on your configuration, and installs them with all dependencies.
+
+## Usage
+
+```bash
+shadcn add [components...]
+```
+
+## Arguments
+
+<ParamField path="components" type="string[]" optional>
+  Names, URL, or local path to components. If not provided, you'll see an interactive component selector.
+</ParamField>
+
+## Options
+
+<ParamField path="--yes" type="boolean" default="false">
+  Skip confirmation prompt.
+</ParamField>
+
+<ParamField path="--overwrite" type="boolean" default="false">
+  Overwrite existing files.
+</ParamField>
+
+<ParamField path="--cwd" type="string" optional>
+  The working directory. Defaults to the current directory.
+</ParamField>
+
+<ParamField path="--all" type="boolean" default="false">
+  Add all available components.
+</ParamField>
+
+<ParamField path="--path" type="string" optional>
+  The path to add the component to.
+</ParamField>
+
+<ParamField path="--silent" type="boolean" default="false">
+  Mute output.
+</ParamField>
+
+<ParamField path="--src-dir" type="boolean" default="false">
+  Use the src directory when creating a new project.
+</ParamField>
+
+<ParamField path="--no-src-dir" type="boolean">
+  Do not use the src directory when creating a new project.
+</ParamField>
+
+<ParamField path="--css-variables" type="boolean" default="true">
+  Use CSS variables for theming.
+</ParamField>
+
+<ParamField path="--no-css-variables" type="boolean">
+  Do not use CSS variables for theming.
+</ParamField>
+
+## Examples
+
+### Add a single component
+
+```bash
+shadcn add button
+```
+
+### Add multiple components
+
+```bash
+shadcn add button card dialog
+```
+
+### Add with interactive selector
+
+```bash
+shadcn add
+```
+
+Displays an interactive list of all available components.
+
+### Add all components
+
+```bash
+shadcn add --all
+```
+
+### Add and overwrite existing files
+
+```bash
+shadcn add button --overwrite
+```
+
+### Add from a URL
+
+```bash
+shadcn add https://ui.shadcn.com/r/styles/new-york/button.json
+```
+
+### Add from local path
+
+```bash
+shadcn add ./my-component.json
+```
+
+### Add to a specific path
+
+```bash
+shadcn add button --path ./src/components/ui
+```
+
+### Silent mode
+
+```bash
+shadcn add button --silent
+```
+
+## What it does
+
+1. Checks for `components.json` (runs `init` if missing)
+2. Fetches component from the registry
+3. Resolves all component dependencies
+4. Transforms component code based on your configuration:
+   - Updates import paths
+   - Applies CSS variables or inline colors
+   - Adjusts for TypeScript/JavaScript
+   - Handles RSC (React Server Components)
+5. Installs npm dependencies
+6. Writes component files to your project
+
+## Registry types
+
+The `add` command supports different registry item types:
+
+- `registry:ui` - UI components
+- `registry:block` - Larger UI blocks/sections
+- `registry:hook` - React hooks
+- `registry:lib` - Library utilities
+- `registry:theme` - Theme configurations
+- `registry:style` - Complete style systems
+- `registry:base` - Base configurations
+
+## Special handling
+
+### Styles and themes
+
+When adding a `registry:style` or `registry:theme`, you'll be warned that:
+- Existing CSS variables will be overwritten
+- Existing components may be affected
+
+You'll need to confirm before proceeding (unless using `--yes`).
+
+### Universal components
+
+Some components are framework-agnostic and work across all project types without transformation.
+
+## Output
+
+```bash
+✔ Checking registry.
+✔ Installing dependencies.
+✔ Created 3 files:
+  - components/ui/button.tsx
+  - components/ui/button.stories.tsx
+  - components/ui/button.test.tsx
+```

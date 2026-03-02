@@ -1,0 +1,384 @@
+---
+title: Drawer
+description: A drawer component for mobile-friendly navigation and actions.
+---
+
+## Installation
+
+<CodeGroup>
+
+```bash npm
+npm install vaul
+```
+
+```bash pnpm
+pnpm add vaul
+```
+
+```bash yarn
+yarn add vaul
+```
+
+```bash bun
+bun add vaul
+```
+
+</CodeGroup>
+
+Or use the CLI:
+
+```bash
+npx shadcn@latest add drawer
+```
+
+## About
+
+Drawer is built on top of [Vaul](https://github.com/emilkowalski/vaul) by [@emilkowalski](https://twitter.com/emilkowalski).
+
+## Usage
+
+```tsx
+import {
+  Drawer,
+  DrawerClose,
+  DrawerContent,
+  DrawerDescription,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerTitle,
+  DrawerTrigger,
+} from "@/components/ui/drawer"
+```
+
+```tsx
+<Drawer>
+  <DrawerTrigger>Open</DrawerTrigger>
+  <DrawerContent>
+    <DrawerHeader>
+      <DrawerTitle>Are you absolutely sure?</DrawerTitle>
+      <DrawerDescription>This action cannot be undone.</DrawerDescription>
+    </DrawerHeader>
+    <DrawerFooter>
+      <Button>Submit</Button>
+      <DrawerClose>
+        <Button variant="outline">Cancel</Button>
+      </DrawerClose>
+    </DrawerFooter>
+  </DrawerContent>
+</Drawer>
+```
+
+## Component API
+
+### Drawer
+
+The root drawer component built on Vaul.
+
+**Props:**
+- `open` - Control drawer open state
+- `onOpenChange` - Callback when open state changes
+- `defaultOpen` - Initial open state
+- `direction` - Direction the drawer opens from (default: `"bottom"`)
+  - Options: `"top"`, `"right"`, `"bottom"`, `"left"`
+- `snapPoints` - Array of snap points for the drawer
+- `modal` - Whether drawer is modal (default: `true`)
+
+### DrawerTrigger
+
+The element that opens the drawer.
+
+### DrawerContent
+
+The drawer content container.
+
+**Props:**
+- All standard div props
+- Automatically includes drag handle for bottom/top drawers
+
+### DrawerHeader
+
+Container for title and description.
+
+### DrawerTitle
+
+The drawer title (required for accessibility).
+
+### DrawerDescription
+
+The drawer description.
+
+### DrawerFooter
+
+Container for drawer actions.
+
+### DrawerClose
+
+Closes the drawer.
+
+## Examples
+
+### Scrollable Content
+
+Keep actions visible while content scrolls:
+
+```tsx
+import {
+  Drawer,
+  DrawerContent,
+  DrawerDescription,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerTitle,
+  DrawerTrigger,
+} from "@/components/ui/drawer"
+import { Button } from "@/components/ui/button"
+
+export function ScrollableDrawer() {
+  return (
+    <Drawer>
+      <DrawerTrigger asChild>
+        <Button>Open Drawer</Button>
+      </DrawerTrigger>
+      <DrawerContent>
+        <DrawerHeader>
+          <DrawerTitle>Long Content</DrawerTitle>
+          <DrawerDescription>
+            This drawer has scrollable content.
+          </DrawerDescription>
+        </DrawerHeader>
+        <div className="max-h-[50vh] overflow-y-auto p-4">
+          {Array.from({ length: 20 }).map((_, i) => (
+            <p key={i} className="mb-4">
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+            </p>
+          ))}
+        </div>
+        <DrawerFooter>
+          <Button>Submit</Button>
+          <DrawerClose asChild>
+            <Button variant="outline">Cancel</Button>
+          </DrawerClose>
+        </DrawerFooter>
+      </DrawerContent>
+    </Drawer>
+  )
+}
+```
+
+### Different Sides
+
+Use the `direction` prop to set which side the drawer opens from:
+
+<Tabs defaultValue="bottom">
+  <TabsList>
+    <TabsTrigger value="bottom">Bottom</TabsTrigger>
+    <TabsTrigger value="right">Right</TabsTrigger>
+    <TabsTrigger value="left">Left</TabsTrigger>
+    <TabsTrigger value="top">Top</TabsTrigger>
+  </TabsList>
+  <TabsContent value="bottom">
+```tsx
+<Drawer direction="bottom">
+  <DrawerTrigger asChild>
+    <Button>Open from Bottom</Button>
+  </DrawerTrigger>
+  <DrawerContent>
+    {/* ... */}
+  </DrawerContent>
+</Drawer>
+```
+  </TabsContent>
+  <TabsContent value="right">
+```tsx
+<Drawer direction="right">
+  <DrawerTrigger asChild>
+    <Button>Open from Right</Button>
+  </DrawerTrigger>
+  <DrawerContent>
+    {/* ... */}
+  </DrawerContent>
+</Drawer>
+```
+  </TabsContent>
+  <TabsContent value="left">
+```tsx
+<Drawer direction="left">
+  <DrawerTrigger asChild>
+    <Button>Open from Left</Button>
+  </DrawerTrigger>
+  <DrawerContent>
+    {/* ... */}
+  </DrawerContent>
+</Drawer>
+```
+  </TabsContent>
+  <TabsContent value="top">
+```tsx
+<Drawer direction="top">
+  <DrawerTrigger asChild>
+    <Button>Open from Top</Button>
+  </DrawerTrigger>
+  <DrawerContent>
+    {/* ... */}
+  </DrawerContent>
+</Drawer>
+```
+  </TabsContent>
+</Tabs>
+
+### Responsive Dialog
+
+Combine `Dialog` and `Drawer` for a responsive experience:
+
+```tsx
+import * as React from "react"
+import { useMediaQuery } from "@/hooks/use-media-query"
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog"
+import {
+  Drawer,
+  DrawerContent,
+  DrawerDescription,
+  DrawerHeader,
+  DrawerTitle,
+  DrawerTrigger,
+} from "@/components/ui/drawer"
+import { Button } from "@/components/ui/button"
+
+export function ResponsiveDialog() {
+  const [open, setOpen] = React.useState(false)
+  const isDesktop = useMediaQuery("(min-width: 768px)")
+
+  if (isDesktop) {
+    return (
+      <Dialog open={open} onOpenChange={setOpen}>
+        <DialogTrigger asChild>
+          <Button>Edit Profile</Button>
+        </DialogTrigger>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Edit profile</DialogTitle>
+            <DialogDescription>
+              Make changes to your profile here.
+            </DialogDescription>
+          </DialogHeader>
+          {/* Form content */}
+        </DialogContent>
+      </Dialog>
+    )
+  }
+
+  return (
+    <Drawer open={open} onOpenChange={setOpen}>
+      <DrawerTrigger asChild>
+        <Button>Edit Profile</Button>
+      </DrawerTrigger>
+      <DrawerContent>
+        <DrawerHeader>
+          <DrawerTitle>Edit profile</DrawerTitle>
+          <DrawerDescription>
+            Make changes to your profile here.
+          </DrawerDescription>
+        </DrawerHeader>
+        {/* Form content */}
+      </DrawerContent>
+    </Drawer>
+  )
+}
+```
+
+### Controlled Drawer
+
+Control the drawer open state:
+
+```tsx
+import * as React from "react"
+import {
+  Drawer,
+  DrawerContent,
+  DrawerDescription,
+  DrawerHeader,
+  DrawerTitle,
+  DrawerTrigger,
+} from "@/components/ui/drawer"
+import { Button } from "@/components/ui/button"
+
+export function ControlledDrawer() {
+  const [open, setOpen] = React.useState(false)
+
+  return (
+    <Drawer open={open} onOpenChange={setOpen}>
+      <DrawerTrigger asChild>
+        <Button>Open Drawer</Button>
+      </DrawerTrigger>
+      <DrawerContent>
+        <DrawerHeader>
+          <DrawerTitle>Controlled Drawer</DrawerTitle>
+          <DrawerDescription>
+            This drawer's open state is controlled.
+          </DrawerDescription>
+        </DrawerHeader>
+        <div className="p-4">
+          <Button onClick={() => setOpen(false)}>Close from inside</Button>
+        </div>
+      </DrawerContent>
+    </Drawer>
+  )
+}
+```
+
+### Snap Points
+
+Define snap points for the drawer:
+
+```tsx
+import {
+  Drawer,
+  DrawerContent,
+  DrawerDescription,
+  DrawerHeader,
+  DrawerTitle,
+  DrawerTrigger,
+} from "@/components/ui/drawer"
+import { Button } from "@/components/ui/button"
+
+export function SnapPointsDrawer() {
+  return (
+    <Drawer snapPoints={[0.5, 0.8, 1]}>
+      <DrawerTrigger asChild>
+        <Button>Open with Snap Points</Button>
+      </DrawerTrigger>
+      <DrawerContent>
+        <DrawerHeader>
+          <DrawerTitle>Drawer with Snap Points</DrawerTitle>
+          <DrawerDescription>
+            Drag to snap to different heights.
+          </DrawerDescription>
+        </DrawerHeader>
+        <div className="p-4">
+          <p>Content goes here...</p>
+        </div>
+      </DrawerContent>
+    </Drawer>
+  )
+}
+```
+
+## Accessibility
+
+- Built on Vaul for swipe gestures and animations
+- Focus is trapped within the drawer
+- Escape key closes the drawer
+- Background content is inert when modal
+- Screen reader compatible
+- ARIA labels and roles
+
+## API Reference
+
+See the [Vaul documentation](https://vaul.emilkowal.ski/getting-started) for complete API details.

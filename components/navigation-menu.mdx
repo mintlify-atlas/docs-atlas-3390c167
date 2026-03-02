@@ -1,0 +1,356 @@
+---
+title: Navigation Menu
+description: A collection of links for navigating websites.
+---
+
+## Installation
+
+<CodeGroup>
+
+```bash npm
+npm install @base-ui/react
+```
+
+```bash pnpm
+pnpm add @base-ui/react
+```
+
+```bash yarn
+yarn add @base-ui/react
+```
+
+```bash bun
+bun add @base-ui/react
+```
+
+</CodeGroup>
+
+Or use the CLI:
+
+```bash
+npx shadcn@latest add navigation-menu
+```
+
+## Usage
+
+```tsx
+import {
+  NavigationMenu,
+  NavigationMenuContent,
+  NavigationMenuItem,
+  NavigationMenuLink,
+  NavigationMenuList,
+  NavigationMenuTrigger,
+} from "@/components/ui/navigation-menu"
+```
+
+```tsx
+<NavigationMenu>
+  <NavigationMenuList>
+    <NavigationMenuItem>
+      <NavigationMenuTrigger>Item One</NavigationMenuTrigger>
+      <NavigationMenuContent>
+        <NavigationMenuLink>Link</NavigationMenuLink>
+      </NavigationMenuContent>
+    </NavigationMenuItem>
+  </NavigationMenuList>
+</NavigationMenu>
+```
+
+## Component API
+
+### NavigationMenu
+
+The root navigation menu component built on Radix UI.
+
+**Props:**
+- `viewport` - Show viewport container (default: `true`)
+- `orientation` - Menu orientation (default: `"horizontal"`)
+- `dir` - Text direction
+- `value` - Controlled active item value
+- `onValueChange` - Callback when active item changes
+
+### NavigationMenuList
+
+Container for navigation menu items.
+
+### NavigationMenuItem
+
+An individual navigation item.
+
+### NavigationMenuTrigger
+
+Trigger button for a menu item with content.
+
+### NavigationMenuContent
+
+The content shown when a menu item is active.
+
+**Props:**
+- All standard div props
+
+### NavigationMenuLink
+
+A navigation link.
+
+**Props:**
+- `active` - Mark link as active
+- `asChild` - Compose with child element
+
+### NavigationMenuIndicator
+
+Visual indicator for the active menu item.
+
+### NavigationMenuViewport
+
+Container that displays the active menu content.
+
+### navigationMenuTriggerStyle
+
+Helper function to get trigger button styles for links.
+
+## Examples
+
+### Basic
+
+A simple navigation menu:
+
+```tsx
+import {
+  NavigationMenu,
+  NavigationMenuContent,
+  NavigationMenuItem,
+  NavigationMenuLink,
+  NavigationMenuList,
+  NavigationMenuTrigger,
+} from "@/components/ui/navigation-menu"
+
+export function NavigationMenuDemo() {
+  return (
+    <NavigationMenu>
+      <NavigationMenuList>
+        <NavigationMenuItem>
+          <NavigationMenuTrigger>Getting started</NavigationMenuTrigger>
+          <NavigationMenuContent>
+            <ul className="grid gap-3 p-6 md:w-[400px] lg:w-[500px]">
+              <li>
+                <NavigationMenuLink asChild>
+                  <a
+                    className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
+                    href="/docs"
+                  >
+                    <div className="text-sm font-medium leading-none">Introduction</div>
+                    <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
+                      Re-usable components built using Radix UI and Tailwind CSS.
+                    </p>
+                  </a>
+                </NavigationMenuLink>
+              </li>
+            </ul>
+          </NavigationMenuContent>
+        </NavigationMenuItem>
+        <NavigationMenuItem>
+          <NavigationMenuTrigger>Components</NavigationMenuTrigger>
+          <NavigationMenuContent>
+            <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px]">
+              <li>
+                <NavigationMenuLink asChild>
+                  <a href="/docs/components/accordion">
+                    Accordion
+                  </a>
+                </NavigationMenuLink>
+              </li>
+              <li>
+                <NavigationMenuLink asChild>
+                  <a href="/docs/components/alert-dialog">
+                    Alert Dialog
+                  </a>
+                </NavigationMenuLink>
+              </li>
+            </ul>
+          </NavigationMenuContent>
+        </NavigationMenuItem>
+        <NavigationMenuItem>
+          <NavigationMenuLink href="/docs">
+            Documentation
+          </NavigationMenuLink>
+        </NavigationMenuItem>
+      </NavigationMenuList>
+    </NavigationMenu>
+  )
+}
+```
+
+### Link Component
+
+Use with Next.js Link or other routing libraries:
+
+```tsx
+import Link from "next/link"
+import {
+  NavigationMenuItem,
+  NavigationMenuLink,
+  navigationMenuTriggerStyle,
+} from "@/components/ui/navigation-menu"
+
+export function NavigationMenuDemo() {
+  return (
+    <NavigationMenuItem>
+      <NavigationMenuLink
+        render={<Link href="/docs" />}
+        className={navigationMenuTriggerStyle()}
+      >
+        Documentation
+      </NavigationMenuLink>
+    </NavigationMenuItem>
+  )
+}
+```
+
+### With Icons
+
+Add icons to navigation links:
+
+```tsx
+import { Home, Settings, User } from "lucide-react"
+import {
+  NavigationMenu,
+  NavigationMenuItem,
+  NavigationMenuLink,
+  NavigationMenuList,
+  navigationMenuTriggerStyle,
+} from "@/components/ui/navigation-menu"
+
+export function NavigationMenuIcons() {
+  return (
+    <NavigationMenu>
+      <NavigationMenuList>
+        <NavigationMenuItem>
+          <NavigationMenuLink href="/" className={navigationMenuTriggerStyle()}>
+            <Home className="mr-2 h-4 w-4" />
+            Home
+          </NavigationMenuLink>
+        </NavigationMenuItem>
+        <NavigationMenuItem>
+          <NavigationMenuLink href="/profile" className={navigationMenuTriggerStyle()}>
+            <User className="mr-2 h-4 w-4" />
+            Profile
+          </NavigationMenuLink>
+        </NavigationMenuItem>
+        <NavigationMenuItem>
+          <NavigationMenuLink href="/settings" className={navigationMenuTriggerStyle()}>
+            <Settings className="mr-2 h-4 w-4" />
+            Settings
+          </NavigationMenuLink>
+        </NavigationMenuItem>
+      </NavigationMenuList>
+    </NavigationMenu>
+  )
+}
+```
+
+### Grid Layout
+
+Display links in a grid:
+
+```tsx
+import {
+  NavigationMenu,
+  NavigationMenuContent,
+  NavigationMenuItem,
+  NavigationMenuLink,
+  NavigationMenuList,
+  NavigationMenuTrigger,
+} from "@/components/ui/navigation-menu"
+
+const components = [
+  { title: "Alert Dialog", href: "/docs/components/alert-dialog", description: "A modal dialog that interrupts the user." },
+  { title: "Hover Card", href: "/docs/components/hover-card", description: "Preview content behind a link." },
+  { title: "Progress", href: "/docs/components/progress", description: "Display progress of a task." },
+  { title: "Scroll Area", href: "/docs/components/scroll-area", description: "Augments native scroll." },
+  { title: "Tabs", href: "/docs/components/tabs", description: "Layered content sections." },
+  { title: "Tooltip", href: "/docs/components/tooltip", description: "Popup with information." },
+]
+
+export function NavigationMenuGrid() {
+  return (
+    <NavigationMenu>
+      <NavigationMenuList>
+        <NavigationMenuItem>
+          <NavigationMenuTrigger>Components</NavigationMenuTrigger>
+          <NavigationMenuContent>
+            <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px]">
+              {components.map((component) => (
+                <li key={component.title}>
+                  <NavigationMenuLink asChild>
+                    <a
+                      href={component.href}
+                      className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
+                    >
+                      <div className="text-sm font-medium leading-none">{component.title}</div>
+                      <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
+                        {component.description}
+                      </p>
+                    </a>
+                  </NavigationMenuLink>
+                </li>
+              ))}
+            </ul>
+          </NavigationMenuContent>
+        </NavigationMenuItem>
+      </NavigationMenuList>
+    </NavigationMenu>
+  )
+}
+```
+
+### Without Viewport
+
+Disable the viewport for a simpler layout:
+
+```tsx
+<NavigationMenu viewport={false}>
+  <NavigationMenuList>
+    <NavigationMenuItem>
+      <NavigationMenuTrigger>Item One</NavigationMenuTrigger>
+      <NavigationMenuContent>
+        {/* Content will appear directly below the trigger */}
+      </NavigationMenuContent>
+    </NavigationMenuItem>
+  </NavigationMenuList>
+</NavigationMenu>
+```
+
+### Vertical
+
+Create a vertical navigation menu:
+
+```tsx
+<NavigationMenu orientation="vertical">
+  <NavigationMenuList className="flex-col">
+    <NavigationMenuItem>
+      <NavigationMenuLink href="/">
+        Home
+      </NavigationMenuLink>
+    </NavigationMenuItem>
+    <NavigationMenuItem>
+      <NavigationMenuLink href="/about">
+        About
+      </NavigationMenuLink>
+    </NavigationMenuItem>
+  </NavigationMenuList>
+</NavigationMenu>
+```
+
+## Accessibility
+
+- Built on Radix UI for full accessibility
+- Keyboard navigation with arrow keys and Tab
+- Focus management
+- Screen reader compatible
+- ARIA labels and roles
+- Active state indicators
+
+## API Reference
+
+See the [Base UI Navigation Menu](https://base-ui.com/react/components/navigation-menu#api-reference) documentation for complete API details.

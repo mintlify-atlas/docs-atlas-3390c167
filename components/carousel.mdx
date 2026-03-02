@@ -1,0 +1,318 @@
+---
+title: Carousel
+description: A carousel component for cycling through elements.
+---
+
+## Installation
+
+<CodeGroup>
+
+```bash npm
+npx shadcn@latest add carousel
+```
+
+```bash yarn
+yarn dlx shadcn@latest add carousel
+```
+
+```bash pnpm
+pnpm dlx shadcn@latest add carousel
+```
+
+</CodeGroup>
+
+## Usage
+
+```tsx
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "@/components/ui/carousel"
+```
+
+```tsx
+<Carousel>
+  <CarouselContent>
+    <CarouselItem>Item 1</CarouselItem>
+    <CarouselItem>Item 2</CarouselItem>
+    <CarouselItem>Item 3</CarouselItem>
+  </CarouselContent>
+  <CarouselPrevious />
+  <CarouselNext />
+</Carousel>
+```
+
+## Component Code
+
+The Carousel component is built on top of `embla-carousel-react`.
+
+```tsx
+"use client"
+
+import * as React from "react"
+import useEmblaCarousel, { type UseEmblaCarouselType } from "embla-carousel-react"
+import { ArrowLeft, ArrowRight } from "lucide-react"
+import { cn } from "@/lib/utils"
+import { Button } from "@/components/ui/button"
+
+type CarouselApi = UseEmblaCarouselType[1]
+type CarouselOptions = Parameters<typeof useEmblaCarousel>[0]
+type CarouselPlugin = Parameters<typeof useEmblaCarousel>[1]
+
+type CarouselProps = {
+  opts?: CarouselOptions
+  plugins?: CarouselPlugin
+  orientation?: "horizontal" | "vertical"
+  setApi?: (api: CarouselApi) => void
+}
+
+function Carousel({
+  orientation = "horizontal",
+  opts,
+  setApi,
+  plugins,
+  className,
+  children,
+  ...props
+}: React.ComponentProps<"div"> & CarouselProps) {
+  const [carouselRef, api] = useEmblaCarousel(
+    {
+      ...opts,
+      axis: orientation === "horizontal" ? "x" : "y",
+    },
+    plugins
+  )
+  
+  // ... implementation details
+  
+  return (
+    <div
+      data-slot="carousel"
+      className={cn("relative", className)}
+      role="region"
+      aria-roledescription="carousel"
+      {...props}
+    >
+      {children}
+    </div>
+  )
+}
+
+function CarouselContent({ className, ...props }: React.ComponentProps<"div">) {
+  return (
+    <div className="overflow-hidden" data-slot="carousel-content">
+      <div
+        className={cn("flex", className)}
+        {...props}
+      />
+    </div>
+  )
+}
+
+function CarouselItem({ className, ...props }: React.ComponentProps<"div">) {
+  return (
+    <div
+      role="group"
+      aria-roledescription="slide"
+      data-slot="carousel-item"
+      className={cn("min-w-0 shrink-0 grow-0 basis-full", className)}
+      {...props}
+    />
+  )
+}
+
+export { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious }
+```
+
+## Examples
+
+<Tabs>
+
+<Tab title="Basic">
+
+A basic carousel with navigation buttons.
+
+```tsx
+<Carousel className="w-full max-w-xs">
+  <CarouselContent>
+    <CarouselItem>
+      <Card>
+        <CardContent className="flex aspect-square items-center justify-center p-6">
+          <span className="text-4xl font-semibold">1</span>
+        </CardContent>
+      </Card>
+    </CarouselItem>
+    <CarouselItem>
+      <Card>
+        <CardContent className="flex aspect-square items-center justify-center p-6">
+          <span className="text-4xl font-semibold">2</span>
+        </CardContent>
+      </Card>
+    </CarouselItem>
+    <CarouselItem>
+      <Card>
+        <CardContent className="flex aspect-square items-center justify-center p-6">
+          <span className="text-4xl font-semibold">3</span>
+        </CardContent>
+      </Card>
+    </CarouselItem>
+  </CarouselContent>
+  <CarouselPrevious />
+  <CarouselNext />
+</Carousel>
+```
+
+</Tab>
+
+<Tab title="Sizes">
+
+Control the size of carousel items.
+
+```tsx
+<Carousel
+  opts={{
+    align: "start",
+  }}
+  className="w-full max-w-sm"
+>
+  <CarouselContent>
+    {Array.from({ length: 5 }).map((_, index) => (
+      <CarouselItem key={index} className="md:basis-1/2 lg:basis-1/3">
+        <div className="p-1">
+          <Card>
+            <CardContent className="flex aspect-square items-center justify-center p-6">
+              <span className="text-3xl font-semibold">{index + 1}</span>
+            </CardContent>
+          </Card>
+        </div>
+      </CarouselItem>
+    ))}
+  </CarouselContent>
+  <CarouselPrevious />
+  <CarouselNext />
+</Carousel>
+```
+
+</Tab>
+
+<Tab title="Vertical">
+
+Create a vertical carousel.
+
+```tsx
+<Carousel
+  orientation="vertical"
+  className="w-full max-w-xs"
+>
+  <CarouselContent className="-mt-1 h-[200px]">
+    <CarouselItem className="pt-1 md:basis-1/2">
+      <Card>
+        <CardContent className="flex items-center justify-center p-6">
+          <span className="text-3xl font-semibold">1</span>
+        </CardContent>
+      </Card>
+    </CarouselItem>
+    <CarouselItem className="pt-1 md:basis-1/2">
+      <Card>
+        <CardContent className="flex items-center justify-center p-6">
+          <span className="text-3xl font-semibold">2</span>
+        </CardContent>
+      </Card>
+    </CarouselItem>
+  </CarouselContent>
+  <CarouselPrevious />
+  <CarouselNext />
+</Carousel>
+```
+
+</Tab>
+
+<Tab title="API">
+
+Access the carousel API for programmatic control.
+
+```tsx
+const [api, setApi] = React.useState<CarouselApi>()
+const [current, setCurrent] = React.useState(0)
+
+React.useEffect(() => {
+  if (!api) return
+  
+  setCurrent(api.selectedScrollSnap() + 1)
+  
+  api.on("select", () => {
+    setCurrent(api.selectedScrollSnap() + 1)
+  })
+}, [api])
+
+<Carousel setApi={setApi}>
+  <CarouselContent>
+    {/* items */}
+  </CarouselContent>
+  <CarouselPrevious />
+  <CarouselNext />
+</Carousel>
+
+<div className="text-center text-sm text-muted-foreground">
+  Slide {current} of {api?.scrollSnapList().length}
+</div>
+```
+
+</Tab>
+
+</Tabs>
+
+## Plugins
+
+The Carousel component supports Embla Carousel plugins. For example, to add autoplay:
+
+```tsx
+import Autoplay from "embla-carousel-autoplay"
+
+<Carousel
+  plugins={[
+    Autoplay({
+      delay: 2000,
+    }),
+  ]}
+>
+  {/* content */}
+</Carousel>
+```
+
+## API Reference
+
+### Carousel
+
+| Prop | Type | Default |
+| --- | --- | --- |
+| `orientation` | `"horizontal" \| "vertical"` | `"horizontal"` |
+| `opts` | `CarouselOptions` | - |
+| `plugins` | `CarouselPlugin[]` | - |
+| `setApi` | `(api: CarouselApi) => void` | - |
+| `className` | `string` | - |
+
+For more options, see the [Embla Carousel documentation](https://www.embla-carousel.com/).
+
+### CarouselContent
+
+| Prop | Type | Default |
+| --- | --- | --- |
+| `className` | `string` | - |
+
+### CarouselItem
+
+| Prop | Type | Default |
+| --- | --- | --- |
+| `className` | `string` | - |
+
+### CarouselPrevious / CarouselNext
+
+| Prop | Type | Default |
+| --- | --- | --- |
+| `variant` | Button variant | `"outline"` |
+| `size` | Button size | `"icon"` |
+| `className` | `string` | - |

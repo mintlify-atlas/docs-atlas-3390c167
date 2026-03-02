@@ -1,0 +1,237 @@
+---
+title: Avatar
+description: An image element with a fallback for representing the user.
+---
+
+## Installation
+
+<CodeGroup>
+
+```bash npm
+npx shadcn@latest add avatar
+```
+
+```bash yarn
+yarn dlx shadcn@latest add avatar
+```
+
+```bash pnpm
+pnpm dlx shadcn@latest add avatar
+```
+
+</CodeGroup>
+
+## Usage
+
+```tsx
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+```
+
+```tsx
+<Avatar>
+  <AvatarImage src="https://github.com/shadcn.png" />
+  <AvatarFallback>CN</AvatarFallback>
+</Avatar>
+```
+
+## Component Code
+
+```tsx
+"use client"
+
+import * as React from "react"
+import { Avatar as AvatarPrimitive } from "radix-ui"
+import { cn } from "@/lib/utils"
+
+function Avatar({
+  className,
+  size = "default",
+  ...props
+}: React.ComponentProps<typeof AvatarPrimitive.Root> & {
+  size?: "default" | "sm" | "lg"
+}) {
+  return (
+    <AvatarPrimitive.Root
+      data-slot="avatar"
+      data-size={size}
+      className={cn(
+        "group/avatar relative flex size-8 shrink-0 overflow-hidden rounded-full select-none data-[size=lg]:size-10 data-[size=sm]:size-6",
+        className
+      )}
+      {...props}
+    />
+  )
+}
+
+function AvatarImage({
+  className,
+  ...props
+}: React.ComponentProps<typeof AvatarPrimitive.Image>) {
+  return (
+    <AvatarPrimitive.Image
+      data-slot="avatar-image"
+      className={cn("aspect-square size-full", className)}
+      {...props}
+    />
+  )
+}
+
+function AvatarFallback({
+  className,
+  ...props
+}: React.ComponentProps<typeof AvatarPrimitive.Fallback>) {
+  return (
+    <AvatarPrimitive.Fallback
+      data-slot="avatar-fallback"
+      className={cn(
+        "flex size-full items-center justify-center rounded-full bg-muted text-sm text-muted-foreground group-data-[size=sm]/avatar:text-xs",
+        className
+      )}
+      {...props}
+    />
+  )
+}
+
+function AvatarBadge({ className, ...props }: React.ComponentProps<"span">) {
+  return (
+    <span
+      data-slot="avatar-badge"
+      className={cn(
+        "absolute right-0 bottom-0 z-10 inline-flex items-center justify-center rounded-full bg-primary text-primary-foreground ring-2 ring-background",
+        "group-data-[size=sm]/avatar:size-2 group-data-[size=default]/avatar:size-2.5 group-data-[size=lg]/avatar:size-3",
+        className
+      )}
+      {...props}
+    />
+  )
+}
+
+function AvatarGroup({ className, ...props }: React.ComponentProps<"div">) {
+  return (
+    <div
+      data-slot="avatar-group"
+      className={cn(
+        "group/avatar-group flex -space-x-2 *:data-[slot=avatar]:ring-2 *:data-[slot=avatar]:ring-background",
+        className
+      )}
+      {...props}
+    />
+  )
+}
+
+export { Avatar, AvatarImage, AvatarFallback, AvatarBadge, AvatarGroup }
+```
+
+## Examples
+
+<Tabs>
+
+<Tab title="Basic">
+
+A basic avatar component with an image and a fallback.
+
+```tsx
+<Avatar>
+  <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
+  <AvatarFallback>CN</AvatarFallback>
+</Avatar>
+```
+
+</Tab>
+
+<Tab title="Badge">
+
+Use the `AvatarBadge` component to add a status indicator.
+
+```tsx
+<Avatar>
+  <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
+  <AvatarFallback>CN</AvatarFallback>
+  <AvatarBadge />
+</Avatar>
+```
+
+</Tab>
+
+<Tab title="Avatar Group">
+
+Use the `AvatarGroup` component to display multiple avatars.
+
+```tsx
+<AvatarGroup>
+  <Avatar>
+    <AvatarImage src="/user-1.jpg" />
+    <AvatarFallback>U1</AvatarFallback>
+  </Avatar>
+  <Avatar>
+    <AvatarImage src="/user-2.jpg" />
+    <AvatarFallback>U2</AvatarFallback>
+  </Avatar>
+  <Avatar>
+    <AvatarImage src="/user-3.jpg" />
+    <AvatarFallback>U3</AvatarFallback>
+  </Avatar>
+</AvatarGroup>
+```
+
+</Tab>
+
+<Tab title="Sizes">
+
+Use the `size` prop to change the size of the avatar.
+
+```tsx
+<div className="flex items-center gap-4">
+  <Avatar size="sm">
+    <AvatarImage src="https://github.com/shadcn.png" />
+    <AvatarFallback>CN</AvatarFallback>
+  </Avatar>
+  <Avatar size="default">
+    <AvatarImage src="https://github.com/shadcn.png" />
+    <AvatarFallback>CN</AvatarFallback>
+  </Avatar>
+  <Avatar size="lg">
+    <AvatarImage src="https://github.com/shadcn.png" />
+    <AvatarFallback>CN</AvatarFallback>
+  </Avatar>
+</div>
+```
+
+</Tab>
+
+</Tabs>
+
+## API Reference
+
+### Avatar
+
+| Prop | Type | Default |
+| --- | --- | --- |
+| `size` | `"default" \| "sm" \| "lg"` | `"default"` |
+| `className` | `string` | - |
+
+### AvatarImage
+
+| Prop | Type | Default |
+| --- | --- | --- |
+| `src` | `string` | - |
+| `alt` | `string` | - |
+| `className` | `string` | - |
+
+### AvatarFallback
+
+| Prop | Type | Default |
+| --- | --- | --- |
+| `className` | `string` | - |
+
+### AvatarBadge
+
+| Prop | Type | Default |
+| --- | --- | --- |
+| `className` | `string` | - |
+
+### AvatarGroup
+
+| Prop | Type | Default |
+| --- | --- | --- |
+| `className` | `string` | - |

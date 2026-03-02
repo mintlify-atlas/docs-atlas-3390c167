@@ -1,0 +1,214 @@
+---
+title: Figma Integration
+description: Design and prototype with shadcn/ui components in Figma using community-created design kits and plugins.
+---
+
+Several high-quality Figma kits are available for shadcn/ui, allowing you to design interfaces that match your implementation perfectly.
+
+<Note>
+The Figma files listed below are created and maintained by the community. For questions or feedback, please reach out to the respective maintainers.
+</Note>
+
+## Free Resources
+
+These Figma kits are available at no cost:
+
+### Obra shadcn/ui
+
+**[Obra shadcn/ui](https://www.figma.com/community/file/1514746685758799870/obra-shadcn-ui)** by [Obra Studio](https://obra.studio/)
+
+- Carefully crafted shadcn/ui component kit
+- MIT licensed
+- Maintained by a team of designers
+- Includes free design-to-code plugin
+- Regular updates to match the latest shadcn/ui components
+
+### shadcn/ui components
+
+**[shadcn/ui components](https://www.figma.com/community/file/1342715840824755935)** by [Sitsiilia Bergmann](https://x.com/sitsiilia)
+
+- Well-structured component library
+- Aligned with the shadcn component system
+- Regularly maintained and updated
+- Clean, organized file structure
+
+### shadcn/ui design system
+
+**[shadcn/ui design system](https://www.figma.com/community/file/1203061493325953101)** by [Pietro Schirano](https://twitter.com/skirano)
+
+- Design companion for shadcn/ui
+- Components painstakingly crafted to match code implementation
+- Pixel-perfect alignment with actual components
+- Comprehensive component coverage
+
+## Premium Resources
+
+These paid options offer advanced features and professional support:
+
+### shadcn/ui kit
+
+**[shadcn/ui kit](https://shadcndesign.com)** by [Matt Wierzbicki](https://x.com/matsugfx)
+
+- Premium, always up-to-date UI kit
+- Optimized for smooth design-to-dev handoff
+- shadcn/ui compatible
+- Professional quality components
+
+### Shadcraft UI Kit
+
+**[Shadcraft UI Kit](https://shadcraft.com)**
+
+- Most advanced shadcn-compatible kit
+- Instant theming via [tweakcn](https://tweakcn.com)
+- Pro library of components and templates
+- Complete coverage of shadcn components and blocks
+- Advanced customization options
+
+### shadcn/studio UI Kit
+
+**[shadcn/studio UI Kit](https://shadcnstudio.com/figma)**
+
+- Accelerate design and development workflow
+- shadcn/ui compatible Figma kit
+- 550+ blocks for rapid prototyping
+- 10+ pre-built templates
+- 20+ theme variations
+- AI tool that converts designs into shadcn/ui code
+- Updated components matching latest releases
+
+## Working with Figma Kits
+
+<Steps>
+  ### Choose a kit
+
+  Select a Figma kit that matches your needs and budget. Free options are great for getting started, while premium kits offer more features and support.
+
+  ### Import components
+
+  Once you've selected a kit:
+  1. Duplicate the file to your workspace
+  2. Enable the component library
+  3. Start using components in your designs
+
+  ### Customize the theme
+
+  Most kits support theme customization:
+  - Update color variables to match your CSS variables
+  - Adjust border radius values
+  - Customize typography settings
+
+  ### Design your interface
+
+  Build your interface using the Figma components:
+  - Use auto-layout for responsive designs
+  - Leverage component variants for different states
+  - Create instances of components in your frames
+
+  ### Export and implement
+
+  After designing:
+  1. Use the kit's export features or plugins
+  2. Match Figma designs with shadcn/ui component props
+  3. Implement using the actual shadcn/ui components
+</Steps>
+
+## Design-to-Code Workflow
+
+To ensure your Figma designs match your implementation:
+
+### Color Variables
+
+Map Figma color variables to your CSS variables:
+
+<Tabs items={["Figma Variables", "CSS Variables"]}>
+  <Tab value="Figma Variables">
+    Create variables in Figma:
+
+    - `background`
+    - `foreground`
+    - `primary`
+    - `primary-foreground`
+    - `secondary`
+    - `muted`
+    - `border`
+    - `input`
+    - `ring`
+  </Tab>
+  <Tab value="CSS Variables">
+    These map to your CSS:
+
+    ```css
+    :root {
+      --background: oklch(1 0 0);
+      --foreground: oklch(0.145 0 0);
+      --primary: oklch(0.205 0 0);
+      --primary-foreground: oklch(0.985 0 0);
+      --secondary: oklch(0.97 0 0);
+      --muted: oklch(0.97 0 0);
+      --border: oklch(0.922 0 0);
+      --input: oklch(0.922 0 0);
+      --ring: oklch(0.708 0 0);
+    }
+    ```
+  </Tab>
+</Tabs>
+
+### Typography
+
+Match Figma text styles to your implementation:
+
+```tsx
+// h1 in Figma
+text-4xl font-extrabold tracking-tight
+
+// h2 in Figma
+text-3xl font-semibold tracking-tight
+
+// Body in Figma
+leading-7
+```
+
+### Spacing
+
+Use Tailwind spacing values in Figma:
+- 4px = 0.25rem = spacing-1
+- 8px = 0.5rem = spacing-2
+- 16px = 1rem = spacing-4
+- 24px = 1.5rem = spacing-6
+
+## Tips for Consistency
+
+<Note>
+- Keep your Figma variables in sync with your CSS variables
+- Use the same border radius values in Figma and code
+- Document component variants and their corresponding props
+- Create a shared design token system
+</Note>
+
+## Prototyping with Components
+
+Build interactive prototypes:
+
+1. Use component variants for interactive states (hover, active, disabled)
+2. Create prototype flows with component interactions
+3. Test user flows before implementation
+4. Share prototypes with stakeholders for feedback
+
+## Collaboration
+
+<Warning>
+When working in a team, establish clear naming conventions for components, variables, and styles to ensure consistency between design and code.
+</Warning>
+
+Best practices for team collaboration:
+- Use a single source of truth for design tokens
+- Document component usage and guidelines
+- Regular sync meetings between designers and developers
+- Version control for both Figma files and code
+
+## Resources
+
+- [Figma Best Practices](https://www.figma.com/best-practices/)
+- [Component Architecture](https://www.figma.com/best-practices/component-architecture/)
+- [Design Systems in Figma](https://www.figma.com/best-practices/design-systems-in-figma/)
+- [Tailwind CSS](https://tailwindcss.com/docs)

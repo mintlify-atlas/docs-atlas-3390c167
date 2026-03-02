@@ -1,0 +1,451 @@
+---
+title: "components.json"
+description: "Configuration for your project. This file is used by the CLI to understand how your project is set up."
+---
+
+# components.json
+
+The `components.json` file holds configuration for your project.
+
+We use it to understand how your project is set up and how to generate components customized for your project.
+
+<Note>
+This file is created automatically when you run `shadcn init`. You can also create it manually.
+</Note>
+
+## Schema
+
+You can use the JSON schema to get IntelliSense in your editor:
+
+```json
+{
+  "$schema": "https://ui.shadcn.com/schema.json"
+}
+```
+
+## Configuration
+
+Here's a complete example of a `components.json` file:
+
+```json components.json
+{
+  "$schema": "https://ui.shadcn.com/schema.json",
+  "style": "new-york",
+  "rsc": true,
+  "tsx": true,
+  "tailwind": {
+    "config": "tailwind.config.js",
+    "css": "app/globals.css",
+    "baseColor": "neutral",
+    "cssVariables": true,
+    "prefix": ""
+  },
+  "aliases": {
+    "components": "@/components",
+    "utils": "@/lib/utils",
+    "ui": "@/components/ui",
+    "lib": "@/lib",
+    "hooks": "@/hooks"
+  },
+  "iconLibrary": "lucide",
+  "registries": {}
+}
+```
+
+## Properties
+
+### $schema
+
+<ParamField path="$schema" type="string">
+  URL to the JSON schema for IntelliSense and validation.
+  
+  ```json
+  {
+    "$schema": "https://ui.shadcn.com/schema.json"
+  }
+  ```
+</ParamField>
+
+### style
+
+<ParamField path="style" type="string" required>
+  The style for your components. Available styles: `default` or `new-york`.
+  
+  ```json
+  {
+    "style": "new-york"
+  }
+  ```
+  
+  The style determines the design and feel of your components. The "new-york" style features a more modern, refined aesthetic.
+</ParamField>
+
+### rsc
+
+<ParamField path="rsc" type="boolean" default="false">
+  Whether to use React Server Components.
+  
+  ```json
+  {
+    "rsc": true
+  }
+  ```
+  
+  When set to `true`, components will be optimized for React Server Components. Use `"use client"` directives will be added where necessary.
+</ParamField>
+
+### tsx
+
+<ParamField path="tsx" type="boolean" default="true">
+  Whether to use TypeScript.
+  
+  ```json
+  {
+    "tsx": true
+  }
+  ```
+  
+  When set to `false`, components will be generated as `.jsx` files instead of `.tsx`.
+</ParamField>
+
+### tailwind
+
+<ParamField path="tailwind" type="object" required>
+  Configuration for Tailwind CSS.
+  
+  <Expandable title="tailwind properties">
+    <ParamField path="tailwind.config" type="string">
+      Path to your `tailwind.config.js` file.
+      
+      ```json
+      {
+        "tailwind": {
+          "config": "tailwind.config.js"
+        }
+      }
+      ```
+    </ParamField>
+    
+    <ParamField path="tailwind.css" type="string" required>
+      Path to your global CSS file.
+      
+      ```json
+      {
+        "tailwind": {
+          "css": "app/globals.css"
+        }
+      }
+      ```
+    </ParamField>
+    
+    <ParamField path="tailwind.baseColor" type="string" required>
+      The base color for your project. Options: `neutral`, `gray`, `zinc`, `stone`, `slate`.
+      
+      ```json
+      {
+        "tailwind": {
+          "baseColor": "neutral"
+        }
+      }
+      ```
+      
+      This determines the default gray scale used throughout your components.
+    </ParamField>
+    
+    <ParamField path="tailwind.cssVariables" type="boolean" default="true">
+      Whether to use CSS variables for theming.
+      
+      ```json
+      {
+        "tailwind": {
+          "cssVariables": true
+        }
+      }
+      ```
+      
+      When `true`, colors are defined using CSS variables, making theme customization easier.
+    </ParamField>
+    
+    <ParamField path="tailwind.prefix" type="string" default="">
+      Prefix for Tailwind CSS classes.
+      
+      ```json
+      {
+        "tailwind": {
+          "prefix": "tw-"
+        }
+      }
+      ```
+      
+      Useful when integrating with existing projects that have class name conflicts.
+    </ParamField>
+  </Expandable>
+</ParamField>
+
+### aliases
+
+<ParamField path="aliases" type="object" required>
+  Import aliases for your project.
+  
+  ```json
+  {
+    "aliases": {
+      "components": "@/components",
+      "utils": "@/lib/utils",
+      "ui": "@/components/ui",
+      "lib": "@/lib",
+      "hooks": "@/hooks"
+    }
+  }
+  ```
+  
+  <Expandable title="alias properties">
+    <ParamField path="aliases.components" type="string" required>
+      Import alias for components.
+    </ParamField>
+    
+    <ParamField path="aliases.utils" type="string" required>
+      Import alias for utility functions.
+    </ParamField>
+    
+    <ParamField path="aliases.ui" type="string">
+      Import alias for UI components.
+    </ParamField>
+    
+    <ParamField path="aliases.lib" type="string">
+      Import alias for library files.
+    </ParamField>
+    
+    <ParamField path="aliases.hooks" type="string">
+      Import alias for React hooks.
+    </ParamField>
+  </Expandable>
+  
+  These aliases must match the path mappings in your `tsconfig.json` or `jsconfig.json`.
+</ParamField>
+
+### iconLibrary
+
+<ParamField path="iconLibrary" type="string">
+  The icon library to use. Options: `lucide` or `radix`.
+  
+  ```json
+  {
+    "iconLibrary": "lucide"
+  }
+  ```
+  
+  - `lucide`: Uses [Lucide Icons](https://lucide.dev)
+  - `radix`: Uses [Radix Icons](https://www.radix-ui.com/icons)
+  
+  If not specified, defaults to `lucide` for the default style and `radix` for the new-york style.
+</ParamField>
+
+### rtl
+
+<ParamField path="rtl" type="boolean" default="false">
+  Enable right-to-left (RTL) support.
+  
+  ```json
+  {
+    "rtl": true
+  }
+  ```
+  
+  When enabled, components will be optimized for RTL languages like Arabic and Hebrew.
+</ParamField>
+
+### menuColor
+
+<ParamField path="menuColor" type="string" default="default">
+  The color mode for menus. Options: `default` or `inverted`.
+  
+  ```json
+  {
+    "menuColor": "inverted"
+  }
+  ```
+</ParamField>
+
+### menuAccent
+
+<ParamField path="menuAccent" type="string" default="subtle">
+  The accent style for menus. Options: `subtle` or `bold`.
+  
+  ```json
+  {
+    "menuAccent": "bold"
+  }
+  ```
+</ParamField>
+
+### registries
+
+<ParamField path="registries" type="object">
+  Custom component registries.
+  
+  ```json
+  {
+    "registries": {
+      "@acme": "https://registry.acme.com/{name}.json",
+      "@v0": {
+        "url": "https://api.v0.dev/registry/{name}.json",
+        "headers": {
+          "Authorization": "Bearer ${V0_TOKEN}"
+        }
+      }
+    }
+  }
+  ```
+  
+  Registry names must start with `@`. Each registry can be:
+  
+  1. **Simple string format**: URL template with `{name}` placeholder
+  2. **Advanced object format**: URL with optional authentication
+  
+  <Expandable title="Registry object properties">
+    <ParamField path="url" type="string" required>
+      URL template with `{name}` placeholder.
+    </ParamField>
+    
+    <ParamField path="params" type="object">
+      Query parameters to include in requests.
+    </ParamField>
+    
+    <ParamField path="headers" type="object">
+      HTTP headers to include in requests. Supports environment variable interpolation using `${VAR_NAME}`.
+    </ParamField>
+  </Expandable>
+  
+  <Warning>
+  Built-in registries (`@shadcn`, `@v0`, etc.) cannot be overridden.
+  </Warning>
+</ParamField>
+
+## Examples
+
+<CodeGroup>
+```json Next.js App Router
+{
+  "$schema": "https://ui.shadcn.com/schema.json",
+  "style": "new-york",
+  "rsc": true,
+  "tsx": true,
+  "tailwind": {
+    "config": "tailwind.config.js",
+    "css": "app/globals.css",
+    "baseColor": "neutral",
+    "cssVariables": true
+  },
+  "aliases": {
+    "components": "@/components",
+    "utils": "@/lib/utils"
+  }
+}
+```
+
+```json Vite
+{
+  "$schema": "https://ui.shadcn.com/schema.json",
+  "style": "default",
+  "tsx": true,
+  "rsc": false,
+  "tailwind": {
+    "config": "tailwind.config.js",
+    "css": "src/index.css",
+    "baseColor": "slate",
+    "cssVariables": true
+  },
+  "aliases": {
+    "components": "@/components",
+    "utils": "@/lib/utils"
+  }
+}
+```
+
+```json With Custom Prefix
+{
+  "$schema": "https://ui.shadcn.com/schema.json",
+  "style": "new-york",
+  "rsc": false,
+  "tsx": true,
+  "tailwind": {
+    "config": "tailwind.config.ts",
+    "css": "src/app/globals.css",
+    "baseColor": "zinc",
+    "cssVariables": true,
+    "prefix": "tw-"
+  },
+  "aliases": {
+    "utils": "~/lib/utils",
+    "components": "~/components",
+    "lib": "~/lib",
+    "hooks": "~/lib/hooks",
+    "ui": "~/ui"
+  },
+  "iconLibrary": "lucide"
+}
+```
+
+```json With Custom Registry
+{
+  "$schema": "https://ui.shadcn.com/schema.json",
+  "style": "new-york",
+  "rsc": true,
+  "tsx": true,
+  "tailwind": {
+    "config": "tailwind.config.js",
+    "css": "app/globals.css",
+    "baseColor": "neutral",
+    "cssVariables": true
+  },
+  "aliases": {
+    "components": "@/components",
+    "utils": "@/lib/utils"
+  },
+  "registries": {
+    "@acme": "https://registry.acme.com/{name}.json"
+  }
+}
+```
+</CodeGroup>
+
+## Path Aliases
+
+The CLI uses the aliases defined in `components.json` to generate imports. Make sure these match your `tsconfig.json` or `jsconfig.json`:
+
+<CodeGroup>
+```json tsconfig.json
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./src/*"]
+    }
+  }
+}
+```
+
+```json jsconfig.json
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./src/*"]
+    }
+  }
+}
+```
+</CodeGroup>
+
+## Validation
+
+The `components.json` file is validated against the schema. You can view the full schema at:
+
+```
+https://ui.shadcn.com/schema.json
+```
+
+<Tip>
+Use the `$schema` property to get IntelliSense and validation in VS Code and other editors that support JSON Schema.
+</Tip>

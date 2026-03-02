@@ -1,0 +1,96 @@
+---
+title: JavaScript
+description: How to use shadcn/ui with JavaScript
+---
+
+This project and the components are written in TypeScript. We recommend using TypeScript for your project as well.
+
+However we provide a JavaScript version of the components as well. The JavaScript version is available via the [CLI](/docs/cli).
+
+## Configuration
+
+To opt-out of TypeScript, you can use the `tsx` flag in your `components.json` file.
+
+```json title="components.json" showLineNumbers {4}
+{
+  "style": "new-york",
+  "rsc": false,
+  "tsx": false,
+  "tailwind": {
+    "config": "",
+    "css": "src/app/globals.css",
+    "baseColor": "zinc",
+    "cssVariables": true
+  },
+  "iconLibrary": "lucide",
+  "aliases": {
+    "components": "@/components",
+    "utils": "@/lib/utils",
+    "ui": "@/components/ui",
+    "lib": "@/lib",
+    "hooks": "@/hooks"
+  }
+}
+```
+
+## Setting up import aliases
+
+To configure import aliases, you can use the following `jsconfig.json`:
+
+```json title="jsconfig.json" showLineNumbers
+{
+  "compilerOptions": {
+    "paths": {
+      "@/*": ["./*"]
+    }
+  }
+}
+```
+
+## Adding components
+
+Once you have set `tsx: false` in your `components.json` file, the CLI will automatically add components in JavaScript format.
+
+<Steps>
+
+### Initialize your project
+
+Run the `init` command to create a new project or configure an existing one:
+
+```bash
+npx shadcn@latest init
+```
+
+When prompted, select **No** for TypeScript.
+
+### Add components
+
+Add components to your project using the CLI:
+
+```bash
+npx shadcn@latest add button
+```
+
+The component will be added as a `.jsx` file instead of `.tsx`.
+
+### Use the component
+
+You can now use the component in your JavaScript files:
+
+```jsx title="app/page.jsx" showLineNumbers
+import { Button } from "@/components/ui/button"
+
+export default function Home() {
+  return (
+    <div>
+      <Button>Click me</Button>
+    </div>
+  )
+}
+```
+
+</Steps>
+
+<Note>
+  While JavaScript is supported, we strongly recommend using TypeScript for better type safety and developer experience.
+</Note>

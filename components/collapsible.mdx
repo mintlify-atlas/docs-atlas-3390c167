@@ -1,0 +1,242 @@
+---
+title: Collapsible
+description: An interactive component which expands and collapses content.
+---
+
+## Installation
+
+<CodeGroup>
+
+```bash npm
+npx shadcn@latest add collapsible
+```
+
+```bash yarn
+yarn dlx shadcn@latest add collapsible
+```
+
+```bash pnpm
+pnpm dlx shadcn@latest add collapsible
+```
+
+</CodeGroup>
+
+## Usage
+
+```tsx
+import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from "@/components/ui/collapsible"
+```
+
+```tsx
+<Collapsible>
+  <CollapsibleTrigger>Can I use this in my project?</CollapsibleTrigger>
+  <CollapsibleContent>
+    Yes. Free to use for personal and commercial projects. No attribution required.
+  </CollapsibleContent>
+</Collapsible>
+```
+
+## Component Code
+
+```tsx
+"use client"
+
+import { Collapsible as CollapsiblePrimitive } from "radix-ui"
+
+function Collapsible({
+  ...props
+}: React.ComponentProps<typeof CollapsiblePrimitive.Root>) {
+  return <CollapsiblePrimitive.Root data-slot="collapsible" {...props} />
+}
+
+function CollapsibleTrigger({
+  ...props
+}: React.ComponentProps<typeof CollapsiblePrimitive.CollapsibleTrigger>) {
+  return (
+    <CollapsiblePrimitive.CollapsibleTrigger
+      data-slot="collapsible-trigger"
+      {...props}
+    />
+  )
+}
+
+function CollapsibleContent({
+  ...props
+}: React.ComponentProps<typeof CollapsiblePrimitive.CollapsibleContent>) {
+  return (
+    <CollapsiblePrimitive.CollapsibleContent
+      data-slot="collapsible-content"
+      {...props}
+    />
+  )
+}
+
+export { Collapsible, CollapsibleTrigger, CollapsibleContent }
+```
+
+## Examples
+
+<Tabs>
+
+<Tab title="Basic">
+
+A basic collapsible component.
+
+```tsx
+import { useState } from "react"
+import { ChevronsUpDown } from "lucide-react"
+import { Button } from "@/components/ui/button"
+import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from "@/components/ui/collapsible"
+
+function CollapsibleDemo() {
+  const [isOpen, setIsOpen] = useState(false)
+
+  return (
+    <Collapsible open={isOpen} onOpenChange={setIsOpen}>
+      <div className="flex items-center justify-between space-x-4">
+        <h4 className="text-sm font-semibold">
+          @peduarte starred 3 repositories
+        </h4>
+        <CollapsibleTrigger asChild>
+          <Button variant="ghost" size="sm">
+            <ChevronsUpDown className="h-4 w-4" />
+            <span className="sr-only">Toggle</span>
+          </Button>
+        </CollapsibleTrigger>
+      </div>
+      <div className="rounded-md border px-4 py-2 font-mono text-sm">
+        @radix-ui/primitives
+      </div>
+      <CollapsibleContent className="space-y-2">
+        <div className="rounded-md border px-4 py-2 font-mono text-sm">
+          @radix-ui/colors
+        </div>
+        <div className="rounded-md border px-4 py-2 font-mono text-sm">
+          @stitches/react
+        </div>
+      </CollapsibleContent>
+    </Collapsible>
+  )
+}
+```
+
+</Tab>
+
+<Tab title="Controlled">
+
+Control the open state externally.
+
+```tsx
+import { useState } from "react"
+
+function ControlledCollapsible() {
+  const [isOpen, setIsOpen] = useState(false)
+
+  return (
+    <>
+      <Button onClick={() => setIsOpen(!isOpen)}>
+        {isOpen ? "Close" : "Open"}
+      </Button>
+      <Collapsible open={isOpen} onOpenChange={setIsOpen}>
+        <CollapsibleTrigger>Click to toggle</CollapsibleTrigger>
+        <CollapsibleContent>
+          This content is controlled externally.
+        </CollapsibleContent>
+      </Collapsible>
+    </>
+  )
+}
+```
+
+</Tab>
+
+<Tab title="With Animation">
+
+Add smooth animations with CSS.
+
+```tsx
+<Collapsible>
+  <CollapsibleTrigger className="flex w-full items-center justify-between p-4">
+    <span>Click to expand</span>
+    <ChevronDown className="h-4 w-4 transition-transform duration-200 [data-state=open]:rotate-180" />
+  </CollapsibleTrigger>
+  <CollapsibleContent className="data-[state=open]:animate-collapsible-down data-[state=closed]:animate-collapsible-up overflow-hidden">
+    <div className="p-4">
+      Content with smooth animation
+    </div>
+  </CollapsibleContent>
+</Collapsible>
+```
+
+Add to your tailwind.config.js:
+
+```js
+module.exports = {
+  theme: {
+    extend: {
+      keyframes: {
+        "collapsible-down": {
+          from: { height: 0 },
+          to: { height: "var(--radix-collapsible-content-height)" },
+        },
+        "collapsible-up": {
+          from: { height: "var(--radix-collapsible-content-height)" },
+          to: { height: 0 },
+        },
+      },
+      animation: {
+        "collapsible-down": "collapsible-down 0.2s ease-out",
+        "collapsible-up": "collapsible-up 0.2s ease-out",
+      },
+    },
+  },
+}
+```
+
+</Tab>
+
+</Tabs>
+
+## Use Cases
+
+The Collapsible component is useful for:
+
+- FAQ sections
+- Accordion-style content
+- Expandable lists
+- Settings panels
+- Navigation menus
+- Form sections
+
+## API Reference
+
+### Collapsible
+
+| Prop | Type | Default |
+| --- | --- | --- |
+| `defaultOpen` | `boolean` | `false` |
+| `open` | `boolean` | - |
+| `onOpenChange` | `(open: boolean) => void` | - |
+| `disabled` | `boolean` | `false` |
+
+### CollapsibleTrigger
+
+| Prop | Type | Default |
+| --- | --- | --- |
+| `asChild` | `boolean` | `false` |
+| `className` | `string` | - |
+
+### CollapsibleContent
+
+| Prop | Type | Default |
+| --- | --- | --- |
+| `forceMount` | `boolean` | `false` |
+| `className` | `string` | - |

@@ -1,0 +1,119 @@
+---
+title: Blocks
+description: Pre-built blocks and templates for common UI patterns and full page layouts.
+---
+
+Blocks are pre-built, production-ready components and page layouts that you can copy and paste into your application. They range from simple UI patterns to complete dashboard layouts.
+
+## What are blocks?
+
+Blocks are larger compositions built from shadcn/ui components. Unlike individual components, blocks combine multiple components, hooks, and utilities to create complete, functional sections of your application.
+
+Examples include:
+- **Dashboard layouts** with sidebars, headers, and content areas
+- **Authentication pages** with login and signup forms
+- **Marketing sections** like hero sections, feature grids, and testimonials
+- **E-commerce** product listings, shopping carts, and checkout flows
+
+<Note>
+All blocks are built using shadcn/ui components and follow the same open code philosophy - you own the code and can customize it to fit your needs.
+</Note>
+
+## Using blocks
+
+Blocks can be added to your project using the CLI:
+
+```bash
+npx shadcn@latest add [block-name]
+```
+
+For example, to add a dashboard block:
+
+```bash
+npx shadcn@latest add dashboard-01
+```
+
+## Available blocks
+
+Browse the complete blocks library at [ui.shadcn.com/blocks](https://ui.shadcn.com/blocks).
+
+<CardGroup cols={2}>
+  <Card title="Dashboard Blocks" icon="table-columns" href="https://ui.shadcn.com/blocks#dashboard">
+    Complete dashboard layouts with sidebars, navigation, and data displays
+  </Card>
+  <Card title="Authentication Blocks" icon="lock" href="https://ui.shadcn.com/blocks#authentication">
+    Login, signup, and password reset pages
+  </Card>
+  <Card title="Sidebar Layouts" icon="sidebar" href="https://ui.shadcn.com/blocks#sidebar">
+    Responsive sidebar layouts with collapsible navigation
+  </Card>
+  <Card title="Custom Blocks" icon="code" href="/docs/registry/examples">
+    Learn how to create and share your own blocks
+  </Card>
+</CardGroup>
+
+## Contributing blocks
+
+The community is invited to contribute blocks to the library. Share your components with other developers and help build a collection of high-quality, reusable UI patterns.
+
+<Steps>
+  <Step title="Fork the repository">
+    ```bash
+    git clone https://github.com/shadcn-ui/ui.git
+    ```
+  </Step>
+  
+  <Step title="Create a new branch">
+    ```bash
+    git checkout -b username/my-new-block
+    ```
+  </Step>
+  
+  <Step title="Add your block">
+    Create a new folder in `apps/v4/registry/new-york-v4/blocks`:
+    
+    ```txt
+    apps/v4/registry/new-york-v4/blocks/
+    └── my-block/
+        ├── page.tsx
+        ├── components/
+        │   └── my-component.tsx
+        └── hooks/
+            └── use-my-hook.ts
+    ```
+  </Step>
+  
+  <Step title="Register your block">
+    Add your block definition to the registry following the [registry schema](/docs/registry/registry-item-json).
+  </Step>
+</Steps>
+
+## Block structure
+
+A typical block includes:
+
+- **Page component** - The main entry point for the block
+- **Components** - Any custom components specific to the block
+- **Hooks** - Custom React hooks used by the block
+- **Utils** - Utility functions and helpers
+- **Styles** - Any block-specific styling
+
+## Customization
+
+Blocks are fully customizable since you own the code. After adding a block:
+
+1. Review the generated files in your project
+2. Modify components to match your design
+3. Adjust layouts and functionality
+4. Update colors and theming variables
+
+## Learn more
+
+<CardGroup cols={2}>
+  <Card title="Registry Documentation" icon="database" href="/docs/registry">
+    Learn how the registry system works
+  </Card>
+  <Card title="Creating Custom Blocks" icon="wand-magic-sparkles" href="/docs/registry/examples">
+    Build and distribute your own blocks
+  </Card>
+</CardGroup>

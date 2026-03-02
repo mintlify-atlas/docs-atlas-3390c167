@@ -1,0 +1,134 @@
+---
+title: Open in v0
+description: Customize shadcn/ui components directly in v0 using natural language.
+---
+
+Every component on ui.shadcn.com can be opened and edited in [v0 by Vercel](https://v0.dev), allowing you to customize components using natural language before adding them to your project.
+
+## What is v0?
+
+v0 is an AI-powered generative UI tool by Vercel that lets you:
+
+- **Generate UI with prompts** - Describe what you want and v0 creates the code
+- **Edit visually** - Modify components in a live preview environment
+- **Iterate quickly** - Refine designs with natural language
+- **Export clean code** - Get production-ready React components
+
+## Using v0 with shadcn/ui
+
+<Steps>
+  <Step title="Browse components">
+    Visit [ui.shadcn.com/docs/components](https://ui.shadcn.com/docs/components) and find a component you want to customize.
+  </Step>
+  
+  <Step title="Open in v0">
+    Click the "Open in v0" button on any component page to launch the editor with that component pre-loaded.
+  </Step>
+  
+  <Step title="Customize with prompts">
+    Use natural language to modify the component:
+    
+    ```text
+    Make the button larger with rounded corners
+    Change the color scheme to blue
+    Add an icon to the left of the text
+    Make it responsive for mobile screens
+    ```
+  </Step>
+  
+  <Step title="Copy the code">
+    Once you're happy with the customization, copy the generated code and paste it into your project.
+  </Step>
+</Steps>
+
+## Getting started with v0
+
+To use v0, you'll need a free Vercel account:
+
+<Card title="Sign up for Vercel" icon="user-plus" href="https://vercel.com/signup?utm_source=shad&utm_medium=web&utm_campaign=docs_cta_signup">
+  Create a free account to access v0 and Vercel's deployment platform
+</Card>
+
+In addition to v0, a Vercel account gives you:
+- **Free hosting** for your projects
+- **Automatic deployments** from Git
+- **Preview deployments** for pull requests
+- **Edge functions** and serverless APIs
+
+## Example workflows
+
+### Customizing a button
+
+```text
+Start: Default shadcn/ui button component
+Prompt: "Make it a gradient button with a subtle animation on hover"
+Result: Customized button with gradient and animations
+```
+
+### Building a form
+
+```text
+Start: Form component from shadcn/ui
+Prompt: "Add validation, error messages, and a loading state"
+Result: Complete form with all requested features
+```
+
+### Creating a dashboard
+
+```text
+Start: Card component
+Prompt: "Turn this into a dashboard card with a chart, stats, and action buttons"
+Result: Feature-rich dashboard component
+```
+
+## Benefits
+
+<CardGroup cols={2}>
+  <Card title="Faster iteration" icon="bolt">
+    Test design changes instantly without manual coding
+  </Card>
+  <Card title="AI assistance" icon="brain">
+    Get suggestions and improvements from AI
+  </Card>
+  <Card title="Learn patterns" icon="graduation-cap">
+    See how different UI patterns are implemented
+  </Card>
+  <Card title="Production ready" icon="check">
+    Export clean, type-safe React code
+  </Card>
+</CardGroup>
+
+## Best practices
+
+<Accordion title="Start with shadcn/ui components">
+  Use existing shadcn/ui components as a foundation. They're already accessible, well-tested, and follow best practices.
+</Accordion>
+
+<Accordion title="Be specific in prompts">
+  Detailed prompts get better results. Instead of "make it better," try "increase padding by 4px and add a subtle shadow."
+</Accordion>
+
+<Accordion title="Iterate gradually">
+  Make changes incrementally. It's easier to refine than to completely rewrite.
+</Accordion>
+
+<Accordion title="Review generated code">
+  Always review the generated code before adding it to your project. Ensure it meets your standards and requirements.
+</Accordion>
+
+## Learn more
+
+<CardGroup cols={2}>
+  <Card title="v0 Documentation" icon="book" href="https://v0.dev/faq">
+    Learn more about v0's features and capabilities
+  </Card>
+  <Card title="Vercel Documentation" icon="book-open" href="https://vercel.com/docs/getting-started-with-vercel?utm_source=shadcn_site&utm_medium=web&utm_campaign=docs_cta_about_vercel">
+    Get started with Vercel's platform
+  </Card>
+  <Card title="Component Library" icon="cube" href="/components/accordion">
+    Browse all available shadcn/ui components
+  </Card>
+  <Card title="Examples" icon="lightbulb" href="/blocks">
+    See pre-built blocks and templates
+  </Card>
+</CardGroup>

@@ -1,0 +1,184 @@
+---
+title: Textarea
+description: A multi-line text input component that automatically resizes based on content.
+---
+
+## Installation
+
+<CodeGroup>
+
+```bash npm
+npx shadcn@latest add textarea
+```
+
+```bash yarn
+yarn dlx shadcn@latest add textarea
+```
+
+```bash pnpm
+pnpm dlx shadcn@latest add textarea
+```
+
+```bash bun
+bunx shadcn@latest add textarea
+```
+
+</CodeGroup>
+
+## Usage
+
+```tsx
+import { Textarea } from "@/components/ui/textarea"
+```
+
+```tsx
+<Textarea placeholder="Type your message here." />
+```
+
+## Examples
+
+### Basic
+
+A simple textarea with a placeholder.
+
+```tsx
+import { Textarea } from "@/components/ui/textarea"
+
+export default function TextareaDemo() {
+  return <Textarea placeholder="Type your message here." />
+}
+```
+
+### With Button
+
+Combine textarea with a button for form submissions.
+
+```tsx
+import { Button } from "@/components/ui/button"
+import { Textarea } from "@/components/ui/textarea"
+
+export default function TextareaWithButton() {
+  return (
+    <div className="grid w-full gap-2">
+      <Textarea placeholder="Type your message here." />
+      <Button>Send message</Button>
+    </div>
+  )
+}
+```
+
+### Disabled
+
+Use the `disabled` prop to disable user interaction.
+
+```tsx
+import { Textarea } from "@/components/ui/textarea"
+
+export default function TextareaDisabled() {
+  return <Textarea placeholder="Type your message here." disabled />
+}
+```
+
+### Form Integration
+
+<Tabs defaultValue="controlled">
+
+<TabsList>
+  <TabsTrigger value="controlled">Controlled</TabsTrigger>
+  <TabsTrigger value="uncontrolled">Uncontrolled</TabsTrigger>
+</TabsList>
+
+<TabsContent value="controlled">
+
+```tsx
+import { useState } from "react"
+import { Textarea } from "@/components/ui/textarea"
+
+export default function ControlledTextarea() {
+  const [value, setValue] = useState("")
+
+  return (
+    <Textarea
+      value={value}
+      onChange={(e) => setValue(e.target.value)}
+      placeholder="Type your message here."
+    />
+  )
+}
+```
+
+</TabsContent>
+
+<TabsContent value="uncontrolled">
+
+```tsx
+import { useRef } from "react"
+import { Textarea } from "@/components/ui/textarea"
+import { Button } from "@/components/ui/button"
+
+export default function UncontrolledTextarea() {
+  const textareaRef = useRef<HTMLTextAreaElement>(null)
+
+  const handleSubmit = () => {
+    console.log(textareaRef.current?.value)
+  }
+
+  return (
+    <div className="grid w-full gap-2">
+      <Textarea ref={textareaRef} placeholder="Type your message here." />
+      <Button onClick={handleSubmit}>Submit</Button>
+    </div>
+  )
+}
+```
+
+</TabsContent>
+
+</Tabs>
+
+## Component Code
+
+```tsx
+import * as React from "react"
+
+import { cn } from "@/lib/utils"
+
+function Textarea({ className, ...props }: React.ComponentProps<"textarea">) {
+  return (
+    <textarea
+      data-slot="textarea"
+      className={cn(
+        "flex field-sizing-content min-h-16 w-full rounded-md border border-input bg-transparent px-3 py-2 text-base shadow-xs transition-[color,box-shadow] outline-none placeholder:text-muted-foreground focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:cursor-not-allowed disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 md:text-sm dark:bg-input/30 dark:aria-invalid:ring-destructive/40",
+        className
+      )}
+      {...props}
+    />
+  )
+}
+
+export { Textarea }
+```
+
+## Props
+
+The Textarea component accepts all standard HTML textarea attributes:
+
+| Prop | Type | Description |
+|------|------|-------------|
+| `className` | `string` | Additional CSS classes to apply |
+| `placeholder` | `string` | Placeholder text |
+| `disabled` | `boolean` | Disables the textarea |
+| `value` | `string` | Controlled value |
+| `onChange` | `(e: React.ChangeEvent<HTMLTextAreaElement>) => void` | Change handler |
+| `rows` | `number` | Number of visible text lines |
+| `maxLength` | `number` | Maximum number of characters |
+| `aria-invalid` | `boolean` | Marks textarea as invalid for validation |
+
+## Features
+
+- Auto-resizing with `field-sizing-content`
+- Focus ring with smooth transitions
+- Dark mode support
+- Accessible with ARIA attributes
+- Invalid state styling
+- Disabled state styling

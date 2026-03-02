@@ -1,0 +1,319 @@
+---
+title: Select
+description: Displays a list of options for the user to pick from—triggered by a button.
+---
+
+## Installation
+
+<CodeGroup>
+
+```bash npm
+npx shadcn@latest add select
+```
+
+```bash yarn
+yarn dlx shadcn@latest add select
+```
+
+```bash pnpm
+pnpm dlx shadcn@latest add select
+```
+
+</CodeGroup>
+
+## Usage
+
+```tsx
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
+```
+
+```tsx
+const items = [
+  { label: "Light", value: "light" },
+  { label: "Dark", value: "dark" },
+  { label: "System", value: "system" },
+]
+
+<Select items={items}>
+  <SelectTrigger className="w-[180px]">
+    <SelectValue placeholder="Theme" />
+  </SelectTrigger>
+  <SelectContent>
+    <SelectGroup>
+      {items.map((item) => (
+        <SelectItem key={item.value} value={item.value}>
+          {item.label}
+        </SelectItem>
+      ))}
+    </SelectGroup>
+  </SelectContent>
+</Select>
+```
+
+## Component API
+
+### Select
+
+Root select component. Built on Radix UI Select.
+
+```tsx
+function Select({
+  ...props
+}: React.ComponentProps<typeof SelectPrimitive.Root>)
+```
+
+**Props:**
+- `defaultValue` - Default selected value
+- `value` - Controlled value
+- `onValueChange` - Callback when value changes
+- `disabled` - Disables the select
+- `items` - Array of items (required)
+
+### SelectTrigger
+
+Button that triggers the select dropdown.
+
+```tsx
+function SelectTrigger({
+  className,
+  size = "default",
+  children,
+  ...props
+}: React.ComponentProps<typeof SelectPrimitive.Trigger> & {
+  size?: "sm" | "default"
+})
+```
+
+**Props:**
+- `size` - Trigger size (`"sm"` | `"default"`)
+- `aria-invalid` - Shows error state styling
+
+### SelectValue
+
+Displays the selected value or placeholder.
+
+```tsx
+function SelectValue({
+  ...props
+}: React.ComponentProps<typeof SelectPrimitive.Value>)
+```
+
+**Props:**
+- `placeholder` - Text shown when no value is selected
+
+### SelectContent
+
+Dropdown content container.
+
+```tsx
+function SelectContent({
+  className,
+  children,
+  position = "item-aligned",
+  align = "center",
+  ...props
+}: React.ComponentProps<typeof SelectPrimitive.Content>)
+```
+
+**Props:**
+- `position` - Positioning mode (`"item-aligned"` | `"popper"`)
+- `align` - Horizontal alignment (`"start"` | `"center"` | `"end"`)
+
+### SelectGroup
+
+Groups related select items.
+
+```tsx
+function SelectGroup({
+  ...props
+}: React.ComponentProps<typeof SelectPrimitive.Group>)
+```
+
+### SelectItem
+
+Individual selectable option.
+
+```tsx
+function SelectItem({
+  className,
+  children,
+  ...props
+}: React.ComponentProps<typeof SelectPrimitive.Item>)
+```
+
+**Props:**
+- `value` - Unique value for this item
+- `disabled` - Disables this item
+
+### SelectLabel
+
+Label for a group of items.
+
+```tsx
+function SelectLabel({
+  className,
+  ...props
+}: React.ComponentProps<typeof SelectPrimitive.Label>)
+```
+
+### SelectSeparator
+
+Visual separator between items.
+
+```tsx
+function SelectSeparator({
+  className,
+  ...props
+}: React.ComponentProps<typeof SelectPrimitive.Separator>)
+```
+
+## Examples
+
+### Basic Select
+
+```tsx
+<Select>
+  <SelectTrigger className="w-[180px]">
+    <SelectValue placeholder="Select a fruit" />
+  </SelectTrigger>
+  <SelectContent>
+    <SelectGroup>
+      <SelectItem value="apple">Apple</SelectItem>
+      <SelectItem value="banana">Banana</SelectItem>
+      <SelectItem value="orange">Orange</SelectItem>
+    </SelectGroup>
+  </SelectContent>
+</Select>
+```
+
+### With Groups
+
+Organize items with labels and separators:
+
+```tsx
+<Select>
+  <SelectTrigger>
+    <SelectValue placeholder="Select..." />
+  </SelectTrigger>
+  <SelectContent>
+    <SelectGroup>
+      <SelectLabel>Fruits</SelectLabel>
+      <SelectItem value="apple">Apple</SelectItem>
+      <SelectItem value="banana">Banana</SelectItem>
+    </SelectGroup>
+    <SelectSeparator />
+    <SelectGroup>
+      <SelectLabel>Vegetables</SelectLabel>
+      <SelectItem value="carrot">Carrot</SelectItem>
+      <SelectItem value="potato">Potato</SelectItem>
+    </SelectGroup>
+  </SelectContent>
+</Select>
+```
+
+### Scrollable
+
+Select with many items:
+
+```tsx
+<Select>
+  <SelectTrigger className="w-[280px]">
+    <SelectValue placeholder="Select a timezone" />
+  </SelectTrigger>
+  <SelectContent>
+    <SelectGroup>
+      {timezones.map((tz) => (
+        <SelectItem key={tz.value} value={tz.value}>
+          {tz.label}
+        </SelectItem>
+      ))}
+    </SelectGroup>
+  </SelectContent>
+</Select>
+```
+
+### Disabled State
+
+```tsx
+<Select disabled>
+  <SelectTrigger className="w-[180px]">
+    <SelectValue placeholder="Select..." />
+  </SelectTrigger>
+  <SelectContent>
+    <SelectItem value="option">Option</SelectItem>
+  </SelectContent>
+</Select>
+```
+
+### Invalid State
+
+Show validation errors:
+
+```tsx
+<div data-invalid>
+  <Label>Fruit</Label>
+  <SelectTrigger aria-invalid className="w-[180px]">
+    <SelectValue />
+  </SelectTrigger>
+  <p className="text-sm text-destructive">Please select a fruit</p>
+</div>
+```
+
+### Controlled Select
+
+```tsx
+function ControlledSelect() {
+  const [value, setValue] = React.useState("")
+
+  return (
+    <Select value={value} onValueChange={setValue}>
+      <SelectTrigger className="w-[180px]">
+        <SelectValue placeholder="Select..." />
+      </SelectTrigger>
+      <SelectContent>
+        <SelectItem value="option1">Option 1</SelectItem>
+        <SelectItem value="option2">Option 2</SelectItem>
+      </SelectContent>
+    </Select>
+  )
+}
+```
+
+### With Icons
+
+```tsx
+<Select>
+  <SelectTrigger>
+    <SelectValue placeholder="Select..." />
+  </SelectTrigger>
+  <SelectContent>
+    <SelectItem value="light">
+      <Sun className="mr-2 h-4 w-4" />
+      Light
+    </SelectItem>
+    <SelectItem value="dark">
+      <Moon className="mr-2 h-4 w-4" />
+      Dark
+    </SelectItem>
+  </SelectContent>
+</Select>
+```
+
+## Accessibility
+
+- Full keyboard navigation support
+- Type-ahead to find items
+- Proper ARIA attributes
+- Focus management
+- Screen reader announcements
+
+## API Reference
+
+See the [Radix UI Select documentation](https://www.radix-ui.com/primitives/docs/components/select) for complete API reference.

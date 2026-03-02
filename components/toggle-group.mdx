@@ -1,0 +1,499 @@
+---
+title: Toggle Group
+description: A set of two-state buttons that can be toggled on or off.
+---
+
+## Installation
+
+<CodeGroup>
+
+```bash npm
+npx shadcn@latest add toggle-group
+```
+
+```bash yarn
+yarn dlx shadcn@latest add toggle-group
+```
+
+```bash pnpm
+pnpm dlx shadcn@latest add toggle-group
+```
+
+```bash bun
+bunx shadcn@latest add toggle-group
+```
+
+</CodeGroup>
+
+## Usage
+
+```tsx
+import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group"
+```
+
+```tsx
+<ToggleGroup type="single">
+  <ToggleGroupItem value="a">A</ToggleGroupItem>
+  <ToggleGroupItem value="b">B</ToggleGroupItem>
+  <ToggleGroupItem value="c">C</ToggleGroupItem>
+</ToggleGroup>
+```
+
+## Examples
+
+### Single Selection
+
+Only one item can be selected at a time.
+
+```tsx
+import { Bold, Italic, Underline } from "lucide-react"
+import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group"
+
+export default function ToggleGroupSingle() {
+  return (
+    <ToggleGroup type="single">
+      <ToggleGroupItem value="bold" aria-label="Toggle bold">
+        <Bold className="h-4 w-4" />
+      </ToggleGroupItem>
+      <ToggleGroupItem value="italic" aria-label="Toggle italic">
+        <Italic className="h-4 w-4" />
+      </ToggleGroupItem>
+      <ToggleGroupItem value="underline" aria-label="Toggle underline">
+        <Underline className="h-4 w-4" />
+      </ToggleGroupItem>
+    </ToggleGroup>
+  )
+}
+```
+
+### Multiple Selection
+
+Multiple items can be selected simultaneously.
+
+```tsx
+import { Bold, Italic, Underline } from "lucide-react"
+import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group"
+
+export default function ToggleGroupMultiple() {
+  return (
+    <ToggleGroup type="multiple">
+      <ToggleGroupItem value="bold" aria-label="Toggle bold">
+        <Bold className="h-4 w-4" />
+      </ToggleGroupItem>
+      <ToggleGroupItem value="italic" aria-label="Toggle italic">
+        <Italic className="h-4 w-4" />
+      </ToggleGroupItem>
+      <ToggleGroupItem value="underline" aria-label="Toggle underline">
+        <Underline className="h-4 w-4" />
+      </ToggleGroupItem>
+    </ToggleGroup>
+  )
+}
+```
+
+### Variants
+
+<Tabs defaultValue="default">
+
+<TabsList>
+  <TabsTrigger value="default">Default</TabsTrigger>
+  <TabsTrigger value="outline">Outline</TabsTrigger>
+</TabsList>
+
+<TabsContent value="default">
+
+```tsx
+import { Bold, Italic, Underline } from "lucide-react"
+import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group"
+
+export default function ToggleGroupDefault() {
+  return (
+    <ToggleGroup variant="default" type="multiple">
+      <ToggleGroupItem value="bold">
+        <Bold className="h-4 w-4" />
+      </ToggleGroupItem>
+      <ToggleGroupItem value="italic">
+        <Italic className="h-4 w-4" />
+      </ToggleGroupItem>
+      <ToggleGroupItem value="underline">
+        <Underline className="h-4 w-4" />
+      </ToggleGroupItem>
+    </ToggleGroup>
+  )
+}
+```
+
+</TabsContent>
+
+<TabsContent value="outline">
+
+```tsx
+import { Bold, Italic, Underline } from "lucide-react"
+import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group"
+
+export default function ToggleGroupOutline() {
+  return (
+    <ToggleGroup variant="outline" type="multiple">
+      <ToggleGroupItem value="bold">
+        <Bold className="h-4 w-4" />
+      </ToggleGroupItem>
+      <ToggleGroupItem value="italic">
+        <Italic className="h-4 w-4" />
+      </ToggleGroupItem>
+      <ToggleGroupItem value="underline">
+        <Underline className="h-4 w-4" />
+      </ToggleGroupItem>
+    </ToggleGroup>
+  )
+}
+```
+
+</TabsContent>
+
+</Tabs>
+
+### Sizes
+
+```tsx
+import { Bold, Italic, Underline } from "lucide-react"
+import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group"
+
+export default function ToggleGroupSizes() {
+  return (
+    <div className="flex flex-col gap-4">
+      <ToggleGroup size="sm" type="multiple">
+        <ToggleGroupItem value="bold">
+          <Bold className="h-3 w-3" />
+        </ToggleGroupItem>
+        <ToggleGroupItem value="italic">
+          <Italic className="h-3 w-3" />
+        </ToggleGroupItem>
+        <ToggleGroupItem value="underline">
+          <Underline className="h-3 w-3" />
+        </ToggleGroupItem>
+      </ToggleGroup>
+
+      <ToggleGroup size="default" type="multiple">
+        <ToggleGroupItem value="bold">
+          <Bold className="h-4 w-4" />
+        </ToggleGroupItem>
+        <ToggleGroupItem value="italic">
+          <Italic className="h-4 w-4" />
+        </ToggleGroupItem>
+        <ToggleGroupItem value="underline">
+          <Underline className="h-4 w-4" />
+        </ToggleGroupItem>
+      </ToggleGroup>
+
+      <ToggleGroup size="lg" type="multiple">
+        <ToggleGroupItem value="bold">
+          <Bold className="h-5 w-5" />
+        </ToggleGroupItem>
+        <ToggleGroupItem value="italic">
+          <Italic className="h-5 w-5" />
+        </ToggleGroupItem>
+        <ToggleGroupItem value="underline">
+          <Underline className="h-5 w-5" />
+        </ToggleGroupItem>
+      </ToggleGroup>
+    </div>
+  )
+}
+```
+
+### Spacing
+
+Control the spacing between toggle items.
+
+```tsx
+import { Bold, Italic, Underline } from "lucide-react"
+import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group"
+
+export default function ToggleGroupSpacing() {
+  return (
+    <div className="flex flex-col gap-4">
+      {/* No spacing (default - items are connected) */}
+      <ToggleGroup spacing={0} variant="outline" type="multiple">
+        <ToggleGroupItem value="bold">
+          <Bold className="h-4 w-4" />
+        </ToggleGroupItem>
+        <ToggleGroupItem value="italic">
+          <Italic className="h-4 w-4" />
+        </ToggleGroupItem>
+        <ToggleGroupItem value="underline">
+          <Underline className="h-4 w-4" />
+        </ToggleGroupItem>
+      </ToggleGroup>
+
+      {/* With spacing (items are separated) */}
+      <ToggleGroup spacing={2} variant="outline" type="multiple">
+        <ToggleGroupItem value="bold">
+          <Bold className="h-4 w-4" />
+        </ToggleGroupItem>
+        <ToggleGroupItem value="italic">
+          <Italic className="h-4 w-4" />
+        </ToggleGroupItem>
+        <ToggleGroupItem value="underline">
+          <Underline className="h-4 w-4" />
+        </ToggleGroupItem>
+      </ToggleGroup>
+    </div>
+  )
+}
+```
+
+### Disabled
+
+```tsx
+import { Bold, Italic, Underline } from "lucide-react"
+import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group"
+
+export default function ToggleGroupDisabled() {
+  return (
+    <ToggleGroup disabled type="multiple">
+      <ToggleGroupItem value="bold">
+        <Bold className="h-4 w-4" />
+      </ToggleGroupItem>
+      <ToggleGroupItem value="italic">
+        <Italic className="h-4 w-4" />
+      </ToggleGroupItem>
+      <ToggleGroupItem value="underline">
+        <Underline className="h-4 w-4" />
+      </ToggleGroupItem>
+    </ToggleGroup>
+  )
+}
+```
+
+### Controlled
+
+<Tabs defaultValue="single">
+
+<TabsList>
+  <TabsTrigger value="single">Single</TabsTrigger>
+  <TabsTrigger value="multiple">Multiple</TabsTrigger>
+</TabsList>
+
+<TabsContent value="single">
+
+```tsx
+import { useState } from "react"
+import { Bold, Italic, Underline } from "lucide-react"
+import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group"
+
+export default function ToggleGroupControlledSingle() {
+  const [value, setValue] = useState("bold")
+
+  return (
+    <div className="flex flex-col gap-2">
+      <ToggleGroup type="single" value={value} onValueChange={setValue}>
+        <ToggleGroupItem value="bold">
+          <Bold className="h-4 w-4" />
+        </ToggleGroupItem>
+        <ToggleGroupItem value="italic">
+          <Italic className="h-4 w-4" />
+        </ToggleGroupItem>
+        <ToggleGroupItem value="underline">
+          <Underline className="h-4 w-4" />
+        </ToggleGroupItem>
+      </ToggleGroup>
+      <p className="text-sm text-muted-foreground">
+        Selected: {value || "none"}
+      </p>
+    </div>
+  )
+}
+```
+
+</TabsContent>
+
+<TabsContent value="multiple">
+
+```tsx
+import { useState } from "react"
+import { Bold, Italic, Underline } from "lucide-react"
+import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group"
+
+export default function ToggleGroupControlledMultiple() {
+  const [values, setValues] = useState<string[]>(["bold"])
+
+  return (
+    <div className="flex flex-col gap-2">
+      <ToggleGroup type="multiple" value={values} onValueChange={setValues}>
+        <ToggleGroupItem value="bold">
+          <Bold className="h-4 w-4" />
+        </ToggleGroupItem>
+        <ToggleGroupItem value="italic">
+          <Italic className="h-4 w-4" />
+        </ToggleGroupItem>
+        <ToggleGroupItem value="underline">
+          <Underline className="h-4 w-4" />
+        </ToggleGroupItem>
+      </ToggleGroup>
+      <p className="text-sm text-muted-foreground">
+        Selected: {values.join(", ") || "none"}
+      </p>
+    </div>
+  )
+}
+```
+
+</TabsContent>
+
+</Tabs>
+
+## Component Code
+
+```tsx
+"use client"
+
+import * as React from "react"
+import { type VariantProps } from "class-variance-authority"
+import { ToggleGroup as ToggleGroupPrimitive } from "radix-ui"
+
+import { cn } from "@/lib/utils"
+import { toggleVariants } from "@/components/ui/toggle"
+
+const ToggleGroupContext = React.createContext<
+  VariantProps<typeof toggleVariants> & {
+    spacing?: number
+  }
+>({
+  size: "default",
+  variant: "default",
+  spacing: 0,
+})
+
+function ToggleGroup({
+  className,
+  variant,
+  size,
+  spacing = 0,
+  children,
+  ...props
+}: React.ComponentProps<typeof ToggleGroupPrimitive.Root> &
+  VariantProps<typeof toggleVariants> & {
+    spacing?: number
+  }) {
+  return (
+    <ToggleGroupPrimitive.Root
+      data-slot="toggle-group"
+      data-variant={variant}
+      data-size={size}
+      data-spacing={spacing}
+      style={{ "--gap": spacing } as React.CSSProperties}
+      className={cn(
+        "group/toggle-group flex w-fit items-center gap-[--spacing(var(--gap))] rounded-md data-[spacing=default]:data-[variant=outline]:shadow-xs",
+        className
+      )}
+      {...props}
+    >
+      <ToggleGroupContext.Provider value={{ variant, size, spacing }}>
+        {children}
+      </ToggleGroupContext.Provider>
+    </ToggleGroupPrimitive.Root>
+  )
+}
+
+function ToggleGroupItem({
+  className,
+  children,
+  variant,
+  size,
+  ...props
+}: React.ComponentProps<typeof ToggleGroupPrimitive.Item> &
+  VariantProps<typeof toggleVariants>) {
+  const context = React.useContext(ToggleGroupContext)
+
+  return (
+    <ToggleGroupPrimitive.Item
+      data-slot="toggle-group-item"
+      data-variant={context.variant || variant}
+      data-size={context.size || size}
+      data-spacing={context.spacing}
+      className={cn(
+        toggleVariants({
+          variant: context.variant || variant,
+          size: context.size || size,
+        }),
+        "w-auto min-w-0 shrink-0 px-3 focus:z-10 focus-visible:z-10",
+        "data-[spacing=0]:rounded-none data-[spacing=0]:shadow-none data-[spacing=0]:first:rounded-l-md data-[spacing=0]:last:rounded-r-md data-[spacing=0]:data-[variant=outline]:border-l-0 data-[spacing=0]:data-[variant=outline]:first:border-l",
+        className
+      )}
+      {...props}
+    >
+      {children}
+    </ToggleGroupPrimitive.Item>
+  )
+}
+
+export { ToggleGroup, ToggleGroupItem }
+```
+
+## Props
+
+### ToggleGroup
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `type` | `"single" \| "multiple"` | - | Selection mode (required) |
+| `variant` | `"default" \| "outline"` | `"default"` | Visual style variant |
+| `size` | `"sm" \| "default" \| "lg"` | `"default"` | Size of all toggle items |
+| `spacing` | `number` | `0` | Gap between items (0 = connected) |
+| `value` | `string \| string[]` | - | Controlled value(s) |
+| `defaultValue` | `string \| string[]` | - | Default value(s) (uncontrolled) |
+| `onValueChange` | `(value: string \| string[]) => void` | - | Callback when value changes |
+| `disabled` | `boolean` | `false` | Disables all toggle items |
+| `orientation` | `"horizontal" \| "vertical"` | `"horizontal"` | Layout orientation |
+| `className` | `string` | - | Additional CSS classes |
+
+### ToggleGroupItem
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `value` | `string` | - | Unique value for this item (required) |
+| `variant` | `"default" \| "outline"` | - | Overrides group variant |
+| `size` | `"sm" \| "default" \| "lg"` | - | Overrides group size |
+| `disabled` | `boolean` | `false` | Disables this specific item |
+| `className` | `string` | - | Additional CSS classes |
+| `aria-label` | `string` | - | Accessible label |
+
+## Composition Patterns
+
+### Text Formatting Toolbar
+
+```tsx
+import { Bold, Italic, Underline, Strikethrough } from "lucide-react"
+import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group"
+
+export default function TextFormattingToolbar() {
+  return (
+    <ToggleGroup variant="outline" type="multiple">
+      <ToggleGroupItem value="bold" aria-label="Bold">
+        <Bold className="h-4 w-4" />
+      </ToggleGroupItem>
+      <ToggleGroupItem value="italic" aria-label="Italic">
+        <Italic className="h-4 w-4" />
+      </ToggleGroupItem>
+      <ToggleGroupItem value="underline" aria-label="Underline">
+        <Underline className="h-4 w-4" />
+      </ToggleGroupItem>
+      <ToggleGroupItem value="strikethrough" aria-label="Strikethrough">
+        <Strikethrough className="h-4 w-4" />
+      </ToggleGroupItem>
+    </ToggleGroup>
+  )
+}
+```
+
+## Accessibility
+
+- Uses `role="group"` for the container
+- Individual items use `role="button"` with `aria-pressed`
+- Keyboard navigation with arrow keys
+- Always include `aria-label` for icon-only items
+- Disabled state prevents interaction
+
+## API Reference
+
+Built on top of [Radix UI Toggle Group](https://base-ui.com/react/components/toggle-group). See the [official API documentation](https://base-ui.com/react/components/toggle-group#api-reference) for more details.

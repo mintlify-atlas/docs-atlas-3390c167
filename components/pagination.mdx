@@ -1,0 +1,208 @@
+---
+title: Pagination
+description: Pagination with page navigation, next and previous links.
+---
+
+## Installation
+
+<CodeGroup>
+
+```bash npm
+npx shadcn@latest add pagination
+```
+
+```bash yarn
+yarn dlx shadcn@latest add pagination
+```
+
+```bash pnpm
+pnpm dlx shadcn@latest add pagination
+```
+
+</CodeGroup>
+
+## Usage
+
+```tsx
+import {
+  Pagination,
+  PaginationContent,
+  PaginationEllipsis,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "@/components/ui/pagination"
+```
+
+```tsx
+<Pagination>
+  <PaginationContent>
+    <PaginationItem>
+      <PaginationPrevious href="#" />
+    </PaginationItem>
+    <PaginationItem>
+      <PaginationLink href="#">1</PaginationLink>
+    </PaginationItem>
+    <PaginationItem>
+      <PaginationLink href="#" isActive>
+        2
+      </PaginationLink>
+    </PaginationItem>
+    <PaginationItem>
+      <PaginationLink href="#">3</PaginationLink>
+    </PaginationItem>
+    <PaginationItem>
+      <PaginationEllipsis />
+    </PaginationItem>
+    <PaginationItem>
+      <PaginationNext href="#" />
+    </PaginationItem>
+  </PaginationContent>
+</Pagination>
+```
+
+## Component API
+
+### Pagination
+
+The root pagination component.
+
+```tsx
+function Pagination({ className, ...props }: React.ComponentProps<"nav">)
+```
+
+### PaginationContent
+
+Container for pagination items.
+
+```tsx
+function PaginationContent({ className, ...props }: React.ComponentProps<"ul">)
+```
+
+### PaginationItem
+
+Wrapper for individual pagination elements.
+
+```tsx
+function PaginationItem({ ...props }: React.ComponentProps<"li">)
+```
+
+### PaginationLink
+
+Clickable pagination link with active state support.
+
+```tsx
+type PaginationLinkProps = {
+  isActive?: boolean
+} & Pick<React.ComponentProps<typeof Button>, "size"> &
+  React.ComponentProps<"a">
+
+function PaginationLink({
+  className,
+  isActive,
+  size = "icon",
+  ...props
+}: PaginationLinkProps)
+```
+
+**Props:**
+- `isActive` - Whether this page is currently active
+- `size` - Button size variant (default: `"icon"`)
+
+### PaginationPrevious
+
+Previous page navigation button.
+
+```tsx
+function PaginationPrevious({
+  className,
+  ...props
+}: React.ComponentProps<typeof PaginationLink>)
+```
+
+### PaginationNext
+
+Next page navigation button.
+
+```tsx
+function PaginationNext({
+  className,
+  ...props
+}: React.ComponentProps<typeof PaginationLink>)
+```
+
+### PaginationEllipsis
+
+Ellipsis indicator for skipped pages.
+
+```tsx
+function PaginationEllipsis({
+  className,
+  ...props
+}: React.ComponentProps<"span">)
+```
+
+## Examples
+
+### Simple Pagination
+
+A simple pagination with only page numbers:
+
+```tsx
+<Pagination>
+  <PaginationContent>
+    <PaginationItem>
+      <PaginationLink href="#">1</PaginationLink>
+    </PaginationItem>
+    <PaginationItem>
+      <PaginationLink href="#" isActive>
+        2
+      </PaginationLink>
+    </PaginationItem>
+    <PaginationItem>
+      <PaginationLink href="#">3</PaginationLink>
+    </PaginationItem>
+  </PaginationContent>
+</Pagination>
+```
+
+### Icons Only
+
+Use just the previous and next buttons without page numbers:
+
+```tsx
+<Pagination>
+  <PaginationContent>
+    <PaginationItem>
+      <PaginationPrevious href="#" />
+    </PaginationItem>
+    <PaginationItem>
+      <PaginationNext href="#" />
+    </PaginationItem>
+  </PaginationContent>
+</Pagination>
+```
+
+## Next.js Integration
+
+To use the Next.js `<Link />` component with pagination:
+
+```tsx
+import Link from "next/link"
+
+// Update the PaginationLink type
+type PaginationLinkProps = {
+  isActive?: boolean
+} & Pick<React.ComponentProps<typeof Button>, "size"> &
+  React.ComponentProps<typeof Link>
+
+// Update the component to use Link
+const PaginationLink = ({ ...props }: PaginationLinkProps) => (
+  <PaginationItem>
+    <Link {...props}>
+      {/* ... */}
+    </Link>
+  </PaginationItem>
+)
+```

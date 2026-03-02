@@ -1,0 +1,123 @@
+---
+title: shadcn create
+description: Create a new project with shadcn/ui
+---
+
+The `create` command creates a new project with shadcn/ui pre-configured. It scaffolds a new project using your chosen template and preset configuration.
+
+## Usage
+
+```bash
+shadcn create [name]
+```
+
+## Arguments
+
+<ParamField path="name" type="string" optional>
+  The name of your project. If not provided, you'll be prompted to enter one.
+</ParamField>
+
+## Options
+
+<ParamField path="--template" type="string" optional>
+  The template to use:
+  - `next` - Next.js
+  - `vite` - Vite
+  - `start` - TanStack Start
+</ParamField>
+
+<ParamField path="--preset" type="string" optional>
+  Use a preset configuration. Can be a preset name or URL. If used without a value, shows an interactive list of available presets.
+</ParamField>
+
+<ParamField path="--cwd" type="string" optional>
+  The working directory. Defaults to the current directory.
+</ParamField>
+
+<ParamField path="--src-dir" type="boolean" default="false">
+  Use the src directory when creating a new project.
+</ParamField>
+
+<ParamField path="--no-src-dir" type="boolean">
+  Do not use the src directory when creating a new project.
+</ParamField>
+
+<ParamField path="--yes" type="boolean" default="true">
+  Skip confirmation prompt.
+</ParamField>
+
+<ParamField path="--rtl" type="boolean" default="false">
+  Enable RTL (right-to-left) support.
+</ParamField>
+
+## Examples
+
+### Create with interactive prompts
+
+```bash
+shadcn create
+```
+
+If no arguments are provided, this opens https://ui.shadcn.com/create in your browser to build a custom design system.
+
+### Create a new Next.js project
+
+```bash
+shadcn create my-app --template next
+```
+
+### Create with a specific preset
+
+```bash
+shadcn create my-app --preset default
+```
+
+### Create with preset selection
+
+```bash
+shadcn create my-app --preset
+```
+
+Shows an interactive list of available presets to choose from.
+
+### Create with custom preset URL
+
+```bash
+shadcn create my-app --preset https://ui.shadcn.com/init?style=new-york&baseColor=zinc
+```
+
+### Create a Vite project with RTL support
+
+```bash
+shadcn create my-app --template vite --rtl
+```
+
+### Create with src directory
+
+```bash
+shadcn create my-app --src-dir
+```
+
+## What it does
+
+1. Prompts for project name (if not provided)
+2. Prompts for template selection (if not provided)
+3. Prompts for preset selection (if not provided)
+4. Creates a new project using the selected template
+5. Initializes shadcn/ui with the preset configuration
+6. Installs a component example to get you started
+7. Updates template files with example component usage
+
+## Presets
+
+Presets are pre-configured shadcn/ui setups that include:
+- Base style (default or base-ui)
+- Design style (new-york, default, etc.)
+- Base color palette
+- Theme configuration
+- Icon library
+- Font settings
+- Menu accent and colors
+- Border radius
+
+You can browse available presets interactively or create your own at https://ui.shadcn.com/create.

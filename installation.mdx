@@ -1,0 +1,223 @@
+---
+title: "Installation"
+description: "How to install dependencies and structure your app."
+---
+
+# Installation
+
+Install and configure shadcn/ui in your project.
+
+<Note>
+You can use the CLI to automatically install and configure components. The `init` command will guide you through the setup process.
+</Note>
+
+## Quick Start
+
+The fastest way to get started is to use the `create` command:
+
+```bash
+npx shadcn@latest create
+```
+
+This will:
+1. Prompt you to choose a framework (Next.js, Vite, or TanStack Start)
+2. Create a new project with shadcn/ui pre-configured
+3. Install all dependencies
+4. Set up your design system
+
+## Manual Installation
+
+If you have an existing project, you can add shadcn/ui components using the `init` command:
+
+<Steps>
+  <Step title="Run the init command">
+    Run the `shadcn init` command to setup your project:
+
+    ```bash
+    npx shadcn@latest init
+    ```
+
+    This will:
+    - Detect your framework
+    - Prompt you to configure `components.json`
+    - Install dependencies
+    - Set up Tailwind CSS
+    - Configure import aliases
+  </Step>
+
+  <Step title="Configure components.json">
+    You'll be asked a few questions to configure your project:
+
+    ```text
+    Would you like to use TypeScript (recommended)? › yes
+    Which style would you like to use? › New York
+    Which color would you like to use as base color? › Neutral
+    Where is your global CSS file? › app/globals.css
+    Would you like to use CSS variables for theming? › yes
+    Are you using a custom tailwind prefix? › 
+    Where is your tailwind.config.js located? › tailwind.config.js
+    Configure the import alias for components: › @/components
+    Configure the import alias for utils: › @/lib/utils
+    Are you using React Server Components? › yes
+    ```
+
+    This creates a `components.json` file in your project root:
+
+    ```json
+    {
+      "$schema": "https://ui.shadcn.com/schema.json",
+      "style": "new-york",
+      "rsc": true,
+      "tsx": true,
+      "tailwind": {
+        "config": "tailwind.config.js",
+        "css": "app/globals.css",
+        "baseColor": "neutral",
+        "cssVariables": true,
+        "prefix": ""
+      },
+      "aliases": {
+        "components": "@/components",
+        "utils": "@/lib/utils",
+        "ui": "@/components/ui",
+        "lib": "@/lib",
+        "hooks": "@/hooks"
+      },
+      "iconLibrary": "lucide"
+    }
+    ```
+  </Step>
+
+  <Step title="Add components">
+    You can now start adding components to your project:
+
+    ```bash
+    npx shadcn@latest add button
+    ```
+
+    The component will be added to your project in the location specified in your `components.json` file.
+  </Step>
+</Steps>
+
+## Framework-Specific Guides
+
+We provide detailed installation guides for popular frameworks:
+
+<CardGroup cols={2}>
+  <Card title="Next.js" icon="react" href="/installation/next">
+    Install shadcn/ui in a Next.js project (App Router or Pages Router)
+  </Card>
+  <Card title="Vite" icon="bolt" href="/installation/vite">
+    Install shadcn/ui in a Vite React project
+  </Card>
+  <Card title="Remix" icon="music" href="/installation/remix">
+    Install shadcn/ui in a Remix project
+  </Card>
+  <Card title="Astro" icon="rocket" href="/installation/astro">
+    Install shadcn/ui in an Astro project
+  </Card>
+  <Card title="Laravel" icon="php" href="/installation/laravel">
+    Install shadcn/ui with Laravel and Inertia
+  </Card>
+  <Card title="Gatsby" icon="gatsby" href="/installation/gatsby">
+    Install shadcn/ui in a Gatsby project
+  </Card>
+</CardGroup>
+
+## Using Default Options
+
+You can use the `--defaults` flag to skip the configuration prompts and use sensible defaults:
+
+```bash
+npx shadcn@latest init --defaults
+```
+
+This will:
+- Use TypeScript
+- Use the "New York" style
+- Use "neutral" as the base color
+- Use CSS variables for theming
+- Set up standard import aliases
+
+## Installation Options
+
+The `init` command supports several options:
+
+<ParamField path="--template" type="string">
+  The template to use (next, vite, start, next-monorepo)
+</ParamField>
+
+<ParamField path="--base-color" type="string">
+  The base color to use (neutral, gray, zinc, stone, slate)
+</ParamField>
+
+<ParamField path="--yes" type="boolean" default="true">
+  Skip confirmation prompts
+</ParamField>
+
+<ParamField path="--defaults" type="boolean" default="false">
+  Use default configuration
+</ParamField>
+
+<ParamField path="--force" type="boolean" default="false">
+  Force overwrite of existing configuration
+</ParamField>
+
+<ParamField path="--cwd" type="string">
+  The working directory (defaults to current directory)
+</ParamField>
+
+<ParamField path="--src-dir" type="boolean">
+  Use the src directory when creating a new project
+</ParamField>
+
+<ParamField path="--css-variables" type="boolean" default="true">
+  Use CSS variables for theming
+</ParamField>
+
+<ParamField path="--rtl" type="boolean" default="false">
+  Enable RTL (right-to-left) support
+</ParamField>
+
+## Example Usage
+
+<CodeGroup>
+```bash Default Installation
+npx shadcn@latest init
+```
+
+```bash With Options
+npx shadcn@latest init --template next --base-color zinc --defaults
+```
+
+```bash New Project
+npx shadcn@latest create my-app
+```
+
+```bash RTL Support
+npx shadcn@latest init --rtl
+```
+</CodeGroup>
+
+## What Gets Installed?
+
+When you run `init`, the CLI will:
+
+1. **Install dependencies** - Installs Tailwind CSS and other required packages
+2. **Create components.json** - Configuration file for your project
+3. **Set up globals.css** - Adds CSS variables and base styles
+4. **Configure tailwind.config.js** - Updates Tailwind configuration
+5. **Create utils file** - Adds the `cn()` utility function
+
+<Warning>
+The `init` command will modify your `tailwind.config.js` and CSS files. Make sure to commit your changes before running the command.
+</Warning>
+
+## Next Steps
+
+After installation:
+
+1. [Browse components](/components) to see what's available
+2. [Add your first component](/cli#add) using the CLI
+3. [Configure components.json](/components-json) to customize your setup
+4. [Learn about theming](/themes) to customize colors and styles

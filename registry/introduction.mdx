@@ -1,0 +1,191 @@
+---
+title: Introduction
+description: Run your own code registry to distribute custom components, hooks, and other resources.
+---
+
+You can use the `shadcn` CLI to run your own code registry. Running your own registry allows you to distribute your custom components, hooks, pages, config, rules and other files to any project.
+
+<Note>
+  The registry works with any project type and any framework, and is not limited to React.
+</Note>
+
+## What is a Registry?
+
+A registry is a distribution system for code. It allows you to package and share reusable code components, utilities, hooks, configuration files, and other resources across projects and teams.
+
+Think of it as your own npm registry, but for code snippets and components that can be installed directly into your project with proper dependency resolution and configuration.
+
+## Key Features
+
+<CardGroup cols={2}>
+  <Card title="Framework Agnostic" icon="code">
+    Works with any project type - React, Vue, Svelte, PHP, or any framework that supports serving JSON over HTTP.
+  </Card>
+  
+  <Card title="Dependency Resolution" icon="puzzle-piece">
+    Automatically resolves and installs both npm packages and registry dependencies.
+  </Card>
+  
+  <Card title="Type Support" icon="file-code">
+    Support for multiple resource types: components, hooks, utilities, pages, themes, and more.
+  </Card>
+  
+  <Card title="Namespaces" icon="folder-tree">
+    Organize resources with namespaces for better organization and conflict prevention.
+  </Card>
+</CardGroup>
+
+## How It Works
+
+The registry system follows a simple architecture:
+
+<Steps>
+  <Step title="Define Your Components">
+    Create your components, hooks, or utilities in your project following the `registry/[STYLE]/[NAME]` directory structure.
+  </Step>
+  
+  <Step title="Configure Registry Items">
+    Define each item in your `registry.json` file with metadata including name, type, dependencies, and file paths.
+  </Step>
+  
+  <Step title="Build the Registry">
+    Run the `shadcn build` command to generate individual JSON files for each registry item.
+  </Step>
+  
+  <Step title="Serve and Distribute">
+    Deploy your registry to a public URL and share with your team or the community.
+  </Step>
+</Steps>
+
+## Registry Architecture
+
+A registry consists of two main components:
+
+### 1. Registry Index (`registry.json`)
+
+The entry point that defines your registry's name, homepage, and lists all available items:
+
+```json title="registry.json"
+{
+  "$schema": "https://ui.shadcn.com/schema/registry.json",
+  "name": "acme",
+  "homepage": "https://acme.com",
+  "items": [
+    {
+      "name": "hello-world",
+      "type": "registry:block",
+      "title": "Hello World",
+      "description": "A simple hello world component.",
+      "files": [
+        {
+          "path": "registry/new-york/hello-world/hello-world.tsx",
+          "type": "registry:component"
+        }
+      ]
+    }
+  ]
+}
+```
+
+### 2. Registry Items
+
+Individual JSON files for each component or resource, generated from your `registry.json` during the build process. These files contain:
+
+- Component source code
+- Dependencies (npm packages)
+- Registry dependencies (other registry items)
+- CSS variables and theming
+- Environment variables
+- Type definitions
+
+## Use Cases
+
+### Company Component Library
+
+Create a private registry for your organization's design system and shared components:
+
+```bash
+npx shadcn@latest add https://registry.acme.com/r/auth-form.json
+```
+
+### Open Source Projects
+
+Share your components with the community by publishing a public registry:
+
+```bash
+npx shadcn@latest add @yourname/custom-carousel
+```
+
+### Multi-Team Collaboration
+
+Organize registries by team or department using namespaces:
+
+<CodeGroup>
+```json Design Team
+{
+  "registries": {
+    "@design": "https://design.company.com/registry/{name}.json"
+  }
+}
+```
+
+```json Engineering Team
+{
+  "registries": {
+    "@engineering": "https://eng.company.com/registry/{name}.json"
+  }
+}
+```
+</CodeGroup>
+
+### AI Resources
+
+Distribute AI prompts, rules, and configurations:
+
+```bash
+npx shadcn@latest add @ai/chatbot-rules
+```
+
+## What You Can Distribute
+
+Registries support multiple resource types:
+
+| Type | Description | Example Use Case |
+| ---- | ----------- | ---------------- |
+| `registry:component` | Simple components | Button, Input, Card |
+| `registry:block` | Complex multi-file components | Dashboard, Auth forms |
+| `registry:ui` | UI primitives | Dialog, Dropdown, Tooltip |
+| `registry:hook` | Custom React hooks | useAuth, useLocalStorage |
+| `registry:lib` | Utilities and helpers | Date formatters, validators |
+| `registry:page` | Full page templates | Login, Dashboard, Settings |
+| `registry:theme` | Theme configurations | Dark mode, Brand themes |
+| `registry:style` | Complete style systems | Design system styles |
+| `registry:file` | Miscellaneous files | Config files, constants |
+
+## Getting Started
+
+Ready to create your own registry? Head over to the getting started guide to build your first registry.
+
+<Card title="Getting Started" icon="rocket" href="/docs/registry/getting-started">
+  Learn how to set up and build your own component registry step-by-step.
+</Card>
+
+## Additional Resources
+
+<CardGroup cols={2}>
+  <Card title="Authentication" icon="lock" href="/docs/registry/authentication">
+    Secure your registry with authentication
+  </Card>
+  
+  <Card title="Namespaces" icon="tag" href="/docs/registry/namespace">
+    Configure registries with namespaces
+  </Card>
+  
+  <Card title="Examples" icon="code" href="/docs/registry/examples">
+    Registry item examples and configurations
+  </Card>
+  
+  <Card title="Schema Reference" icon="book" href="/docs/registry/registry-json">
+    Schema specification for registry.json
+  </Card>
+</CardGroup>

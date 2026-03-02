@@ -1,0 +1,365 @@
+---
+title: Chart
+description: Beautiful charts built using Recharts. Copy and paste into your apps.
+---
+
+## Installation
+
+<CodeGroup>
+
+```bash npm
+npx shadcn@latest add chart
+```
+
+```bash yarn
+yarn dlx shadcn@latest add chart
+```
+
+```bash pnpm
+pnpm dlx shadcn@latest add chart
+```
+
+</CodeGroup>
+
+## Usage
+
+```tsx
+import {
+  ChartContainer,
+  ChartTooltip,
+  ChartTooltipContent,
+  ChartLegend,
+  ChartLegendContent,
+} from "@/components/ui/chart"
+import { Bar, BarChart } from "recharts"
+```
+
+```tsx
+const chartConfig = {
+  desktop: {
+    label: "Desktop",
+    color: "hsl(var(--chart-1))",
+  },
+}
+
+<ChartContainer config={chartConfig}>
+  <BarChart data={data}>
+    <Bar dataKey="desktop" fill="var(--color-desktop)" />
+    <ChartTooltip content={<ChartTooltipContent />} />
+  </BarChart>
+</ChartContainer>
+```
+
+## Component Code
+
+The Chart component is built on top of Recharts and provides theming and customization.
+
+```tsx
+"use client"
+
+import * as React from "react"
+import * as RechartsPrimitive from "recharts"
+import { cn } from "@/lib/utils"
+
+export type ChartConfig = {
+  [k in string]: {
+    label?: React.ReactNode
+    icon?: React.ComponentType
+  } & (
+    | { color?: string; theme?: never }
+    | { color?: never; theme: Record<string, string> }
+  )
+}
+
+const ChartContext = React.createContext<{ config: ChartConfig } | null>(null)
+
+function useChart() {
+  const context = React.useContext(ChartContext)
+  if (!context) {
+    throw new Error("useChart must be used within a <ChartContainer />")
+  }
+  return context
+}
+
+function ChartContainer({
+  id,
+  className,
+  children,
+  config,
+  ...props
+}: React.ComponentProps<"div"> & {
+  config: ChartConfig
+  children: React.ComponentProps<typeof RechartsPrimitive.ResponsiveContainer>["children"]
+}) {
+  const uniqueId = React.useId()
+  const chartId = `chart-${id || uniqueId.replace(/:/g, "")}`
+
+  return (
+    <ChartContext.Provider value={{ config }}>
+      <div
+        data-slot="chart"
+        data-chart={chartId}
+        className={cn("flex aspect-video justify-center text-xs", className)}
+        {...props}
+      >
+        <RechartsPrimitive.ResponsiveContainer>
+          {children}
+        </RechartsPrimitive.ResponsiveContainer>
+      </div>
+    </ChartContext.Provider>
+  )
+}
+
+const ChartTooltip = RechartsPrimitive.Tooltip
+
+function ChartTooltipContent({
+  active,
+  payload,
+  className,
+  indicator = "dot",
+  hideLabel = false,
+  hideIndicator = false,
+  label,
+  labelFormatter,
+  labelClassName,
+  formatter,
+  color,
+  nameKey,
+  labelKey,
+}: React.ComponentProps<typeof RechartsPrimitive.Tooltip> &
+  React.ComponentProps<"div"> & {
+    hideLabel?: boolean
+    hideIndicator?: boolean
+    indicator?: "line" | "dot" | "dashed"
+    nameKey?: string
+    labelKey?: string
+  }) {
+  if (!active || !payload?.length) {
+    return null
+  }
+
+  return (
+    <div
+      className={cn(
+        "grid min-w-[8rem] items-start gap-1.5 rounded-lg border bg-background px-2.5 py-1.5 text-xs shadow-xl",
+        className
+      )}
+    >
+      {/* Tooltip content */}
+    </div>
+  )
+}
+
+const ChartLegend = RechartsPrimitive.Legend
+
+function ChartLegendContent({ className, payload, hideIcon = false }: any) {
+  if (!payload?.length) return null
+
+  return (
+    <div className={cn("flex items-center justify-center gap-4", className)}>
+      {payload.map((item: any) => (
+        <div key={item.value} className="flex items-center gap-1.5">
+          {!hideIcon && (
+            <div
+              className="h-2 w-2 shrink-0 rounded-[2px]"
+              style={{ backgroundColor: item.color }}
+            />
+          )}
+          {item.value}
+        </div>
+      ))}
+    </div>
+  )
+}
+
+export {
+  ChartContainer,
+  ChartTooltip,
+  ChartTooltipContent,
+  ChartLegend,
+  ChartLegendContent,
+}
+```
+
+## Examples
+
+<Tabs>
+
+<Tab title="Bar Chart">
+
+Create a basic bar chart.
+
+```tsx
+import { Bar, BarChart, CartesianGrid, XAxis } from "recharts"
+import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart"
+
+const chartData = [
+  { month: "January", desktop: 186 },
+  { month: "February", desktop: 305 },
+  { month: "March", desktop: 237 },
+]
+
+const chartConfig = {
+  desktop: {
+    label: "Desktop",
+    color: "hsl(var(--chart-1))",
+  },
+}
+
+<ChartContainer config={chartConfig}>
+  <BarChart data={chartData}>
+    <CartesianGrid vertical={false} />
+    <XAxis
+      dataKey="month"
+      tickLine={false}
+      tickMargin={10}
+      axisLine={false}
+    />
+    <ChartTooltip content={<ChartTooltipContent />} />
+    <Bar dataKey="desktop" fill="var(--color-desktop)" radius={8} />
+  </BarChart>
+</ChartContainer>
+```
+
+</Tab>
+
+<Tab title="Line Chart">
+
+Create a line chart.
+
+```tsx
+import { Line, LineChart, CartesianGrid, XAxis } from "recharts"
+import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart"
+
+const chartData = [
+  { month: "January", desktop: 186, mobile: 80 },
+  { month: "February", desktop: 305, mobile: 200 },
+  { month: "March", desktop: 237, mobile: 120 },
+]
+
+const chartConfig = {
+  desktop: {
+    label: "Desktop",
+    color: "hsl(var(--chart-1))",
+  },
+  mobile: {
+    label: "Mobile",
+    color: "hsl(var(--chart-2))",
+  },
+}
+
+<ChartContainer config={chartConfig}>
+  <LineChart data={chartData}>
+    <CartesianGrid vertical={false} />
+    <XAxis dataKey="month" />
+    <ChartTooltip content={<ChartTooltipContent />} />
+    <Line dataKey="desktop" stroke="var(--color-desktop)" />
+    <Line dataKey="mobile" stroke="var(--color-mobile)" />
+  </LineChart>
+</ChartContainer>
+```
+
+</Tab>
+
+<Tab title="Area Chart">
+
+Create an area chart.
+
+```tsx
+import { Area, AreaChart, CartesianGrid, XAxis } from "recharts"
+import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart"
+
+const chartData = [
+  { month: "January", desktop: 186, mobile: 80 },
+  { month: "February", desktop: 305, mobile: 200 },
+  { month: "March", desktop: 237, mobile: 120 },
+]
+
+const chartConfig = {
+  desktop: {
+    label: "Desktop",
+    color: "hsl(var(--chart-1))",
+  },
+  mobile: {
+    label: "Mobile",
+    color: "hsl(var(--chart-2))",
+  },
+}
+
+<ChartContainer config={chartConfig}>
+  <AreaChart data={chartData}>
+    <CartesianGrid vertical={false} />
+    <XAxis dataKey="month" />
+    <ChartTooltip content={<ChartTooltipContent />} />
+    <Area
+      dataKey="desktop"
+      fill="var(--color-desktop)"
+      stroke="var(--color-desktop)"
+    />
+    <Area
+      dataKey="mobile"
+      fill="var(--color-mobile)"
+      stroke="var(--color-mobile)"
+    />
+  </AreaChart>
+</ChartContainer>
+```
+
+</Tab>
+
+</Tabs>
+
+## Chart Config
+
+The `chartConfig` object defines the configuration for your chart:
+
+```tsx
+const chartConfig = {
+  desktop: {
+    label: "Desktop",
+    color: "hsl(var(--chart-1))",
+  },
+  mobile: {
+    label: "Mobile",
+    color: "hsl(var(--chart-2))",
+    icon: MobileIcon,
+  },
+}
+```
+
+## Theming
+
+Charts support theming through CSS variables. Add these to your globals.css:
+
+```css
+@layer base {
+  :root {
+    --chart-1: oklch(0.646 0.222 41.116);
+    --chart-2: oklch(0.6 0.118 184.704);
+    --chart-3: oklch(0.398 0.07 227.392);
+    --chart-4: oklch(0.828 0.189 84.429);
+    --chart-5: oklch(0.769 0.188 70.08);
+  }
+}
+```
+
+## API Reference
+
+### ChartContainer
+
+| Prop | Type | Default |
+| --- | --- | --- |
+| `config` | `ChartConfig` | - |
+| `className` | `string` | - |
+
+### ChartTooltipContent
+
+| Prop | Type | Default |
+| --- | --- | --- |
+| `indicator` | `"line" \| "dot" \| "dashed"` | `"dot"` |
+| `hideLabel` | `boolean` | `false` |
+| `hideIndicator` | `boolean` | `false` |
+| `labelFormatter` | `(value: any, payload: any[]) => React.ReactNode` | - |
+| `formatter` | `(value: any, name: string, item: any, index: number) => React.ReactNode` | - |
+
+For more information, see the [Recharts documentation](https://recharts.org/).

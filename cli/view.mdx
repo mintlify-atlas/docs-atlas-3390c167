@@ -1,0 +1,171 @@
+---
+title: shadcn view
+description: View items from the registry
+---
+
+The `view` command fetches and displays registry items in JSON format. Use it to inspect component metadata, dependencies, and source code.
+
+## Usage
+
+```bash
+shadcn view <items...>
+```
+
+## Arguments
+
+<ParamField path="items" type="string[]" required>
+  The item names or URLs to view. Can be component names, URLs, or local paths.
+</ParamField>
+
+## Options
+
+<ParamField path="--cwd" type="string" optional>
+  The working directory. Defaults to the current directory.
+</ParamField>
+
+## Examples
+
+### View a single component
+
+```bash
+shadcn view button
+```
+
+Output:
+```json
+[
+  {
+    "name": "button",
+    "type": "registry:ui",
+    "dependencies": [
+      "@radix-ui/react-slot",
+      "class-variance-authority"
+    ],
+    "registryDependencies": [],
+    "files": [
+      {
+        "path": "ui/button.tsx",
+        "content": "import * as React from \"react\"...",
+        "type": "registry:ui"
+      }
+    ]
+  }
+]
+```
+
+### View multiple components
+
+```bash
+shadcn view button card dialog
+```
+
+### View from URL
+
+```bash
+shadcn view https://ui.shadcn.com/r/styles/new-york/button.json
+```
+
+### View from local path
+
+```bash
+shadcn view ./my-component.json
+```
+
+### View in specific directory
+
+```bash
+shadcn view button --cwd ./my-project
+```
+
+## What it does
+
+1. Reads your `components.json` (if it exists) or uses default configuration
+2. Resolves registry URLs for the requested items
+3. Fetches item metadata and content from the registry
+4. Outputs the complete item data as JSON
+
+## Output structure
+
+Each registry item includes:
+
+- `name` - Component name
+- `type` - Registry type (registry:ui, registry:block, etc.)
+- `dependencies` - npm packages required
+- `devDependencies` - npm dev packages required
+- `registryDependencies` - Other shadcn components required
+- `files` - Array of file objects with path and content
+- `meta` - Additional metadata
+
+## Registry types
+
+Components can have different types:
+
+- `registry:ui` - UI components
+- `registry:block` - Larger UI blocks
+- `registry:hook` - React hooks
+- `registry:lib` - Library utilities
+- `registry:theme` - Theme configurations
+- `registry:style` - Style systems
+- `registry:base` - Base configurations
+
+## Use cases
+
+### Inspect before adding
+
+Review a component's structure and dependencies before installing:
+
+```bash
+shadcn view button | jq '.[] | .dependencies'
+```
+
+### Extract component source
+
+Get the raw source code for inspection:
+
+```bash
+shadcn view button | jq -r '.[].files[].content'
+```
+
+### Check registry dependencies
+
+See which other components are required:
+
+```bash
+shadcn view dialog | jq '.[] | .registryDependencies'
+```
+
+### Compare versions
+
+Fetch and compare different component versions:
+
+```bash
+shadcn view https://registry1.com/button.json > v1.json
+shadcn view https://registry2.com/button.json > v2.json
+diff v1.json v2.json
+```
+
+## Working with output
+
+The JSON output can be processed with tools like `jq`:
+
+```bash
+# Get just the file paths
+shadcn view button | jq -r '.[].files[].path'
+
+# Get dependencies only
+shadcn view button | jq -r '.[].dependencies[]'
+
+# Pretty print with color
+shadcn view button | jq '.'
+
+# Save to file
+shadcn view button > button.json
+```
+
+## Notes
+
+- Output is always valid JSON
+- Returns an array of items, even for a single component
+- Supports partial `components.json` files
+- Automatically configures registries if needed
+- Works without a `components.json` file (uses defaults)

@@ -1,0 +1,192 @@
+---
+title: RTL
+description: Right-to-left language support for shadcn/ui components.
+---
+
+shadcn/ui components have first-class support for right-to-left (RTL) layouts. Text alignment, positioning, and directional styles automatically adapt for languages like Arabic, Hebrew, and Persian.
+
+When you install components, the CLI automatically transforms physical positioning classes to logical equivalents, so your components work seamlessly in both LTR and RTL contexts.
+
+## Getting Started
+
+<Steps>
+
+### Enable RTL in your project
+
+To enable RTL support in your project, set the `rtl` option to `true` in your `components.json` file:
+
+```json title="components.json" showLineNumbers {3}
+{
+  "$schema": "https://ui.shadcn.com/schema.json",
+  "rtl": true,
+  "style": "new-york",
+  "rsc": true,
+  "tsx": true,
+  "tailwind": {
+    "config": "",
+    "css": "src/app/globals.css",
+    "baseColor": "zinc",
+    "cssVariables": true
+  },
+  "iconLibrary": "lucide",
+  "aliases": {
+    "components": "@/components",
+    "utils": "@/lib/utils",
+    "ui": "@/components/ui",
+    "lib": "@/lib",
+    "hooks": "@/hooks"
+  }
+}
+```
+
+### Add the direction component
+
+Add the direction component to your project:
+
+```bash
+npx shadcn@latest add direction
+```
+
+### Add DirectionProvider
+
+Wrap your application with the `DirectionProvider` component:
+
+```tsx title="app/layout.tsx" showLineNumbers
+import { DirectionProvider } from "@/components/direction-provider"
+
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode
+}) {
+  return (
+    <html lang="ar" dir="rtl">
+      <body>
+        <DirectionProvider>
+          {children}
+        </DirectionProvider>
+      </body>
+    </html>
+  )
+}
+```
+
+</Steps>
+
+## How it works
+
+When you add components with `rtl: true` set in your `components.json`, the shadcn CLI automatically transforms classes and props to be RTL compatible:
+
+- Physical positioning classes like `left-*` and `right-*` are converted to logical equivalents like `start-*` and `end-*`.
+- Directional props are updated to use logical values.
+- Text alignment and spacing classes are adjusted accordingly.
+- Supported icons are automatically flipped using `rtl:rotate-180`.
+
+## Supported Styles
+
+Automatic RTL transformation via the CLI is only available for projects created using `shadcn create` with the new styles (`base-nova`, `radix-nova`, etc.).
+
+For other styles, see the [Migration Guide](#migrating-existing-components).
+
+## Font Recommendations
+
+For the best RTL experience, we recommend using fonts that have proper support for your target language. [Noto](https://fonts.google.com/noto) is a great font family for this and it pairs well with Inter and Geist.
+
+<CodeGroup>
+
+```tsx title="Next.js"
+import { Noto_Sans_Arabic } from "next/font/google"
+
+const notoSansArabic = Noto_Sans_Arabic({
+  subsets: ["arabic"],
+  variable: "--font-sans",
+})
+
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode
+}) {
+  return (
+    <html lang="ar" dir="rtl">
+      <body className={notoSansArabic.variable}>
+        {children}
+      </body>
+    </html>
+  )
+}
+```
+
+```tsx title="Vite"
+import "@fontsource/noto-sans-arabic"
+
+function App() {
+  return (
+    <div dir="rtl" style={{ fontFamily: "Noto Sans Arabic, sans-serif" }}>
+      {/* Your app */}
+    </div>
+  )
+}
+```
+
+</CodeGroup>
+
+## Animations
+
+The CLI also handles animation classes, automatically transforming physical directional animations to their logical equivalents. For example, `slide-in-from-right` becomes `slide-in-from-end`.
+
+This ensures animations like dropdowns, popovers, and tooltips animate in the correct direction based on the document's text direction.
+
+<Note>
+  There is a [known issue](https://github.com/Wombosvideo/tw-animate-css/issues/67) with the `tw-animate-css` library where the logical slide utilities are not working as expected. For now, make sure you pass in the `dir` prop to portal elements.
+</Note>
+
+```tsx showLineNumbers /dir="rtl"/
+<Popover>
+  <PopoverTrigger>Open</PopoverTrigger>
+  <PopoverContent dir="rtl">
+    <div>Content</div>
+  </PopoverContent>
+</Popover>
+```
+
+```tsx showLineNumbers /dir="rtl"/
+<Tooltip>
+  <TooltipTrigger>Open</TooltipTrigger>
+  <TooltipContent dir="rtl">
+    <div>Content</div>
+  </TooltipContent>
+</Tooltip>
+```
+
+## Migrating existing components
+
+If you have existing components installed before enabling RTL, you can migrate them using the CLI as follows:
+
+<Steps>
+
+### Run the migrate command
+
+```bash
+npx shadcn@latest migrate rtl [path]
+```
+
+`[path]` accepts a path or glob pattern to migrate. If you don't provide a path, it will migrate all the files in the `ui` directory.
+
+### Manual Migration (Optional)
+
+The following components are not automatically migrated by the CLI. Follow the RTL support section for each component to manually migrate them.
+
+- [Calendar](/docs/components/radix/calendar#rtl-support)
+- [Pagination](/docs/components/radix/pagination#rtl-support)
+- [Sidebar](/docs/components/radix/sidebar#rtl-support)
+
+### Migrate Icons
+
+Some icons like `ArrowRightIcon` or `ChevronLeftIcon` might need the `rtl:rotate-180` class to be flipped correctly. Add the `rtl:rotate-180` class to the icon component to flip it correctly.
+
+```tsx showLineNumbers /rtl:rotate-180/
+<ArrowRightIcon className="rtl:rotate-180" />
+```
+
+</Steps>

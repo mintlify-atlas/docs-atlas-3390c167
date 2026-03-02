@@ -1,0 +1,115 @@
+---
+title: Aspect Ratio
+description: Displays content within a desired aspect ratio.
+---
+
+## Installation
+
+<CodeGroup>
+
+```bash npm
+npx shadcn@latest add aspect-ratio
+```
+
+```bash yarn
+yarn dlx shadcn@latest add aspect-ratio
+```
+
+```bash pnpm
+pnpm dlx shadcn@latest add aspect-ratio
+```
+
+</CodeGroup>
+
+## Usage
+
+```tsx
+import { AspectRatio } from "@/components/ui/aspect-ratio"
+```
+
+```tsx
+<AspectRatio ratio={16 / 9}>
+  <img src="/photo.jpg" alt="Photo" />
+</AspectRatio>
+```
+
+## Component Code
+
+```tsx
+"use client"
+
+import { AspectRatio as AspectRatioPrimitive } from "radix-ui"
+
+function AspectRatio({
+  ...props
+}: React.ComponentProps<typeof AspectRatioPrimitive.Root>) {
+  return <AspectRatioPrimitive.Root data-slot="aspect-ratio" {...props} />
+}
+
+export { AspectRatio }
+```
+
+## Examples
+
+<Tabs>
+
+<Tab title="Image">
+
+Display an image within a 16:9 aspect ratio.
+
+```tsx
+<div className="w-full max-w-md">
+  <AspectRatio ratio={16 / 9}>
+    <img
+      src="/placeholder.jpg"
+      alt="Placeholder"
+      className="rounded-md object-cover w-full h-full"
+    />
+  </AspectRatio>
+</div>
+```
+
+</Tab>
+
+<Tab title="Video">
+
+Embed a video with a specific aspect ratio.
+
+```tsx
+<AspectRatio ratio={16 / 9}>
+  <iframe
+    src="https://www.youtube.com/embed/dQw4w9WgXcQ"
+    className="w-full h-full"
+    allowFullScreen
+  />
+</AspectRatio>
+```
+
+</Tab>
+
+<Tab title="Custom Ratio">
+
+Use different aspect ratios like 1:1 or 4:3.
+
+```tsx
+<AspectRatio ratio={1}>
+  <img
+    src="/square.jpg"
+    alt="Square image"
+    className="rounded-md object-cover w-full h-full"
+  />
+</AspectRatio>
+```
+
+</Tab>
+
+</Tabs>
+
+## API Reference
+
+### AspectRatio
+
+| Prop | Type | Default |
+| --- | --- | --- |
+| `ratio` | `number` | `1` |
+| `className` | `string` | - |

@@ -1,0 +1,214 @@
+---
+title: Resizable
+description: Accessible resizable panel groups and layouts with keyboard support.
+---
+
+## Installation
+
+<CodeGroup>
+
+```bash npm
+npx shadcn@latest add resizable
+```
+
+```bash yarn
+yarn dlx shadcn@latest add resizable
+```
+
+```bash pnpm
+pnpm dlx shadcn@latest add resizable
+```
+
+</CodeGroup>
+
+## Usage
+
+```tsx
+import {
+  ResizableHandle,
+  ResizablePanel,
+  ResizablePanelGroup,
+} from "@/components/ui/resizable"
+```
+
+```tsx
+<ResizablePanelGroup orientation="horizontal">
+  <ResizablePanel>One</ResizablePanel>
+  <ResizableHandle />
+  <ResizablePanel>Two</ResizablePanel>
+</ResizablePanelGroup>
+```
+
+## Component API
+
+### ResizablePanelGroup
+
+Container for resizable panels. Built on react-resizable-panels.
+
+```tsx
+function ResizablePanelGroup({
+  className,
+  ...props
+}: ResizablePrimitive.GroupProps)
+```
+
+**Props:**
+- `orientation` - Layout direction (`"horizontal"` | `"vertical"`)
+- `onLayoutChange` - Callback when panel sizes change
+- `autoSaveId` - ID for persisting layout to localStorage
+
+### ResizablePanel
+
+Individual resizable panel.
+
+```tsx
+function ResizablePanel({ ...props }: ResizablePrimitive.PanelProps)
+```
+
+**Props:**
+- `defaultSize` - Initial size as percentage string (e.g., `"50%"`)
+- `minSize` - Minimum size as percentage string
+- `maxSize` - Maximum size as percentage string
+- `collapsible` - Whether panel can collapse
+- `onCollapse` - Callback when panel collapses
+- `onExpand` - Callback when panel expands
+
+### ResizableHandle
+
+Draggable handle between panels.
+
+```tsx
+function ResizableHandle({
+  withHandle,
+  className,
+  ...props
+}: ResizablePrimitive.SeparatorProps & {
+  withHandle?: boolean
+})
+```
+
+**Props:**
+- `withHandle` - Shows a visible grip icon on the handle
+
+## Examples
+
+### Horizontal Layout
+
+Default horizontal resizable panels:
+
+```tsx
+<ResizablePanelGroup orientation="horizontal" className="min-h-[200px]">
+  <ResizablePanel defaultSize="50%">
+    <div className="flex h-full items-center justify-center p-6">
+      <span className="font-semibold">Panel One</span>
+    </div>
+  </ResizablePanel>
+  <ResizableHandle />
+  <ResizablePanel defaultSize="50%">
+    <div className="flex h-full items-center justify-center p-6">
+      <span className="font-semibold">Panel Two</span>
+    </div>
+  </ResizablePanel>
+</ResizablePanelGroup>
+```
+
+### Vertical Layout
+
+Vertical resizable panels:
+
+```tsx
+<ResizablePanelGroup orientation="vertical" className="min-h-[400px]">
+  <ResizablePanel defaultSize="50%">
+    <div className="flex h-full items-center justify-center p-6">
+      <span className="font-semibold">Top Panel</span>
+    </div>
+  </ResizablePanel>
+  <ResizableHandle />
+  <ResizablePanel defaultSize="50%">
+    <div className="flex h-full items-center justify-center p-6">
+      <span className="font-semibold">Bottom Panel</span>
+    </div>
+  </ResizablePanel>
+</ResizablePanelGroup>
+```
+
+### With Handle
+
+Show a visible grip handle:
+
+```tsx
+<ResizablePanelGroup orientation="horizontal">
+  <ResizablePanel defaultSize="50%">Panel One</ResizablePanel>
+  <ResizableHandle withHandle />
+  <ResizablePanel defaultSize="50%">Panel Two</ResizablePanel>
+</ResizablePanelGroup>
+```
+
+### Multiple Panels
+
+Three or more panels:
+
+```tsx
+<ResizablePanelGroup orientation="horizontal">
+  <ResizablePanel defaultSize="25%">Sidebar</ResizablePanel>
+  <ResizableHandle />
+  <ResizablePanel defaultSize="50%">Main Content</ResizablePanel>
+  <ResizableHandle />
+  <ResizablePanel defaultSize="25%">Details</ResizablePanel>
+</ResizablePanelGroup>
+```
+
+### Nested Panels
+
+Nested resizable layouts:
+
+```tsx
+<ResizablePanelGroup orientation="horizontal">
+  <ResizablePanel defaultSize="50%">
+    <ResizablePanelGroup orientation="vertical">
+      <ResizablePanel defaultSize="50%">Top Left</ResizablePanel>
+      <ResizableHandle />
+      <ResizablePanel defaultSize="50%">Bottom Left</ResizablePanel>
+    </ResizablePanelGroup>
+  </ResizablePanel>
+  <ResizableHandle withHandle />
+  <ResizablePanel defaultSize="50%">Right Panel</ResizablePanel>
+</ResizablePanelGroup>
+```
+
+### With Constraints
+
+Set minimum and maximum sizes:
+
+```tsx
+<ResizablePanelGroup orientation="horizontal">
+  <ResizablePanel defaultSize="30%" minSize="20%" maxSize="40%">
+    Constrained Panel
+  </ResizablePanel>
+  <ResizableHandle />
+  <ResizablePanel>Flexible Panel</ResizablePanel>
+</ResizablePanelGroup>
+```
+
+## Persistence
+
+Save panel layout to localStorage:
+
+```tsx
+<ResizablePanelGroup orientation="horizontal" autoSaveId="my-layout">
+  <ResizablePanel>Panel One</ResizablePanel>
+  <ResizableHandle />
+  <ResizablePanel>Panel Two</ResizablePanel>
+</ResizablePanelGroup>
+```
+
+## Accessibility
+
+- Fully keyboard accessible
+- Arrow keys to resize panels
+- Enter to reset to default size
+- Proper ARIA labels and roles
+
+## API Reference
+
+See the [react-resizable-panels documentation](https://github.com/bvaughn/react-resizable-panels) for complete API reference.

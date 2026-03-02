@@ -1,0 +1,329 @@
+---
+title: Sheet
+description: Extends the Dialog component to display content that complements the main content of the screen.
+---
+
+## Installation
+
+<CodeGroup>
+
+```bash npm
+npx shadcn@latest add sheet
+```
+
+```bash yarn
+yarn dlx shadcn@latest add sheet
+```
+
+```bash pnpm
+pnpm dlx shadcn@latest add sheet
+```
+
+</CodeGroup>
+
+## Usage
+
+```tsx
+import {
+  Sheet,
+  SheetClose,
+  SheetContent,
+  SheetDescription,
+  SheetFooter,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet"
+```
+
+```tsx
+<Sheet>
+  <SheetTrigger>Open</SheetTrigger>
+  <SheetContent>
+    <SheetHeader>
+      <SheetTitle>Are you absolutely sure?</SheetTitle>
+      <SheetDescription>This action cannot be undone.</SheetDescription>
+    </SheetHeader>
+  </SheetContent>
+</Sheet>
+```
+
+## Component API
+
+### Sheet
+
+Root sheet component. Built on Radix UI Dialog.
+
+```tsx
+function Sheet({ ...props }: React.ComponentProps<typeof SheetPrimitive.Root>)
+```
+
+**Props:**
+- `open` - Controlled open state
+- `onOpenChange` - Callback when open state changes
+- `defaultOpen` - Default open state
+- `modal` - Whether to render as modal (default: `true`)
+
+### SheetTrigger
+
+Button that opens the sheet.
+
+```tsx
+function SheetTrigger({
+  ...props
+}: React.ComponentProps<typeof SheetPrimitive.Trigger>)
+```
+
+### SheetClose
+
+Button that closes the sheet.
+
+```tsx
+function SheetClose({
+  ...props
+}: React.ComponentProps<typeof SheetPrimitive.Close>)
+```
+
+### SheetContent
+
+Sheet content panel with overlay.
+
+```tsx
+function SheetContent({
+  className,
+  children,
+  side = "right",
+  showCloseButton = true,
+  ...props
+}: React.ComponentProps<typeof SheetPrimitive.Content> & {
+  side?: "top" | "right" | "bottom" | "left"
+  showCloseButton?: boolean
+})
+```
+
+**Props:**
+- `side` - Edge where sheet appears (`"top"` | `"right"` | `"bottom"` | `"left"`)
+- `showCloseButton` - Show/hide close button (default: `true`)
+
+### SheetHeader
+
+Header section for title and description.
+
+```tsx
+function SheetHeader({ className, ...props }: React.ComponentProps<"div">)
+```
+
+### SheetFooter
+
+Footer section for actions.
+
+```tsx
+function SheetFooter({ className, ...props }: React.ComponentProps<"div">)
+```
+
+### SheetTitle
+
+Sheet title heading.
+
+```tsx
+function SheetTitle({
+  className,
+  ...props
+}: React.ComponentProps<typeof SheetPrimitive.Title>)
+```
+
+### SheetDescription
+
+Sheet description text.
+
+```tsx
+function SheetDescription({
+  className,
+  ...props
+}: React.ComponentProps<typeof SheetPrimitive.Description>)
+```
+
+## Examples
+
+### Basic Sheet
+
+```tsx
+<Sheet>
+  <SheetTrigger asChild>
+    <Button variant="outline">Open Sheet</Button>
+  </SheetTrigger>
+  <SheetContent>
+    <SheetHeader>
+      <SheetTitle>Edit profile</SheetTitle>
+      <SheetDescription>
+        Make changes to your profile here. Click save when you're done.
+      </SheetDescription>
+    </SheetHeader>
+    <div className="grid gap-4 py-4">
+      <div className="grid grid-cols-4 items-center gap-4">
+        <Label htmlFor="name" className="text-right">
+          Name
+        </Label>
+        <Input id="name" value="Pedro Duarte" className="col-span-3" />
+      </div>
+    </div>
+    <SheetFooter>
+      <SheetClose asChild>
+        <Button type="submit">Save changes</Button>
+      </SheetClose>
+    </SheetFooter>
+  </SheetContent>
+</Sheet>
+```
+
+### Different Sides
+
+Sheet can slide from any edge:
+
+<Tabs defaultValue="right">
+  <TabsList>
+    <TabsTrigger value="top">Top</TabsTrigger>
+    <TabsTrigger value="right">Right</TabsTrigger>
+    <TabsTrigger value="bottom">Bottom</TabsTrigger>
+    <TabsTrigger value="left">Left</TabsTrigger>
+  </TabsList>
+  <TabsContent value="top">
+
+```tsx
+<Sheet>
+  <SheetTrigger>Open</SheetTrigger>
+  <SheetContent side="top">
+    <SheetHeader>
+      <SheetTitle>Top Sheet</SheetTitle>
+    </SheetHeader>
+  </SheetContent>
+</Sheet>
+```
+
+  </TabsContent>
+  <TabsContent value="right">
+
+```tsx
+<Sheet>
+  <SheetTrigger>Open</SheetTrigger>
+  <SheetContent side="right">
+    <SheetHeader>
+      <SheetTitle>Right Sheet</SheetTitle>
+    </SheetHeader>
+  </SheetContent>
+</Sheet>
+```
+
+  </TabsContent>
+  <TabsContent value="bottom">
+
+```tsx
+<Sheet>
+  <SheetTrigger>Open</SheetTrigger>
+  <SheetContent side="bottom">
+    <SheetHeader>
+      <SheetTitle>Bottom Sheet</SheetTitle>
+    </SheetHeader>
+  </SheetContent>
+</Sheet>
+```
+
+  </TabsContent>
+  <TabsContent value="left">
+
+```tsx
+<Sheet>
+  <SheetTrigger>Open</SheetTrigger>
+  <SheetContent side="left">
+    <SheetHeader>
+      <SheetTitle>Left Sheet</SheetTitle>
+    </SheetHeader>
+  </SheetContent>
+</Sheet>
+```
+
+  </TabsContent>
+</Tabs>
+
+### No Close Button
+
+Hide the default close button:
+
+```tsx
+<Sheet>
+  <SheetTrigger>Open</SheetTrigger>
+  <SheetContent showCloseButton={false}>
+    <SheetHeader>
+      <SheetTitle>Custom Close</SheetTitle>
+    </SheetHeader>
+    <SheetFooter>
+      <SheetClose asChild>
+        <Button>Custom Close Button</Button>
+      </SheetClose>
+    </SheetFooter>
+  </SheetContent>
+</Sheet>
+```
+
+### Controlled Sheet
+
+```tsx
+function ControlledSheet() {
+  const [open, setOpen] = React.useState(false)
+
+  return (
+    <Sheet open={open} onOpenChange={setOpen}>
+      <SheetTrigger asChild>
+        <Button>Open</Button>
+      </SheetTrigger>
+      <SheetContent>
+        <SheetHeader>
+          <SheetTitle>Controlled</SheetTitle>
+        </SheetHeader>
+      </SheetContent>
+    </Sheet>
+  )
+}
+```
+
+### Navigation Menu
+
+Mobile navigation drawer:
+
+```tsx
+<Sheet>
+  <SheetTrigger asChild>
+    <Button variant="outline" size="icon">
+      <Menu className="h-4 w-4" />
+    </Button>
+  </SheetTrigger>
+  <SheetContent side="left">
+    <nav className="flex flex-col gap-4">
+      <a href="/" className="text-lg font-semibold">
+        Home
+      </a>
+      <a href="/about" className="text-lg">
+        About
+      </a>
+      <a href="/services" className="text-lg">
+        Services
+      </a>
+      <a href="/contact" className="text-lg">
+        Contact
+      </a>
+    </nav>
+  </SheetContent>
+</Sheet>
+```
+
+## Accessibility
+
+- Focus is trapped within the sheet
+- Escape key closes the sheet
+- Background is inert when sheet is open
+- Proper ARIA attributes for dialogs
+- Focus returns to trigger on close
+
+## API Reference
+
+See the [Radix UI Dialog documentation](https://www.radix-ui.com/primitives/docs/components/dialog) for complete API reference.

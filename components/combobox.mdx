@@ -1,0 +1,296 @@
+---
+title: Combobox
+description: Autocomplete input with a list of suggestions.
+---
+
+## Installation
+
+<CodeGroup>
+
+```bash npm
+npm install @base-ui/react
+```
+
+```bash pnpm
+pnpm add @base-ui/react
+```
+
+```bash yarn
+yarn add @base-ui/react
+```
+
+```bash bun
+bun add @base-ui/react
+```
+
+</CodeGroup>
+
+Or use the CLI:
+
+```bash
+npx shadcn@latest add combobox
+```
+
+## Usage
+
+```tsx
+import {
+  Combobox,
+  ComboboxContent,
+  ComboboxEmpty,
+  ComboboxInput,
+  ComboboxItem,
+  ComboboxList,
+} from "@/components/ui/combobox"
+```
+
+```tsx
+const frameworks = ["Next.js", "SvelteKit", "Nuxt.js", "Remix", "Astro"]
+
+export function ExampleCombobox() {
+  return (
+    <Combobox items={frameworks}>
+      <ComboboxInput placeholder="Select a framework" />
+      <ComboboxContent>
+        <ComboboxEmpty>No items found.</ComboboxEmpty>
+        <ComboboxList>
+          {(item) => (
+            <ComboboxItem key={item} value={item}>
+              {item}
+            </ComboboxItem>
+          )}
+        </ComboboxList>
+      </ComboboxContent>
+    </Combobox>
+  )
+}
+```
+
+## Component API
+
+### Combobox
+
+The root component built on `@base-ui/react` Combobox primitive.
+
+**Props:**
+- `items` - Array of items to display
+- `value` - Controlled value
+- `onValueChange` - Callback when value changes
+- `multiple` - Enable multi-select mode
+- `itemToStringValue` - Convert object items to string
+- `autoHighlight` - Auto-highlight first item on filter
+- `disabled` - Disable the combobox
+
+### ComboboxInput
+
+The input field for searching and selecting items.
+
+**Props:**
+- `showTrigger` - Show dropdown trigger button (default: `true`)
+- `showClear` - Show clear button (default: `false`)
+- `disabled` - Disable the input
+- `placeholder` - Placeholder text
+
+### ComboboxContent
+
+The dropdown content container.
+
+**Props:**
+- `side` - Placement side (default: `"bottom"`)
+- `sideOffset` - Offset from anchor (default: `6`)
+- `align` - Alignment (default: `"start"`)
+- `alignOffset` - Alignment offset (default: `0`)
+- `anchor` - Custom anchor element
+
+### ComboboxItem
+
+An individual selectable item.
+
+**Props:**
+- `value` - Item value
+- `disabled` - Disable the item
+
+## Examples
+
+### Custom Items
+
+Use `itemToStringValue` when your items are objects:
+
+```tsx
+type Framework = {
+  label: string
+  value: string
+}
+
+const frameworks: Framework[] = [
+  { label: "Next.js", value: "next" },
+  { label: "SvelteKit", value: "sveltekit" },
+  { label: "Nuxt", value: "nuxt" },
+]
+
+export function CustomItemsExample() {
+  return (
+    <Combobox
+      items={frameworks}
+      itemToStringValue={(framework) => framework.label}
+    >
+      <ComboboxInput placeholder="Select a framework" />
+      <ComboboxContent>
+        <ComboboxEmpty>No items found.</ComboboxEmpty>
+        <ComboboxList>
+          {(framework) => (
+            <ComboboxItem key={framework.value} value={framework}>
+              {framework.label}
+            </ComboboxItem>
+          )}
+        </ComboboxList>
+      </ComboboxContent>
+    </Combobox>
+  )
+}
+```
+
+### Multiple Selection
+
+Use `multiple` with chips for multi-select behavior:
+
+```tsx
+import {
+  Combobox,
+  ComboboxChip,
+  ComboboxChips,
+  ComboboxChipsInput,
+  ComboboxContent,
+  ComboboxEmpty,
+  ComboboxItem,
+  ComboboxList,
+  ComboboxValue,
+} from "@/components/ui/combobox"
+
+const frameworks = ["Next.js", "SvelteKit", "Nuxt.js", "Remix", "Astro"]
+
+export function MultipleExample() {
+  const [value, setValue] = React.useState<string[]>([])
+
+  return (
+    <Combobox
+      items={frameworks}
+      multiple
+      value={value}
+      onValueChange={setValue}
+    >
+      <ComboboxChips>
+        <ComboboxValue>
+          {value.map((item) => (
+            <ComboboxChip key={item}>{item}</ComboboxChip>
+          ))}
+        </ComboboxValue>
+        <ComboboxChipsInput placeholder="Add framework" />
+      </ComboboxChips>
+      <ComboboxContent>
+        <ComboboxEmpty>No items found.</ComboboxEmpty>
+        <ComboboxList>
+          {(item) => (
+            <ComboboxItem key={item} value={item}>
+              {item}
+            </ComboboxItem>
+          )}
+        </ComboboxList>
+      </ComboboxContent>
+    </Combobox>
+  )
+}
+```
+
+### With Groups
+
+Organize items into labeled groups:
+
+```tsx
+import {
+  Combobox,
+  ComboboxContent,
+  ComboboxEmpty,
+  ComboboxGroup,
+  ComboboxInput,
+  ComboboxItem,
+  ComboboxLabel,
+  ComboboxList,
+  ComboboxSeparator,
+} from "@/components/ui/combobox"
+
+export function GroupsExample() {
+  return (
+    <Combobox>
+      <ComboboxInput placeholder="Search..." />
+      <ComboboxContent>
+        <ComboboxEmpty>No items found.</ComboboxEmpty>
+        <ComboboxList>
+          <ComboboxGroup>
+            <ComboboxLabel>Frameworks</ComboboxLabel>
+            <ComboboxItem value="next">Next.js</ComboboxItem>
+            <ComboboxItem value="svelte">SvelteKit</ComboboxItem>
+          </ComboboxGroup>
+          <ComboboxSeparator />
+          <ComboboxGroup>
+            <ComboboxLabel>Libraries</ComboboxLabel>
+            <ComboboxItem value="react">React</ComboboxItem>
+            <ComboboxItem value="vue">Vue</ComboboxItem>
+          </ComboboxGroup>
+        </ComboboxList>
+      </ComboboxContent>
+    </Combobox>
+  )
+}
+```
+
+### Clear Button
+
+Use the `showClear` prop to show a clear button:
+
+```tsx
+<Combobox items={frameworks}>
+  <ComboboxInput showClear placeholder="Select a framework" />
+  <ComboboxContent>
+    {/* ... */}
+  </ComboboxContent>
+</Combobox>
+```
+
+### Invalid State
+
+Use the `aria-invalid` prop to mark the combobox as invalid:
+
+```tsx
+<Combobox items={frameworks}>
+  <ComboboxInput aria-invalid placeholder="Select a framework" />
+  <ComboboxContent>
+    {/* ... */}
+  </ComboboxContent>
+</Combobox>
+```
+
+### Disabled
+
+Use the `disabled` prop to disable the combobox:
+
+```tsx
+<Combobox items={frameworks} disabled>
+  <ComboboxInput placeholder="Select a framework" />
+  <ComboboxContent>
+    {/* ... */}
+  </ComboboxContent>
+</Combobox>
+```
+
+## Accessibility
+
+- Built on `@base-ui/react` for full accessibility support
+- Keyboard navigation with arrow keys
+- Type-ahead search functionality
+- Screen reader announcements for state changes
+- Focus management
+
+## API Reference
+
+See the [Base UI Combobox](https://base-ui.com/react/components/combobox#api-reference) documentation for complete API details.

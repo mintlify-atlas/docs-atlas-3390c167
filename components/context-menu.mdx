@@ -1,0 +1,355 @@
+---
+title: Context Menu
+description: Displays a menu of actions triggered by a right click.
+---
+
+## Installation
+
+<CodeGroup>
+
+```bash npm
+npm install @base-ui/react
+```
+
+```bash pnpm
+pnpm add @base-ui/react
+```
+
+```bash yarn
+yarn add @base-ui/react
+```
+
+```bash bun
+bun add @base-ui/react
+```
+
+</CodeGroup>
+
+Or use the CLI:
+
+```bash
+npx shadcn@latest add context-menu
+```
+
+## Usage
+
+```tsx
+import {
+  ContextMenu,
+  ContextMenuContent,
+  ContextMenuItem,
+  ContextMenuTrigger,
+} from "@/components/ui/context-menu"
+```
+
+```tsx
+<ContextMenu>
+  <ContextMenuTrigger>Right click here</ContextMenuTrigger>
+  <ContextMenuContent>
+    <ContextMenuItem>Profile</ContextMenuItem>
+    <ContextMenuItem>Billing</ContextMenuItem>
+    <ContextMenuItem>Team</ContextMenuItem>
+    <ContextMenuItem>Subscription</ContextMenuItem>
+  </ContextMenuContent>
+</ContextMenu>
+```
+
+## Component API
+
+### ContextMenu
+
+The root component built on Radix UI ContextMenu.
+
+### ContextMenuTrigger
+
+The element that triggers the context menu on right-click.
+
+### ContextMenuContent
+
+The menu content container.
+
+**Props:**
+- `side` - Placement side
+- `align` - Alignment
+- `sideOffset` - Offset from trigger
+
+### ContextMenuItem
+
+An individual menu item.
+
+**Props:**
+- `inset` - Add left padding (for alignment with checkboxes)
+- `variant` - `"default"` or `"destructive"`
+- `disabled` - Disable the item
+- `onSelect` - Callback when selected
+
+### ContextMenuCheckboxItem
+
+A checkbox menu item.
+
+**Props:**
+- `checked` - Checked state
+- `onCheckedChange` - Callback when checked state changes
+
+### ContextMenuRadioGroup
+
+Groups radio items together.
+
+**Props:**
+- `value` - Selected value
+- `onValueChange` - Callback when value changes
+
+### ContextMenuRadioItem
+
+A radio menu item.
+
+**Props:**
+- `value` - Item value
+
+### ContextMenuSub
+
+Nests a submenu inside a menu item.
+
+### ContextMenuSubTrigger
+
+Triggers a submenu.
+
+**Props:**
+- `inset` - Add left padding
+
+### ContextMenuLabel
+
+A non-interactive label.
+
+**Props:**
+- `inset` - Add left padding
+
+### ContextMenuSeparator
+
+Visual separator between items.
+
+### ContextMenuShortcut
+
+Displays keyboard shortcuts.
+
+## Examples
+
+### Submenu
+
+Nest secondary actions in a submenu:
+
+```tsx
+import {
+  ContextMenu,
+  ContextMenuContent,
+  ContextMenuItem,
+  ContextMenuSub,
+  ContextMenuSubContent,
+  ContextMenuSubTrigger,
+  ContextMenuTrigger,
+} from "@/components/ui/context-menu"
+
+export function SubmenuExample() {
+  return (
+    <ContextMenu>
+      <ContextMenuTrigger>Right click</ContextMenuTrigger>
+      <ContextMenuContent>
+        <ContextMenuItem>Back</ContextMenuItem>
+        <ContextMenuItem>Forward</ContextMenuItem>
+        <ContextMenuItem>Reload</ContextMenuItem>
+        <ContextMenuSub>
+          <ContextMenuSubTrigger>More Tools</ContextMenuSubTrigger>
+          <ContextMenuSubContent>
+            <ContextMenuItem>Save Page As...</ContextMenuItem>
+            <ContextMenuItem>Create Shortcut...</ContextMenuItem>
+            <ContextMenuItem>Name Window...</ContextMenuItem>
+          </ContextMenuSubContent>
+        </ContextMenuSub>
+      </ContextMenuContent>
+    </ContextMenu>
+  )
+}
+```
+
+### Shortcuts
+
+Add keyboard shortcuts to menu items:
+
+```tsx
+import {
+  ContextMenu,
+  ContextMenuContent,
+  ContextMenuItem,
+  ContextMenuShortcut,
+  ContextMenuTrigger,
+} from "@/components/ui/context-menu"
+
+export function ShortcutsExample() {
+  return (
+    <ContextMenu>
+      <ContextMenuTrigger>Right click</ContextMenuTrigger>
+      <ContextMenuContent>
+        <ContextMenuItem>
+          Back
+          <ContextMenuShortcut>⌘[</ContextMenuShortcut>
+        </ContextMenuItem>
+        <ContextMenuItem>
+          Forward
+          <ContextMenuShortcut>⌘]</ContextMenuShortcut>
+        </ContextMenuItem>
+        <ContextMenuItem>
+          Reload
+          <ContextMenuShortcut>⌘R</ContextMenuShortcut>
+        </ContextMenuItem>
+      </ContextMenuContent>
+    </ContextMenu>
+  )
+}
+```
+
+### Checkboxes
+
+Use checkbox items for toggles:
+
+```tsx
+import * as React from "react"
+import {
+  ContextMenu,
+  ContextMenuCheckboxItem,
+  ContextMenuContent,
+  ContextMenuTrigger,
+} from "@/components/ui/context-menu"
+
+export function CheckboxesExample() {
+  const [showBookmarks, setShowBookmarks] = React.useState(true)
+  const [showFullUrls, setShowFullUrls] = React.useState(false)
+
+  return (
+    <ContextMenu>
+      <ContextMenuTrigger>Right click</ContextMenuTrigger>
+      <ContextMenuContent>
+        <ContextMenuCheckboxItem
+          checked={showBookmarks}
+          onCheckedChange={setShowBookmarks}
+        >
+          Show Bookmarks Bar
+        </ContextMenuCheckboxItem>
+        <ContextMenuCheckboxItem
+          checked={showFullUrls}
+          onCheckedChange={setShowFullUrls}
+        >
+          Show Full URLs
+        </ContextMenuCheckboxItem>
+      </ContextMenuContent>
+    </ContextMenu>
+  )
+}
+```
+
+### Radio Group
+
+Use radio items for exclusive choices:
+
+```tsx
+import * as React from "react"
+import {
+  ContextMenu,
+  ContextMenuContent,
+  ContextMenuRadioGroup,
+  ContextMenuRadioItem,
+  ContextMenuTrigger,
+} from "@/components/ui/context-menu"
+
+export function RadioExample() {
+  const [position, setPosition] = React.useState("bottom")
+
+  return (
+    <ContextMenu>
+      <ContextMenuTrigger>Right click</ContextMenuTrigger>
+      <ContextMenuContent>
+        <ContextMenuRadioGroup value={position} onValueChange={setPosition}>
+          <ContextMenuRadioItem value="top">Top</ContextMenuRadioItem>
+          <ContextMenuRadioItem value="bottom">Bottom</ContextMenuRadioItem>
+          <ContextMenuRadioItem value="right">Right</ContextMenuRadioItem>
+        </ContextMenuRadioGroup>
+      </ContextMenuContent>
+    </ContextMenu>
+  )
+}
+```
+
+### Destructive
+
+Use `variant="destructive"` for irreversible actions:
+
+```tsx
+import {
+  ContextMenu,
+  ContextMenuContent,
+  ContextMenuItem,
+  ContextMenuSeparator,
+  ContextMenuTrigger,
+} from "@/components/ui/context-menu"
+
+export function DestructiveExample() {
+  return (
+    <ContextMenu>
+      <ContextMenuTrigger>Right click</ContextMenuTrigger>
+      <ContextMenuContent>
+        <ContextMenuItem>Edit</ContextMenuItem>
+        <ContextMenuItem>Duplicate</ContextMenuItem>
+        <ContextMenuSeparator />
+        <ContextMenuItem variant="destructive">Delete</ContextMenuItem>
+      </ContextMenuContent>
+    </ContextMenu>
+  )
+}
+```
+
+### With Icons
+
+Combine icons with labels:
+
+```tsx
+import { Copy, Scissors, Clipboard } from "lucide-react"
+import {
+  ContextMenu,
+  ContextMenuContent,
+  ContextMenuItem,
+  ContextMenuTrigger,
+} from "@/components/ui/context-menu"
+
+export function IconsExample() {
+  return (
+    <ContextMenu>
+      <ContextMenuTrigger>Right click</ContextMenuTrigger>
+      <ContextMenuContent>
+        <ContextMenuItem>
+          <Scissors />
+          Cut
+        </ContextMenuItem>
+        <ContextMenuItem>
+          <Copy />
+          Copy
+        </ContextMenuItem>
+        <ContextMenuItem>
+          <Clipboard />
+          Paste
+        </ContextMenuItem>
+      </ContextMenuContent>
+    </ContextMenu>
+  )
+}
+```
+
+## Accessibility
+
+- Built on Radix UI for full accessibility
+- Keyboard navigation support
+- Focus management
+- Screen reader compatible
+- ARIA labels and roles
+
+## API Reference
+
+See the [Base UI Context Menu](https://base-ui.com/react/components/context-menu#api-reference) documentation for complete API details.

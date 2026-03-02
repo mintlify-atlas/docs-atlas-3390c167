@@ -1,0 +1,184 @@
+---
+title: Toast
+description: Display brief, temporary notifications to users.
+---
+
+<Callout type="warning">
+  The toast component has been deprecated. Use the [Sonner](/components/sonner) component instead for toast notifications.
+</Callout>
+
+## Migration to Sonner
+
+Sonner is the recommended replacement for the toast component. It provides a better user experience with more features and better animations.
+
+### Installation
+
+<CodeGroup>
+
+```bash npm
+npx shadcn@latest add sonner
+```
+
+```bash yarn
+yarn dlx shadcn@latest add sonner
+```
+
+```bash pnpm
+pnpm dlx shadcn@latest add sonner
+```
+
+```bash bun
+bunx shadcn@latest add sonner
+```
+
+</CodeGroup>
+
+### Setup
+
+Add the Toaster component to your root layout:
+
+```tsx title="app/layout.tsx"
+import { Toaster } from "@/components/ui/sonner"
+
+export default function RootLayout({ children }) {
+  return (
+    <html lang="en">
+      <body>
+        <main>{children}</main>
+        <Toaster />
+      </body>
+    </html>
+  )
+}
+```
+
+### Usage
+
+```tsx
+import { toast } from "sonner"
+
+// Basic toast
+toast("Event has been created.")
+
+// Success toast
+toast.success("Account created successfully.")
+
+// Error toast
+toast.error("Something went wrong.")
+
+// With description
+toast("Event has been created.", {
+  description: "Monday, January 3rd at 6:00pm",
+})
+```
+
+## Examples
+
+<Tabs defaultValue="basic">
+
+<TabsList>
+  <TabsTrigger value="basic">Basic</TabsTrigger>
+  <TabsTrigger value="types">Types</TabsTrigger>
+  <TabsTrigger value="actions">Actions</TabsTrigger>
+</TabsList>
+
+<TabsContent value="basic">
+
+```tsx
+import { Button } from "@/components/ui/button"
+import { toast } from "sonner"
+
+export default function ToastDemo() {
+  return (
+    <Button
+      onClick={() =>
+        toast("Event has been created.", {
+          description: "Monday, January 3rd at 6:00pm",
+        })
+      }
+    >
+      Show Toast
+    </Button>
+  )
+}
+```
+
+</TabsContent>
+
+<TabsContent value="types">
+
+```tsx
+import { Button } from "@/components/ui/button"
+import { toast } from "sonner"
+
+export default function ToastTypes() {
+  return (
+    <div className="flex flex-col gap-2">
+      <Button onClick={() => toast("Default toast")}>
+        Default
+      </Button>
+      <Button onClick={() => toast.success("Success toast")}>
+        Success
+      </Button>
+      <Button onClick={() => toast.error("Error toast")}>
+        Error
+      </Button>
+      <Button onClick={() => toast.warning("Warning toast")}>
+        Warning
+      </Button>
+      <Button onClick={() => toast.info("Info toast")}>
+        Info
+      </Button>
+    </div>
+  )
+}
+```
+
+</TabsContent>
+
+<TabsContent value="actions">
+
+```tsx
+import { Button } from "@/components/ui/button"
+import { toast } from "sonner"
+
+export default function ToastWithAction() {
+  return (
+    <Button
+      onClick={() =>
+        toast("Event has been created.", {
+          action: {
+            label: "Undo",
+            onClick: () => console.log("Undo"),
+          },
+        })
+      }
+    >
+      Show Toast with Action
+    </Button>
+  )
+}
+```
+
+</TabsContent>
+
+</Tabs>
+
+## Why Sonner?
+
+Sonner provides several advantages over the deprecated toast component:
+
+- Better animations and transitions
+- Built-in support for promise-based toasts
+- Action buttons and custom components
+- Keyboard accessibility
+- Position customization
+- Expandable toasts
+- Built-in theme support
+
+## Learn More
+
+For complete documentation and advanced usage, visit:
+
+- [Sonner Component Documentation](/components/sonner)
+- [Official Sonner Documentation](https://sonner.emilkowal.ski)

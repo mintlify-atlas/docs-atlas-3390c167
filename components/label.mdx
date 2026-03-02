@@ -1,0 +1,287 @@
+---
+title: Label
+description: Renders an accessible label associated with controls.
+---
+
+## Installation
+
+<CodeGroup>
+
+```bash npm
+npm install @base-ui/react
+```
+
+```bash pnpm
+pnpm add @base-ui/react
+```
+
+```bash yarn
+yarn add @base-ui/react
+```
+
+```bash bun
+bun add @base-ui/react
+```
+
+</CodeGroup>
+
+Or use the CLI:
+
+```bash
+npx shadcn@latest add label
+```
+
+<Note>
+For form fields, use the [Field](#) component which includes built-in label, description, and error handling.
+</Note>
+
+## Usage
+
+```tsx
+import { Label } from "@/components/ui/label"
+```
+
+```tsx
+<Label htmlFor="email">Your email address</Label>
+```
+
+## Component API
+
+### Label
+
+An accessible label component built on Radix UI.
+
+**Props:**
+- `htmlFor` - Associates label with form control
+- `className` - Additional CSS classes
+- All standard HTML label attributes
+
+## Examples
+
+### Basic
+
+A simple label with an input:
+
+```tsx
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
+
+export function LabelDemo() {
+  return (
+    <div className="grid w-full max-w-sm items-center gap-1.5">
+      <Label htmlFor="email">Email</Label>
+      <Input type="email" id="email" placeholder="Email" />
+    </div>
+  )
+}
+```
+
+### With Description
+
+Combine label with a description:
+
+```tsx
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
+
+export function LabelWithDescription() {
+  return (
+    <div className="grid w-full max-w-sm items-center gap-1.5">
+      <Label htmlFor="email">Email</Label>
+      <Input type="email" id="email" placeholder="Email" />
+      <p className="text-sm text-muted-foreground">
+        Enter your email address
+      </p>
+    </div>
+  )
+}
+```
+
+### Required
+
+Indicate required fields:
+
+```tsx
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
+
+export function RequiredLabel() {
+  return (
+    <div className="grid w-full max-w-sm items-center gap-1.5">
+      <Label htmlFor="username">
+        Username <span className="text-destructive">*</span>
+      </Label>
+      <Input id="username" placeholder="Username" required />
+    </div>
+  )
+}
+```
+
+### With Checkbox
+
+Use with checkboxes:
+
+```tsx
+import { Checkbox } from "@/components/ui/checkbox"
+import { Label } from "@/components/ui/label"
+
+export function CheckboxWithLabel() {
+  return (
+    <div className="flex items-center space-x-2">
+      <Checkbox id="terms" />
+      <Label htmlFor="terms">
+        Accept terms and conditions
+      </Label>
+    </div>
+  )
+}
+```
+
+### With Radio
+
+Use with radio buttons:
+
+```tsx
+import { Label } from "@/components/ui/label"
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
+
+export function RadioWithLabel() {
+  return (
+    <RadioGroup defaultValue="option-one">
+      <div className="flex items-center space-x-2">
+        <RadioGroupItem value="option-one" id="option-one" />
+        <Label htmlFor="option-one">Option One</Label>
+      </div>
+      <div className="flex items-center space-x-2">
+        <RadioGroupItem value="option-two" id="option-two" />
+        <Label htmlFor="option-two">Option Two</Label>
+      </div>
+    </RadioGroup>
+  )
+}
+```
+
+### With Switch
+
+Use with switches:
+
+```tsx
+import { Label } from "@/components/ui/label"
+import { Switch } from "@/components/ui/switch"
+
+export function SwitchWithLabel() {
+  return (
+    <div className="flex items-center space-x-2">
+      <Switch id="airplane-mode" />
+      <Label htmlFor="airplane-mode">Airplane Mode</Label>
+    </div>
+  )
+}
+```
+
+### Disabled State
+
+Label for disabled inputs:
+
+```tsx
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
+
+export function DisabledLabel() {
+  return (
+    <div className="grid w-full max-w-sm items-center gap-1.5 opacity-50">
+      <Label htmlFor="disabled-input">Disabled Input</Label>
+      <Input id="disabled-input" placeholder="Can't type here" disabled />
+    </div>
+  )
+}
+```
+
+### Error State
+
+Label for inputs with errors:
+
+```tsx
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
+
+export function ErrorLabel() {
+  return (
+    <div className="grid w-full max-w-sm items-center gap-1.5">
+      <Label htmlFor="error-input" className="text-destructive">
+        Email
+      </Label>
+      <Input
+        id="error-input"
+        type="email"
+        placeholder="Email"
+        aria-invalid
+      />
+      <p className="text-sm text-destructive">
+        Please enter a valid email address.
+      </p>
+    </div>
+  )
+}
+```
+
+### Form Field
+
+For complex forms, use the Field component:
+
+```tsx
+import {
+  Field,
+  FieldDescription,
+  FieldError,
+  FieldLabel,
+} from "@/components/ui/field"
+import { Input } from "@/components/ui/input"
+
+export function FieldExample() {
+  return (
+    <Field>
+      <FieldLabel>Email address</FieldLabel>
+      <Input type="email" placeholder="you@example.com" />
+      <FieldDescription>
+        We'll never share your email with anyone else.
+      </FieldDescription>
+      <FieldError />
+    </Field>
+  )
+}
+```
+
+### With Icons
+
+Combine labels with icons:
+
+```tsx
+import { Mail } from "lucide-react"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
+
+export function LabelWithIcon() {
+  return (
+    <div className="grid w-full max-w-sm items-center gap-1.5">
+      <Label htmlFor="email" className="flex items-center gap-2">
+        <Mail className="h-4 w-4" />
+        Email
+      </Label>
+      <Input type="email" id="email" placeholder="Email" />
+    </div>
+  )
+}
+```
+
+## Accessibility
+
+- Built on Radix UI Label for accessibility
+- Proper label association with form controls
+- Click label to focus input
+- Screen reader compatible
+- ARIA attributes automatically applied
+
+## API Reference
+
+See the [Base UI Label](https://base-ui.com/react/components/label#api-reference) documentation for complete API details.

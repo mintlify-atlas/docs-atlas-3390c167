@@ -1,0 +1,198 @@
+---
+title: Radio Group
+description: A set of checkable buttons—known as radio buttons—where no more than one of the buttons can be checked at a time.
+---
+
+## Installation
+
+<CodeGroup>
+
+```bash npm
+npx shadcn@latest add radio-group
+```
+
+```bash yarn
+yarn dlx shadcn@latest add radio-group
+```
+
+```bash pnpm
+pnpm dlx shadcn@latest add radio-group
+```
+
+</CodeGroup>
+
+## Usage
+
+```tsx
+import { Label } from "@/components/ui/label"
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
+```
+
+```tsx
+<RadioGroup defaultValue="option-one">
+  <div className="flex items-center gap-3">
+    <RadioGroupItem value="option-one" id="option-one" />
+    <Label htmlFor="option-one">Option One</Label>
+  </div>
+  <div className="flex items-center gap-3">
+    <RadioGroupItem value="option-two" id="option-two" />
+    <Label htmlFor="option-two">Option Two</Label>
+  </div>
+</RadioGroup>
+```
+
+## Component API
+
+### RadioGroup
+
+Root radio group component built on Radix UI RadioGroup.
+
+```tsx
+function RadioGroup({
+  className,
+  ...props
+}: React.ComponentProps<typeof RadioGroupPrimitive.Root>)
+```
+
+**Props:**
+- `defaultValue` - Default selected value
+- `value` - Controlled value
+- `onValueChange` - Callback when value changes
+- `disabled` - Disables all radio items
+- `orientation` - Layout orientation (`"horizontal"` | `"vertical"`)
+
+### RadioGroupItem
+
+Individual radio button with indicator.
+
+```tsx
+function RadioGroupItem({
+  className,
+  ...props
+}: React.ComponentProps<typeof RadioGroupPrimitive.Item>)
+```
+
+**Props:**
+- `value` - Unique value for this item
+- `id` - HTML id for label association
+- `disabled` - Disables this specific item
+- `aria-invalid` - Shows error state styling
+
+## Implementation
+
+The RadioGroupItem includes a filled circle indicator:
+
+```tsx
+<RadioGroupPrimitive.Item className="...">
+  <RadioGroupPrimitive.Indicator>
+    <CircleIcon className="size-2 fill-primary" />
+  </RadioGroupPrimitive.Indicator>
+</RadioGroupPrimitive.Item>
+```
+
+## Examples
+
+### Basic Radio Group
+
+```tsx
+<RadioGroup defaultValue="comfortable">
+  <div className="flex items-center space-x-2">
+    <RadioGroupItem value="default" id="r1" />
+    <Label htmlFor="r1">Default</Label>
+  </div>
+  <div className="flex items-center space-x-2">
+    <RadioGroupItem value="comfortable" id="r2" />
+    <Label htmlFor="r2">Comfortable</Label>
+  </div>
+  <div className="flex items-center space-x-2">
+    <RadioGroupItem value="compact" id="r3" />
+    <Label htmlFor="r3">Compact</Label>
+  </div>
+</RadioGroup>
+```
+
+### With Description
+
+Radio items with descriptions:
+
+```tsx
+<RadioGroup defaultValue="option-one">
+  <div className="flex items-start space-x-3">
+    <RadioGroupItem value="option-one" id="option-one" className="mt-1" />
+    <div className="grid gap-1.5">
+      <Label htmlFor="option-one">Option One</Label>
+      <p className="text-sm text-muted-foreground">
+        This is a description for option one.
+      </p>
+    </div>
+  </div>
+  <div className="flex items-start space-x-3">
+    <RadioGroupItem value="option-two" id="option-two" className="mt-1" />
+    <div className="grid gap-1.5">
+      <Label htmlFor="option-two">Option Two</Label>
+      <p className="text-sm text-muted-foreground">
+        This is a description for option two.
+      </p>
+    </div>
+  </div>
+</RadioGroup>
+```
+
+### Disabled State
+
+Disable the entire group or individual items:
+
+```tsx
+<RadioGroup disabled defaultValue="option-one">
+  <div className="flex items-center space-x-2">
+    <RadioGroupItem value="option-one" id="disabled-1" />
+    <Label htmlFor="disabled-1">Disabled Option</Label>
+  </div>
+</RadioGroup>
+```
+
+### Invalid State
+
+Show validation errors:
+
+```tsx
+<RadioGroup defaultValue="option-one">
+  <div className="flex items-center space-x-2">
+    <RadioGroupItem value="option-one" id="error-1" aria-invalid />
+    <Label htmlFor="error-1">Invalid Option</Label>
+  </div>
+</RadioGroup>
+```
+
+### Controlled Radio Group
+
+```tsx
+function ControlledRadioGroup() {
+  const [value, setValue] = React.useState("option-one")
+
+  return (
+    <RadioGroup value={value} onValueChange={setValue}>
+      <div className="flex items-center space-x-2">
+        <RadioGroupItem value="option-one" id="c-1" />
+        <Label htmlFor="c-1">Option One</Label>
+      </div>
+      <div className="flex items-center space-x-2">
+        <RadioGroupItem value="option-two" id="c-2" />
+        <Label htmlFor="c-2">Option Two</Label>
+      </div>
+    </RadioGroup>
+  )
+}
+```
+
+## Accessibility
+
+The RadioGroup component:
+- Uses `role="radiogroup"` and `role="radio"` semantics
+- Supports keyboard navigation (arrow keys)
+- Properly associates labels with inputs
+- Indicates checked and disabled states to screen readers
+
+## API Reference
+
+See the [Radix UI RadioGroup documentation](https://www.radix-ui.com/primitives/docs/components/radio-group) for complete API reference.

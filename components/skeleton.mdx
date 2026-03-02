@@ -1,0 +1,233 @@
+---
+title: Skeleton
+description: Use to show a placeholder while content is loading.
+---
+
+## Installation
+
+<CodeGroup>
+
+```bash npm
+npx shadcn@latest add skeleton
+```
+
+```bash yarn
+yarn dlx shadcn@latest add skeleton
+```
+
+```bash pnpm
+pnpm dlx shadcn@latest add skeleton
+```
+
+</CodeGroup>
+
+## Usage
+
+```tsx
+import { Skeleton } from "@/components/ui/skeleton"
+```
+
+```tsx
+<Skeleton className="h-[20px] w-[100px] rounded-full" />
+```
+
+## Component API
+
+### Skeleton
+
+Animated loading placeholder component.
+
+```tsx
+function Skeleton({ className, ...props }: React.ComponentProps<"div">)
+```
+
+**Features:**
+- Pulse animation
+- Customizable size and shape
+- Accessible loading indicator
+
+## Implementation
+
+Simple div with pulse animation:
+
+```tsx
+<div
+  className="animate-pulse rounded-md bg-accent"
+  {...props}
+/>
+```
+
+## Examples
+
+### Basic Skeleton
+
+Simple loading placeholder:
+
+```tsx
+<div className="space-y-2">
+  <Skeleton className="h-4 w-[250px]" />
+  <Skeleton className="h-4 w-[200px]" />
+</div>
+```
+
+### Avatar Skeleton
+
+Circular avatar placeholder:
+
+```tsx
+<div className="flex items-center space-x-4">
+  <Skeleton className="h-12 w-12 rounded-full" />
+  <div className="space-y-2">
+    <Skeleton className="h-4 w-[250px]" />
+    <Skeleton className="h-4 w-[200px]" />
+  </div>
+</div>
+```
+
+### Card Skeleton
+
+Card with loading content:
+
+```tsx
+<Card>
+  <CardHeader>
+    <Skeleton className="h-8 w-[200px]" />
+    <Skeleton className="h-4 w-[300px]" />
+  </CardHeader>
+  <CardContent className="space-y-2">
+    <Skeleton className="h-4 w-full" />
+    <Skeleton className="h-4 w-full" />
+    <Skeleton className="h-4 w-2/3" />
+  </CardContent>
+</Card>
+```
+
+### Text Skeleton
+
+Multiple text lines:
+
+```tsx
+<div className="space-y-3">
+  <Skeleton className="h-5 w-2/5" />
+  <Skeleton className="h-4 w-4/5" />
+  <Skeleton className="h-4 w-full" />
+  <Skeleton className="h-4 w-3/5" />
+</div>
+```
+
+### Form Skeleton
+
+Form field placeholders:
+
+```tsx
+<div className="space-y-4">
+  <div className="space-y-2">
+    <Skeleton className="h-4 w-[100px]" />
+    <Skeleton className="h-10 w-full" />
+  </div>
+  <div className="space-y-2">
+    <Skeleton className="h-4 w-[100px]" />
+    <Skeleton className="h-10 w-full" />
+  </div>
+  <Skeleton className="h-10 w-[100px]" />
+</div>
+```
+
+### Table Skeleton
+
+Table with loading rows:
+
+```tsx
+<div className="space-y-2">
+  <Skeleton className="h-10 w-full" />
+  <Skeleton className="h-10 w-full" />
+  <Skeleton className="h-10 w-full" />
+  <Skeleton className="h-10 w-full" />
+  <Skeleton className="h-10 w-full" />
+</div>
+```
+
+### Image Skeleton
+
+Image placeholder:
+
+```tsx
+<Skeleton className="h-[300px] w-full rounded-lg" />
+```
+
+### Button Skeleton
+
+Button placeholder:
+
+```tsx
+<Skeleton className="h-10 w-[120px] rounded-md" />
+```
+
+### List Skeleton
+
+List item placeholders:
+
+```tsx
+<div className="space-y-4">
+  {Array.from({ length: 5 }).map((_, i) => (
+    <div key={i} className="flex items-center space-x-4">
+      <Skeleton className="h-12 w-12 rounded-full" />
+      <div className="space-y-2">
+        <Skeleton className="h-4 w-[250px]" />
+        <Skeleton className="h-4 w-[200px]" />
+      </div>
+    </div>
+  ))}
+</div>
+```
+
+### Custom Shapes
+
+Different shapes and sizes:
+
+```tsx
+<div className="flex space-x-4">
+  <Skeleton className="h-24 w-24 rounded-full" />
+  <Skeleton className="h-24 w-24 rounded-md" />
+  <Skeleton className="h-24 w-24 rounded-lg" />
+  <Skeleton className="h-24 w-24" />
+</div>
+```
+
+## Conditional Rendering
+
+Show skeleton while loading data:
+
+```tsx
+function UserProfile() {
+  const { data, isLoading } = useUser()
+
+  if (isLoading) {
+    return (
+      <div className="flex items-center space-x-4">
+        <Skeleton className="h-12 w-12 rounded-full" />
+        <div className="space-y-2">
+          <Skeleton className="h-4 w-[250px]" />
+          <Skeleton className="h-4 w-[200px]" />
+        </div>
+      </div>
+    )
+  }
+
+  return (
+    <div className="flex items-center space-x-4">
+      <Avatar src={data.avatar} />
+      <div>
+        <p className="font-medium">{data.name}</p>
+        <p className="text-sm text-muted-foreground">{data.email}</p>
+      </div>
+    </div>
+  )
+}
+```
+
+## Accessibility
+
+- Uses `aria-busy="true"` and `aria-live="polite"` implicitly through loading state
+- Semantic loading indication
+- No interactive elements

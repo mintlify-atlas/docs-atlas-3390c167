@@ -1,0 +1,229 @@
+---
+title: shadcn migrate
+description: Run a migration on your components
+---
+
+The `migrate` command runs automated migrations on your shadcn/ui components. Use it to update components when there are breaking changes or to adopt new features.
+
+## Usage
+
+```bash
+shadcn migrate [migration] [path]
+```
+
+## Arguments
+
+<ParamField path="migration" type="string" optional>
+  The migration to run. Use `--list` to see available migrations.
+</ParamField>
+
+<ParamField path="path" type="string" optional>
+  Optional path or glob pattern to migrate. If not provided, migrates all components.
+</ParamField>
+
+## Options
+
+<ParamField path="--cwd" type="string" optional>
+  The working directory. Defaults to the current directory.
+</ParamField>
+
+<ParamField path="--list" type="boolean" default="false">
+  List all available migrations.
+</ParamField>
+
+<ParamField path="--yes" type="boolean" default="false">
+  Skip confirmation prompt.
+</ParamField>
+
+## Available migrations
+
+### icons
+
+Migrate your UI components to a different icon library.
+
+```bash
+shadcn migrate icons
+```
+
+### radix
+
+Migrate to Radix UI.
+
+```bash
+shadcn migrate radix
+```
+
+### rtl
+
+Migrate your components to support RTL (right-to-left) languages.
+
+```bash
+shadcn migrate rtl
+```
+
+## Examples
+
+### List available migrations
+
+```bash
+shadcn migrate --list
+```
+
+Output:
+```bash
+Available migrations:
+- icons: migrate your ui components to a different icon library.
+- radix: migrate to radix-ui.
+- rtl: migrate your components to support RTL (right-to-left).
+```
+
+### Run a specific migration
+
+```bash
+shadcn migrate icons
+```
+
+### Migrate specific files
+
+```bash
+shadcn migrate rtl components/ui/button.tsx
+```
+
+### Migrate using glob pattern
+
+```bash
+shadcn migrate rtl "components/ui/**/*.tsx"
+```
+
+### Skip confirmation
+
+```bash
+shadcn migrate icons --yes
+```
+
+### Migrate in specific directory
+
+```bash
+shadcn migrate rtl --cwd ./my-project
+```
+
+## Migration details
+
+### Icon library migration
+
+Migrates components from one icon library to another. Common migrations:
+
+- Lucide React → Other icon libraries
+- React Icons → Lucide React
+
+**What it does:**
+- Updates import statements
+- Replaces icon components
+- Maintains icon props and styling
+
+### Radix UI migration
+
+Migrates components to use Radix UI primitives.
+
+**What it does:**
+- Updates Radix UI package imports
+- Adjusts component composition
+- Updates event handlers and props
+
+### RTL migration
+
+Adds right-to-left language support to components.
+
+**What it does:**
+- Adds direction-aware styling
+- Updates logical properties (e.g., `margin-left` → `margin-inline-start`)
+- Adjusts layout for bidirectional support
+- Updates icon positioning and animations
+
+## Before running migrations
+
+### 1. Commit your changes
+
+Always commit your code before running migrations:
+
+```bash
+git add .
+git commit -m "Before migration"
+```
+
+### 2. Review migration scope
+
+Understand which files will be affected:
+
+```bash
+# Check which components exist
+ls components/ui/
+```
+
+### 3. Backup your components
+
+```bash
+cp -r components/ui components/ui.backup
+```
+
+## After running migrations
+
+### 1. Review changes
+
+```bash
+git diff
+```
+
+### 2. Test your components
+
+Ensure all components work as expected:
+
+```bash
+npm run dev
+```
+
+### 3. Update imports
+
+Some migrations may require updating imports in your application code.
+
+### 4. Run tests
+
+```bash
+npm test
+```
+
+## Requirements
+
+- Valid `components.json` file in your project root
+- Project must not be empty
+- Must run from project root or use `--cwd`
+
+## Error handling
+
+If migration fails:
+
+1. **No components.json found**
+   ```
+   No `components.json` file found. Ensure you are at the root of your project.
+   ```
+   Solution: Run from project root or run `shadcn init` first.
+
+2. **Invalid migration**
+   ```
+   You must specify a valid migration. Run `shadcn migrate --list` to see available migrations.
+   ```
+   Solution: Check available migrations with `--list`.
+
+3. **Empty project**
+   ```
+   No `components.json` file found. Ensure you are at the root of your project.
+   ```
+   Solution: Initialize project with `shadcn init`.
+
+## Notes
+
+- Migrations modify files in place
+- Always backup before running migrations
+- Some migrations may require manual adjustments
+- Review all changes before committing
+- Migrations are idempotent (safe to run multiple times)

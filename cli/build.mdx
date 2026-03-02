@@ -1,0 +1,297 @@
+---
+title: shadcn build
+description: Build components for a shadcn registry
+---
+
+The `build` command builds components for a shadcn/ui registry. Use it to create a custom registry by bundling your component files into registry JSON files.
+
+## Usage
+
+```bash
+shadcn build [registry]
+```
+
+## Arguments
+
+<ParamField path="registry" type="string" default="./registry.json">
+  Path to the registry.json file. Defaults to `./registry.json` in the current directory.
+</ParamField>
+
+## Options
+
+<ParamField path="--output" type="string" default="./public/r">
+  Destination directory for JSON files. Defaults to `./public/r`.
+</ParamField>
+
+<ParamField path="--cwd" type="string" optional>
+  The working directory. Defaults to the current directory.
+</ParamField>
+
+## Examples
+
+### Build with default paths
+
+```bash
+shadcn build
+```
+
+Builds from `./registry.json` to `./public/r`.
+
+### Build from custom registry file
+
+```bash
+shadcn build ./src/registry.json
+```
+
+### Build to custom output directory
+
+```bash
+shadcn build --output ./dist/registry
+```
+
+### Build with custom paths
+
+```bash
+shadcn build ./custom-registry.json --output ./build/r
+```
+
+### Build in specific directory
+
+```bash
+shadcn build --cwd ./packages/ui
+```
+
+## What it does
+
+1. Reads the `registry.json` file
+2. Validates the registry schema
+3. For each registry item:
+   - Reads the source files from disk
+   - Embeds file content into the registry item
+   - Adds the JSON schema URL
+   - Validates the complete registry item
+   - Writes a JSON file to the output directory
+4. Copies `registry.json` to the output directory
+
+## Registry structure
+
+Your `registry.json` should follow this structure:
+
+```json
+{
+  "name": "my-registry",
+  "items": [
+    {
+      "name": "button",
+      "type": "registry:ui",
+      "files": [
+        {
+          "path": "components/ui/button.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [
+        "@radix-ui/react-slot"
+      ]
+    }
+  ]
+}
+```
+
+## Output structure
+
+After building, your output directory will contain:
+
+```
+public/r/
+├── registry.json
+├── button.json
+├── card.json
+└── dialog.json
+```
+
+Each component JSON file includes the source code:
+
+```json
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "button",
+  "type": "registry:ui",
+  "files": [
+    {
+      "path": "components/ui/button.tsx",
+      "type": "registry:ui",
+      "content": "import * as React from \"react\"\n...full source code..."
+    }
+  ],
+  "dependencies": [
+    "@radix-ui/react-slot"
+  ]
+}
+```
+
+## Registry item fields
+
+Each item in `registry.json` can include:
+
+<ParamField path="name" type="string" required>
+  Unique identifier for the component.
+</ParamField>
+
+<ParamField path="type" type="string" required>
+  Registry type: `registry:ui`, `registry:block`, `registry:hook`, `registry:lib`, etc.
+</ParamField>
+
+<ParamField path="files" type="array" required>
+  Array of file objects with `path` and optional `type`.
+</ParamField>
+
+<ParamField path="dependencies" type="array" optional>
+  npm packages required by the component.
+</ParamField>
+
+<ParamField path="devDependencies" type="array" optional>
+  npm dev packages required by the component.
+</ParamField>
+
+<ParamField path="registryDependencies" type="array" optional>
+  Other registry components required by this component.
+</ParamField>
+
+<ParamField path="meta" type="object" optional>
+  Additional metadata (description, tags, etc.).
+</ParamField>
+
+## Creating a custom registry
+
+### 1. Create registry.json
+
+```json
+{
+  "name": "my-ui",
+  "items": [
+    {
+      "name": "custom-button",
+      "type": "registry:ui",
+      "files": [
+        {
+          "path": "src/components/custom-button.tsx"
+        }
+      ],
+      "dependencies": ["clsx"]
+    }
+  ]
+}
+```
+
+### 2. Build the registry
+
+```bash
+shadcn build
+```
+
+### 3. Serve the registry
+
+Deploy the `public/r` directory to a web server or CDN.
+
+### 4. Use the registry
+
+Add to `components.json`:
+
+```json
+{
+  "registries": {
+    "@my-ui": {
+      "url": "https://my-registry.com/r"
+    }
+  }
+}
+```
+
+Install components:
+
+```bash
+shadcn add @my-ui/custom-button
+```
+
+## Validation
+
+The build command validates:
+
+1. **Registry schema** - Ensures `registry.json` is valid
+2. **Registry item schema** - Validates each component's metadata
+3. **File existence** - Checks that all referenced files exist
+
+If validation fails, the build will:
+- Log an error message
+- Skip the invalid item
+- Continue building other items
+
+## Use cases
+
+### Internal component library
+
+Build a private registry for your organization:
+
+```bash
+shadcn build ./company-registry.json --output ./dist/registry
+```
+
+### Open source components
+
+Share your components publicly:
+
+```bash
+shadcn build
+# Deploy public/r to GitHub Pages or Vercel
+```
+
+### Monorepo packages
+
+Build registries for multiple packages:
+
+```bash
+shadcn build --cwd ./packages/ui --output ./packages/ui/dist/r
+shadcn build --cwd ./packages/blocks --output ./packages/blocks/dist/r
+```
+
+## Output
+
+```bash
+✔ Building registry...
+✔ Building button...
+✔ Building card...
+✔ Building dialog...
+✔ Building registry.
+```
+
+## Error handling
+
+### Invalid registry file
+
+```
+Invalid registry file found at ./registry.json.
+```
+
+Solution: Validate your JSON syntax and schema.
+
+### Invalid registry item
+
+```
+Invalid registry item found for button.
+```
+
+Solution: Check that all required fields are present and valid.
+
+### File not found
+
+If a referenced file doesn't exist, the build will fail. Ensure all paths in `files` arrays are correct and relative to the `cwd`.
+
+## Notes
+
+- File paths in `registry.json` should be relative to the working directory
+- The build embeds full file content, so output files can be large
+- Output is production-ready JSON for hosting
+- Schema URLs are automatically added to built files
+- Original `registry.json` is copied to output directory
+- Safe to run multiple times (overwrites previous build)

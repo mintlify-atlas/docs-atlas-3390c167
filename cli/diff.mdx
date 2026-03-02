@@ -1,0 +1,138 @@
+---
+title: shadcn diff
+description: Check for updates against the registry
+---
+
+The `diff` command checks for updates to your installed components against the registry. It compares your local files with the latest versions and shows differences.
+
+## Usage
+
+```bash
+shadcn diff [component]
+```
+
+## Arguments
+
+<ParamField path="component" type="string" optional>
+  The component name. If not provided, checks all installed components for updates.
+</ParamField>
+
+## Options
+
+<ParamField path="--yes" type="boolean" default="false">
+  Skip confirmation prompt.
+</ParamField>
+
+<ParamField path="--cwd" type="string" optional>
+  The working directory. Defaults to the current directory.
+</ParamField>
+
+## Examples
+
+### Check all components for updates
+
+```bash
+shadcn diff
+```
+
+Output:
+```bash
+The following components have updates available:
+- button
+  - components/ui/button.tsx
+- card
+  - components/ui/card.tsx
+
+Run diff <component> to see the changes.
+```
+
+### Check a specific component
+
+```bash
+shadcn diff button
+```
+
+Output:
+```bash
+- components/ui/button.tsx
+- import * as React from "react"
++ import { forwardRef } from "react"
+  import { Slot } from "@radix-ui/react-slot"
+  import { cva, type VariantProps } from "class-variance-authority"
+  
+  import { cn } from "@/lib/utils"
+  
+- const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
++ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
+    ({ className, variant, size, asChild = false, ...props }, ref) => {
+      const Comp = asChild ? Slot : "button"
+```
+
+### Check component in specific directory
+
+```bash
+shadcn diff button --cwd ./my-project
+```
+
+## What it does
+
+1. Reads your `components.json` configuration
+2. Fetches the latest version from the registry
+3. Compares local files with registry versions
+4. Shows a line-by-line diff of changes
+5. Highlights additions in green and removals in red
+
+## Use cases
+
+### Track component updates
+
+Regularly check for updates to installed components:
+
+```bash
+shadcn diff
+```
+
+### Review changes before updating
+
+Before manually updating a component, review what changed:
+
+```bash
+shadcn diff button
+```
+
+### Verify customizations
+
+Check if your customizations conflict with upstream changes:
+
+```bash
+shadcn diff card
+```
+
+## Output format
+
+The diff output uses standard diff notation:
+
+- Lines starting with `-` (red) are removed in the registry version
+- Lines starting with `+` (green) are added in the registry version
+- Lines without prefix are unchanged
+
+## No updates found
+
+If a component is up-to-date:
+
+```bash
+No updates found for button.
+```
+
+If all components are up-to-date:
+
+```bash
+No updates found.
+```
+
+## Notes
+
+- The diff compares the transformed registry code against your local files
+- Transformations are applied based on your `components.json` configuration
+- Only checks components that exist in your project
+- Requires a valid `components.json` file

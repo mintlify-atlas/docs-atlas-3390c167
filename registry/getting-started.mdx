@@ -1,0 +1,380 @@
+---
+title: Getting Started
+description: Learn how to set up and run your own component registry.
+---
+
+This guide will walk you through the process of setting up your own component registry. It assumes you already have a project with components and would like to turn it into a registry.
+
+If you're starting a new registry project, you can use the [registry template](https://github.com/shadcn-ui/registry-template) as a starting point. We have already configured it for you.
+
+## Requirements
+
+You are free to design and host your custom registry as you see fit. The only requirement is that your registry items must be valid JSON files that conform to the [registry-item schema specification](/docs/registry/registry-item-json).
+
+If you'd like to see an example of a registry, we have a [template project](https://github.com/shadcn-ui/registry-template) for you to use as a starting point.
+
+## Overview
+
+The `registry.json` is the entry point for the registry. It contains the registry's name, homepage, and defines all the items present in the registry.
+
+Your registry must have this file (or JSON payload) present at the root of the registry endpoint. The registry endpoint is the URL where your registry is hosted.
+
+The `shadcn` CLI will automatically generate individual JSON files for each registry item when you run the `build` command.
+
+## Step-by-Step Setup
+
+<Steps>
+  <Step title="Add a registry.json file">
+    Create a `registry.json` file in the root of your project. Your project can be a Next.js, Vite, Vue, Svelte, PHP or any other framework as long as it supports serving JSON over HTTP.
+
+    ```json title="registry.json" showLineNumbers
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry.json",
+      "name": "acme",
+      "homepage": "https://acme.com",
+      "items": [
+        // ...
+      ]
+    }
+    ```
+
+    This `registry.json` file must conform to the [registry schema specification](/docs/registry/registry-json).
+  </Step>
+
+  <Step title="Create your component">
+    Add your first component. Here's an example of a simple `<HelloWorld />` component:
+
+    ```tsx title="registry/new-york/hello-world/hello-world.tsx" showLineNumbers
+    import { Button } from "@/components/ui/button"
+
+    export function HelloWorld() {
+      return <Button>Hello World</Button>
+    }
+    ```
+
+    <Note>
+      This example places the component in the `registry/new-york` directory. You can place it anywhere in your project as long as you set the correct path in the `registry.json` file and follow the `registry/[STYLE]/[NAME]` directory structure.
+    </Note>
+
+    Your directory structure should look like this:
+
+    ```txt
+    registry
+    └── new-york
+        └── hello-world
+            └── hello-world.tsx
+    ```
+  </Step>
+
+  <Step title="Add your component to the registry">
+    To add your component to the registry, you need to add your component definition to `registry.json`.
+
+    ```json title="registry.json" showLineNumbers {6-17}
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry.json",
+      "name": "acme",
+      "homepage": "https://acme.com",
+      "items": [
+        {
+          "name": "hello-world",
+          "type": "registry:block",
+          "title": "Hello World",
+          "description": "A simple hello world component.",
+          "files": [
+            {
+              "path": "registry/new-york/hello-world/hello-world.tsx",
+              "type": "registry:component"
+            }
+          ]
+        }
+      ]
+    }
+    ```
+
+    You define your registry item by adding:
+    - `name` - Unique identifier for the item
+    - `type` - The type of registry item
+    - `title` - Human-readable title
+    - `description` - Brief description of the component
+    - `files` - Array of files with their paths and types
+
+    For every file you add, you must specify the `path` and `type` of the file. The `path` is the relative path to the file from the root of your project. The `type` is the type of the file.
+
+    You can read more about the registry item schema and file types in the [registry item schema docs](/docs/registry/registry-item-json).
+  </Step>
+
+  <Step title="Install the shadcn CLI">
+    Install the `shadcn` CLI as a development dependency:
+
+    ```bash
+    npm install shadcn@latest
+    ```
+  </Step>
+
+  <Step title="Add a build script">
+    Add a `registry:build` script to your `package.json` file:
+
+    ```json title="package.json" showLineNumbers
+    {
+      "scripts": {
+        "registry:build": "shadcn build"
+      }
+    }
+    ```
+  </Step>
+
+  <Step title="Run the build script">
+    Run the build script to generate the registry JSON files:
+
+    ```bash
+    npm run registry:build
+    ```
+
+    <Note>
+      By default, the build script will generate the registry JSON files in `public/r` e.g `public/r/hello-world.json`.
+
+      You can change the output directory by passing the `--output` option. See the [shadcn build command](/docs/cli#build) for more information.
+    </Note>
+  </Step>
+
+  <Step title="Serve your registry">
+    If you're running your registry on Next.js, you can now serve your registry by running the development server. The command might differ for other frameworks.
+
+    ```bash
+    npm run dev
+    ```
+
+    Your files will now be served at `http://localhost:3000/r/[NAME].json` e.g. `http://localhost:3000/r/hello-world.json`.
+  </Step>
+
+  <Step title="Publish your registry">
+    To make your registry available to other developers, publish it by deploying your project to a public URL using services like:
+    
+    - Vercel
+    - Netlify
+    - Cloudflare Pages
+    - GitHub Pages
+    - Any static hosting service
+  </Step>
+</Steps>
+
+## Adding Dependencies
+
+Your components often depend on npm packages or other registry items. Here's how to declare them:
+
+<CodeGroup>
+```json npm Dependencies
+{
+  "name": "date-picker",
+  "type": "registry:component",
+  "dependencies": [
+    "date-fns",
+    "react-day-picker@^8.10.0",
+    "@radix-ui/react-popover"
+  ]
+}
+```
+
+```json Registry Dependencies
+{
+  "name": "auth-form",
+  "type": "registry:block",
+  "registryDependencies": [
+    "button",
+    "input",
+    "label",
+    "@acme/custom-input",
+    "https://example.com/r/editor.json"
+  ]
+}
+```
+
+```json Combined Dependencies
+{
+  "name": "data-table",
+  "type": "registry:block",
+  "dependencies": [
+    "@tanstack/react-table",
+    "zod"
+  ],
+  "registryDependencies": [
+    "button",
+    "input",
+    "dropdown-menu"
+  ]
+}
+```
+</CodeGroup>
+
+The CLI will automatically install all dependencies when users add your component to their project.
+
+## Best Practices
+
+Here are some guidelines to follow when building components for a registry:
+
+<AccordionGroup>
+  <Accordion title="Directory Structure">
+    Place your registry item in the `registry/[STYLE]/[NAME]` directory. For example, use `new-york` as the style name. It can be anything you want as long as it's nested under the `registry` directory.
+
+    ```txt
+    registry
+    └── new-york
+        ├── button
+        │   └── button.tsx
+        ├── auth-form
+        │   ├── components
+        │   │   └── auth-form.tsx
+        │   ├── hooks
+        │   │   └── use-auth.ts
+        │   └── lib
+        │       └── validators.ts
+        └── dashboard
+            └── page.tsx
+    ```
+  </Accordion>
+
+  <Accordion title="Required Properties">
+    The following properties are required for any registry item:
+    - `name` - Unique identifier
+    - `description` - Clear description for users and LLMs
+    - `type` - Registry item type
+    - `files` - Array of files with paths and types
+
+    It is recommended to add proper names and descriptions to help LLMs understand the component and its purpose.
+  </Accordion>
+
+  <Accordion title="Import Paths">
+    **Imports should always use the `@/registry` path.** This ensures consistency across projects:
+
+    ```tsx
+    // Good
+    import { HelloWorld } from "@/registry/new-york/hello-world/hello-world"
+    
+    // Bad
+    import { HelloWorld } from "../hello-world/hello-world"
+    ```
+  </Accordion>
+
+  <Accordion title="File Organization">
+    Ideally, place your files within a registry item in organized directories:
+    
+    - `components/` - React components
+    - `hooks/` - Custom hooks
+    - `lib/` - Utility functions and helpers
+    - `types/` - TypeScript type definitions
+
+    This makes it easier for users to understand your component structure.
+  </Accordion>
+
+  <Accordion title="Dependencies">
+    - List all npm packages in `dependencies` or `devDependencies`
+    - List all registry items in `registryDependencies`
+    - Use version specifiers when needed: `zod@^3.20.0`
+    - Registry dependencies can be:
+      - Names: `"button"`, `"input"`
+      - Namespaced: `"@acme/input-form"`
+      - URLs: `"https://example.com/r/editor.json"`
+  </Accordion>
+</AccordionGroup>
+
+## Installing from Your Registry
+
+Once your registry is published, users can install items using the `shadcn` CLI:
+
+### Using Direct URLs
+
+```bash
+npx shadcn@latest add https://acme.com/r/hello-world.json
+```
+
+### Using Namespaces
+
+Configure the registry in `components.json`:
+
+```json title="components.json"
+{
+  "registries": {
+    "@acme": "https://acme.com/r/{name}.json"
+  }
+}
+```
+
+Then install using the namespace:
+
+```bash
+npx shadcn@latest add @acme/hello-world
+```
+
+See the [Namespaced Registries](/docs/registry/namespace) docs for more information on how to configure and use namespaced registries.
+
+## Advanced Configuration
+
+### Adding CSS Variables
+
+Include CSS variables that your component needs:
+
+```json title="registry-item.json"
+{
+  "name": "themed-card",
+  "type": "registry:component",
+  "cssVars": {
+    "theme": {
+      "font-heading": "Poppins, sans-serif"
+    },
+    "light": {
+      "card-bg": "0 0% 100%",
+      "card-border": "214 32% 91%"
+    },
+    "dark": {
+      "card-bg": "222 47% 11%",
+      "card-border": "215 28% 17%"
+    }
+  }
+}
+```
+
+### Adding Environment Variables
+
+```json title="registry-item.json"
+{
+  "name": "api-client",
+  "type": "registry:lib",
+  "envVars": {
+    "NEXT_PUBLIC_API_URL": "https://api.example.com",
+    "API_KEY": ""
+  },
+  "docs": "Get an API key from https://example.com/settings"
+}
+```
+
+### Custom Installation Instructions
+
+Provide additional documentation that shows after installation:
+
+```json title="registry-item.json"
+{
+  "name": "analytics",
+  "type": "registry:lib",
+  "docs": "To use analytics, add your tracking ID to .env.local:\n\nNEXT_PUBLIC_ANALYTICS_ID=your-id-here\n\nThen wrap your app with <AnalyticsProvider>."
+}
+```
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card title="Registry Item Schema" icon="file-code" href="/docs/registry/registry-item-json">
+    Learn about all available properties and configurations for registry items.
+  </Card>
+  
+  <Card title="Examples" icon="code" href="/docs/registry/examples">
+    Explore real-world examples of different registry item types.
+  </Card>
+  
+  <Card title="Authentication" icon="shield" href="/docs/registry/authentication">
+    Secure your private registry with authentication.
+  </Card>
+  
+  <Card title="Namespaces" icon="tag" href="/docs/registry/namespace">
+    Set up namespaced registries for better organization.
+  </Card>
+</CardGroup>

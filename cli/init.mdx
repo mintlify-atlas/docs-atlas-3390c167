@@ -1,0 +1,157 @@
+---
+title: shadcn init
+description: Initialize your project and install dependencies
+---
+
+The `init` command initializes your project and installs dependencies. It creates a `components.json` file and sets up your project for shadcn/ui.
+
+## Usage
+
+```bash
+shadcn init [components...]
+```
+
+## Arguments
+
+<ParamField path="components" type="string[]" optional>
+  Names, URL, or local path to components to install during initialization.
+</ParamField>
+
+## Options
+
+<ParamField path="--template" type="string" optional>
+  The template to use. Available options:
+  - `next` - Next.js
+  - `start` - TanStack Start
+  - `vite` - Vite
+  - `next-monorepo` - Next.js Monorepo
+</ParamField>
+
+<ParamField path="--base-color" type="string" optional>
+  The base color to use. Available options:
+  - `neutral`
+  - `gray`
+  - `zinc`
+  - `stone`
+  - `slate`
+</ParamField>
+
+<ParamField path="--yes" type="boolean" default="true">
+  Skip confirmation prompt.
+</ParamField>
+
+<ParamField path="--defaults" type="boolean" default="false">
+  Use default configuration.
+</ParamField>
+
+<ParamField path="--force" type="boolean" default="false">
+  Force overwrite of existing configuration.
+</ParamField>
+
+<ParamField path="--cwd" type="string" optional>
+  The working directory. Defaults to the current directory.
+</ParamField>
+
+<ParamField path="--silent" type="boolean" default="false">
+  Mute output.
+</ParamField>
+
+<ParamField path="--src-dir" type="boolean" default="false">
+  Use the src directory when creating a new project.
+</ParamField>
+
+<ParamField path="--no-src-dir" type="boolean">
+  Do not use the src directory when creating a new project.
+</ParamField>
+
+<ParamField path="--css-variables" type="boolean" default="true">
+  Use CSS variables for theming.
+</ParamField>
+
+<ParamField path="--no-css-variables" type="boolean">
+  Do not use CSS variables for theming.
+</ParamField>
+
+<ParamField path="--no-base-style" type="boolean">
+  Do not install the base shadcn style.
+</ParamField>
+
+<ParamField path="--rtl" type="boolean" default="false">
+  Enable RTL (right-to-left) support.
+</ParamField>
+
+## Examples
+
+### Basic initialization
+
+```bash
+shadcn init
+```
+
+This will prompt you to configure your project interactively.
+
+### Initialize with defaults
+
+```bash
+shadcn init --defaults
+```
+
+Uses default configuration (Next.js template with neutral base color).
+
+### Initialize with specific template and color
+
+```bash
+shadcn init --template vite --base-color zinc
+```
+
+### Initialize with components
+
+```bash
+shadcn init button card
+```
+
+Initializes the project and installs the button and card components.
+
+### Initialize with RTL support
+
+```bash
+shadcn init --rtl
+```
+
+### Initialize in a specific directory
+
+```bash
+shadcn init --cwd ./my-project
+```
+
+## Output
+
+The command creates a `components.json` file in your project root with your configuration:
+
+```json
+{
+  "$schema": "https://ui.shadcn.com/schema.json",
+  "style": "new-york",
+  "rsc": true,
+  "tsx": true,
+  "tailwind": {
+    "config": "tailwind.config.js",
+    "css": "app/globals.css",
+    "baseColor": "neutral",
+    "cssVariables": true
+  },
+  "aliases": {
+    "components": "@/components",
+    "utils": "@/lib/utils"
+  }
+}
+```
+
+## What it does
+
+1. Detects your project framework and configuration
+2. Prompts for configuration options (style, base color, paths, etc.)
+3. Creates `components.json` with your preferences
+4. Installs the base style (if not disabled)
+5. Installs any specified components
+6. Updates Tailwind configuration if needed

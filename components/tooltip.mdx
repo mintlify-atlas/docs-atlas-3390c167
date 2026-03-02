@@ -1,0 +1,472 @@
+---
+title: Tooltip
+description: Display informative text when users hover over or focus on an element.
+---
+
+## Installation
+
+<CodeGroup>
+
+```bash npm
+npx shadcn@latest add tooltip
+```
+
+```bash yarn
+yarn dlx shadcn@latest add tooltip
+```
+
+```bash pnpm
+pnpm dlx shadcn@latest add tooltip
+```
+
+```bash bun
+bunx shadcn@latest add tooltip
+```
+
+</CodeGroup>
+
+## Setup
+
+Add the `TooltipProvider` to the root of your app:
+
+```tsx title="app/layout.tsx"
+import { TooltipProvider } from "@/components/ui/tooltip"
+
+export default function RootLayout({ children }) {
+  return (
+    <html lang="en">
+      <body>
+        <TooltipProvider>{children}</TooltipProvider>
+      </body>
+    </html>
+  )
+}
+```
+
+## Usage
+
+```tsx
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip"
+```
+
+```tsx
+<Tooltip>
+  <TooltipTrigger>Hover</TooltipTrigger>
+  <TooltipContent>
+    <p>Add to library</p>
+  </TooltipContent>
+</Tooltip>
+```
+
+## Examples
+
+### Basic
+
+A simple tooltip with text content.
+
+```tsx
+import { Button } from "@/components/ui/button"
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip"
+
+export default function TooltipDemo() {
+  return (
+    <Tooltip>
+      <TooltipTrigger asChild>
+        <Button variant="outline">Hover</Button>
+      </TooltipTrigger>
+      <TooltipContent>
+        <p>Add to library</p>
+      </TooltipContent>
+    </Tooltip>
+  )
+}
+```
+
+### Positioning
+
+Control the position of the tooltip using the `side` prop.
+
+<Tabs defaultValue="top">
+
+<TabsList>
+  <TabsTrigger value="top">Top</TabsTrigger>
+  <TabsTrigger value="right">Right</TabsTrigger>
+  <TabsTrigger value="bottom">Bottom</TabsTrigger>
+  <TabsTrigger value="left">Left</TabsTrigger>
+</TabsList>
+
+<TabsContent value="top">
+
+```tsx
+import { Button } from "@/components/ui/button"
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip"
+
+export default function TooltipTop() {
+  return (
+    <Tooltip>
+      <TooltipTrigger asChild>
+        <Button variant="outline">Top</Button>
+      </TooltipTrigger>
+      <TooltipContent side="top">
+        <p>Tooltip on top</p>
+      </TooltipContent>
+    </Tooltip>
+  )
+}
+```
+
+</TabsContent>
+
+<TabsContent value="right">
+
+```tsx
+import { Button } from "@/components/ui/button"
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip"
+
+export default function TooltipRight() {
+  return (
+    <Tooltip>
+      <TooltipTrigger asChild>
+        <Button variant="outline">Right</Button>
+      </TooltipTrigger>
+      <TooltipContent side="right">
+        <p>Tooltip on right</p>
+      </TooltipContent>
+    </Tooltip>
+  )
+}
+```
+
+</TabsContent>
+
+<TabsContent value="bottom">
+
+```tsx
+import { Button } from "@/components/ui/button"
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip"
+
+export default function TooltipBottom() {
+  return (
+    <Tooltip>
+      <TooltipTrigger asChild>
+        <Button variant="outline">Bottom</Button>
+      </TooltipTrigger>
+      <TooltipContent side="bottom">
+        <p>Tooltip on bottom</p>
+      </TooltipContent>
+    </Tooltip>
+  )
+}
+```
+
+</TabsContent>
+
+<TabsContent value="left">
+
+```tsx
+import { Button } from "@/components/ui/button"
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip"
+
+export default function TooltipLeft() {
+  return (
+    <Tooltip>
+      <TooltipTrigger asChild>
+        <Button variant="outline">Left</Button>
+      </TooltipTrigger>
+      <TooltipContent side="left">
+        <p>Tooltip on left</p>
+      </TooltipContent>
+    </Tooltip>
+  )
+}
+```
+
+</TabsContent>
+
+</Tabs>
+
+### With Arrow
+
+Tooltips include an arrow by default pointing to the trigger element.
+
+```tsx
+import { Button } from "@/components/ui/button"
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip"
+
+export default function TooltipWithArrow() {
+  return (
+    <Tooltip>
+      <TooltipTrigger asChild>
+        <Button variant="outline">Hover me</Button>
+      </TooltipTrigger>
+      <TooltipContent>
+        <p>This tooltip has an arrow</p>
+      </TooltipContent>
+    </Tooltip>
+  )
+}
+```
+
+### Keyboard Shortcut
+
+Display keyboard shortcuts in tooltips.
+
+```tsx
+import { Button } from "@/components/ui/button"
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip"
+
+export default function TooltipKeyboard() {
+  return (
+    <Tooltip>
+      <TooltipTrigger asChild>
+        <Button variant="outline">Save</Button>
+      </TooltipTrigger>
+      <TooltipContent>
+        <p className="flex items-center gap-2">
+          Save changes
+          <kbd className="pointer-events-none inline-flex h-5 select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono text-[10px] font-medium text-muted-foreground opacity-100">
+            <span className="text-xs">⌘</span>S
+          </kbd>
+        </p>
+      </TooltipContent>
+    </Tooltip>
+  )
+}
+```
+
+### Disabled Button
+
+Show a tooltip on a disabled button by wrapping it with a span.
+
+```tsx
+import { Button } from "@/components/ui/button"
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip"
+
+export default function TooltipDisabled() {
+  return (
+    <Tooltip>
+      <TooltipTrigger asChild>
+        <span className="inline-block">
+          <Button disabled>Disabled</Button>
+        </span>
+      </TooltipTrigger>
+      <TooltipContent>
+        <p>This action is currently disabled</p>
+      </TooltipContent>
+    </Tooltip>
+  )
+}
+```
+
+### Delay Duration
+
+Control how long the user must hover before the tooltip appears.
+
+```tsx
+import { Button } from "@/components/ui/button"
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip"
+
+export default function TooltipDelay() {
+  return (
+    <Tooltip delayDuration={0}>
+      <TooltipTrigger asChild>
+        <Button variant="outline">Instant</Button>
+      </TooltipTrigger>
+      <TooltipContent>
+        <p>This tooltip appears instantly</p>
+      </TooltipContent>
+    </Tooltip>
+  )
+}
+```
+
+### Rich Content
+
+Tooltips can contain rich content, not just text.
+
+```tsx
+import { Button } from "@/components/ui/button"
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip"
+
+export default function TooltipRichContent() {
+  return (
+    <Tooltip>
+      <TooltipTrigger asChild>
+        <Button variant="outline">Hover for details</Button>
+      </TooltipTrigger>
+      <TooltipContent className="max-w-xs">
+        <div className="space-y-2">
+          <p className="font-semibold">Feature Details</p>
+          <p className="text-xs text-muted-foreground">
+            This feature allows you to customize the appearance and behavior of
+            your components.
+          </p>
+        </div>
+      </TooltipContent>
+    </Tooltip>
+  )
+}
+```
+
+## Component Code
+
+```tsx
+"use client"
+
+import * as React from "react"
+import { Tooltip as TooltipPrimitive } from "radix-ui"
+
+import { cn } from "@/lib/utils"
+
+function TooltipProvider({
+  delayDuration = 0,
+  ...props
+}: React.ComponentProps<typeof TooltipPrimitive.Provider>) {
+  return (
+    <TooltipPrimitive.Provider
+      data-slot="tooltip-provider"
+      delayDuration={delayDuration}
+      {...props}
+    />
+  )
+}
+
+function Tooltip({
+  ...props
+}: React.ComponentProps<typeof TooltipPrimitive.Root>) {
+  return <TooltipPrimitive.Root data-slot="tooltip" {...props} />
+}
+
+function TooltipTrigger({
+  ...props
+}: React.ComponentProps<typeof TooltipPrimitive.Trigger>) {
+  return <TooltipPrimitive.Trigger data-slot="tooltip-trigger" {...props} />
+}
+
+function TooltipContent({
+  className,
+  sideOffset = 0,
+  children,
+  ...props
+}: React.ComponentProps<typeof TooltipPrimitive.Content>) {
+  return (
+    <TooltipPrimitive.Portal>
+      <TooltipPrimitive.Content
+        data-slot="tooltip-content"
+        sideOffset={sideOffset}
+        className={cn(
+          "z-50 w-fit origin-(--radix-tooltip-content-transform-origin) animate-in rounded-md bg-foreground px-3 py-1.5 text-xs text-balance text-background fade-in-0 zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95",
+          className
+        )}
+        {...props}
+      >
+        {children}
+        <TooltipPrimitive.Arrow className="z-50 size-2.5 translate-y-[calc(-50%_-_2px)] rotate-45 rounded-[2px] bg-foreground fill-foreground" />
+      </TooltipPrimitive.Content>
+    </TooltipPrimitive.Portal>
+  )
+}
+
+export { Tooltip, TooltipTrigger, TooltipContent, TooltipProvider }
+```
+
+## Props
+
+### TooltipProvider
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `delayDuration` | `number` | `0` | Time in ms before tooltip appears |
+| `skipDelayDuration` | `number` | `300` | Time before delay resets after pointer leaves |
+| `disableHoverableContent` | `boolean` | `false` | Prevents hovering over tooltip content |
+
+### Tooltip
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `open` | `boolean` | - | Controlled open state |
+| `defaultOpen` | `boolean` | `false` | Default open state (uncontrolled) |
+| `onOpenChange` | `(open: boolean) => void` | - | Callback when open state changes |
+| `delayDuration` | `number` | - | Overrides provider's delayDuration |
+
+### TooltipTrigger
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `asChild` | `boolean` | `false` | Merge props with child element |
+| `className` | `string` | - | Additional CSS classes |
+
+### TooltipContent
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `side` | `"top" \| "right" \| "bottom" \| "left"` | `"top"` | Preferred side of the trigger |
+| `sideOffset` | `number` | `0` | Distance from trigger in pixels |
+| `align` | `"start" \| "center" \| "end"` | `"center"` | Alignment relative to trigger |
+| `alignOffset` | `number` | `0` | Offset from alignment position |
+| `className` | `string` | - | Additional CSS classes |
+
+## Accessibility
+
+- Automatically associates tooltip with trigger using `aria-describedby`
+- Keyboard accessible (opens on focus, closes on blur/escape)
+- Uses `role="tooltip"` for screen readers
+- Portal rendering prevents z-index issues
+- Respects `prefers-reduced-motion`
+
+## Best Practices
+
+- Keep tooltip text concise and informative
+- Don't use tooltips for critical information
+- Ensure tooltips don't hide important content
+- Use `asChild` on trigger to merge with custom components
+- Wrap disabled buttons in a span to enable tooltips
+- Consider using instant tooltips (`delayDuration={0}`) for frequently accessed items
+
+## API Reference
+
+Built on top of [Radix UI Tooltip](https://base-ui.com/react/components/tooltip). See the [official API documentation](https://base-ui.com/react/components/tooltip#api-reference) for more details.

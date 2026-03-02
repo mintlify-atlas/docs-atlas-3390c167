@@ -1,0 +1,300 @@
+---
+title: Hover Card
+description: For sighted users to preview content available behind a link.
+---
+
+## Installation
+
+<CodeGroup>
+
+```bash npm
+npm install @base-ui/react
+```
+
+```bash pnpm
+pnpm add @base-ui/react
+```
+
+```bash yarn
+yarn add @base-ui/react
+```
+
+```bash bun
+bun add @base-ui/react
+```
+
+</CodeGroup>
+
+Or use the CLI:
+
+```bash
+npx shadcn@latest add hover-card
+```
+
+## Usage
+
+```tsx
+import {
+  HoverCard,
+  HoverCardContent,
+  HoverCardTrigger,
+} from "@/components/ui/hover-card"
+```
+
+```tsx
+<HoverCard>
+  <HoverCardTrigger>Hover</HoverCardTrigger>
+  <HoverCardContent>
+    The React Framework – created and maintained by @vercel.
+  </HoverCardContent>
+</HoverCard>
+```
+
+## Component API
+
+### HoverCard
+
+The root hover card component built on Radix UI.
+
+**Props:**
+- `open` - Control hover card open state
+- `onOpenChange` - Callback when open state changes
+- `defaultOpen` - Initial open state
+- `openDelay` - Delay before opening (default: `700ms`)
+- `closeDelay` - Delay before closing (default: `300ms`)
+
+### HoverCardTrigger
+
+The element that triggers the hover card.
+
+**Props:**
+- `asChild` - Compose with child element
+
+### HoverCardContent
+
+The hover card content container.
+
+**Props:**
+- `side` - Placement side (default: `"bottom"`)
+  - Options: `"top"`, `"right"`, `"bottom"`, `"left"`
+- `align` - Alignment (default: `"center"`)
+  - Options: `"start"`, `"center"`, `"end"`
+- `sideOffset` - Offset from trigger (default: `4`)
+- `alignOffset` - Alignment offset
+
+## Examples
+
+### Basic
+
+A simple hover card with user information:
+
+```tsx
+import { CalendarDays } from "lucide-react"
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { Button } from "@/components/ui/button"
+import {
+  HoverCard,
+  HoverCardContent,
+  HoverCardTrigger,
+} from "@/components/ui/hover-card"
+
+export function HoverCardDemo() {
+  return (
+    <HoverCard>
+      <HoverCardTrigger asChild>
+        <Button variant="link">@nextjs</Button>
+      </HoverCardTrigger>
+      <HoverCardContent className="w-80">
+        <div className="flex justify-between space-x-4">
+          <Avatar>
+            <AvatarImage src="https://github.com/vercel.png" />
+            <AvatarFallback>VC</AvatarFallback>
+          </Avatar>
+          <div className="space-y-1">
+            <h4 className="text-sm font-semibold">@nextjs</h4>
+            <p className="text-sm">
+              The React Framework – created and maintained by @vercel.
+            </p>
+            <div className="flex items-center pt-2">
+              <CalendarDays className="mr-2 h-4 w-4 opacity-70" />
+              <span className="text-xs text-muted-foreground">
+                Joined December 2021
+              </span>
+            </div>
+          </div>
+        </div>
+      </HoverCardContent>
+    </HoverCard>
+  )
+}
+```
+
+### With Custom Delays
+
+Control when the card opens and closes:
+
+```tsx
+<HoverCard openDelay={300} closeDelay={100}>
+  <HoverCardTrigger asChild>
+    <Button variant="link">Quick preview</Button>
+  </HoverCardTrigger>
+  <HoverCardContent>
+    This opens faster and closes quicker.
+  </HoverCardContent>
+</HoverCard>
+```
+
+### Different Sides
+
+Control the placement side:
+
+<Tabs defaultValue="bottom">
+  <TabsList>
+    <TabsTrigger value="top">Top</TabsTrigger>
+    <TabsTrigger value="right">Right</TabsTrigger>
+    <TabsTrigger value="bottom">Bottom</TabsTrigger>
+    <TabsTrigger value="left">Left</TabsTrigger>
+  </TabsList>
+  <TabsContent value="top">
+```tsx
+<HoverCard>
+  <HoverCardTrigger>Hover</HoverCardTrigger>
+  <HoverCardContent side="top">
+    Content appears above
+  </HoverCardContent>
+</HoverCard>
+```
+  </TabsContent>
+  <TabsContent value="right">
+```tsx
+<HoverCard>
+  <HoverCardTrigger>Hover</HoverCardTrigger>
+  <HoverCardContent side="right">
+    Content appears on the right
+  </HoverCardContent>
+</HoverCard>
+```
+  </TabsContent>
+  <TabsContent value="bottom">
+```tsx
+<HoverCard>
+  <HoverCardTrigger>Hover</HoverCardTrigger>
+  <HoverCardContent side="bottom">
+    Content appears below
+  </HoverCardContent>
+</HoverCard>
+```
+  </TabsContent>
+  <TabsContent value="left">
+```tsx
+<HoverCard>
+  <HoverCardTrigger>Hover</HoverCardTrigger>
+  <HoverCardContent side="left">
+    Content appears on the left
+  </HoverCardContent>
+</HoverCard>
+```
+  </TabsContent>
+</Tabs>
+
+### Different Alignments
+
+Control the alignment:
+
+```tsx
+<HoverCard>
+  <HoverCardTrigger>Hover</HoverCardTrigger>
+  <HoverCardContent side="top" align="start">
+    Content aligned to start
+  </HoverCardContent>
+</HoverCard>
+```
+
+### Controlled
+
+Control the hover card open state:
+
+```tsx
+import * as React from "react"
+import { Button } from "@/components/ui/button"
+import {
+  HoverCard,
+  HoverCardContent,
+  HoverCardTrigger,
+} from "@/components/ui/hover-card"
+
+export function ControlledHoverCard() {
+  const [open, setOpen] = React.useState(false)
+
+  return (
+    <div className="space-x-2">
+      <HoverCard open={open} onOpenChange={setOpen}>
+        <HoverCardTrigger asChild>
+          <Button variant="outline">Hover or click</Button>
+        </HoverCardTrigger>
+        <HoverCardContent>
+          This hover card's state is controlled.
+        </HoverCardContent>
+      </HoverCard>
+      <Button onClick={() => setOpen(!open)}>
+        {open ? "Close" : "Open"}
+      </Button>
+    </div>
+  )
+}
+```
+
+### Rich Content
+
+Display rich content in the hover card:
+
+```tsx
+import { HoverCard, HoverCardContent, HoverCardTrigger } from "@/components/ui/hover-card"
+import { Button } from "@/components/ui/button"
+
+export function RichContentHoverCard() {
+  return (
+    <HoverCard>
+      <HoverCardTrigger asChild>
+        <Button variant="link">View details</Button>
+      </HoverCardTrigger>
+      <HoverCardContent className="w-96">
+        <div className="space-y-2">
+          <div>
+            <h4 className="text-sm font-semibold">Feature Preview</h4>
+            <p className="text-sm text-muted-foreground">
+              Get a sneak peek at our upcoming features.
+            </p>
+          </div>
+          <div className="grid gap-2">
+            <div className="flex items-center space-x-2">
+              <div className="h-2 w-2 rounded-full bg-green-500" />
+              <span className="text-xs">AI-powered search</span>
+            </div>
+            <div className="flex items-center space-x-2">
+              <div className="h-2 w-2 rounded-full bg-blue-500" />
+              <span className="text-xs">Real-time collaboration</span>
+            </div>
+            <div className="flex items-center space-x-2">
+              <div className="h-2 w-2 rounded-full bg-purple-500" />
+              <span className="text-xs">Advanced analytics</span>
+            </div>
+          </div>
+        </div>
+      </HoverCardContent>
+    </HoverCard>
+  )
+}
+```
+
+## Accessibility
+
+- Built on Radix UI for full accessibility
+- Can be triggered via keyboard focus
+- Screen reader compatible
+- ARIA attributes automatically applied
+- Focus management
+
+## API Reference
+
+See the [Base UI Hover Card](https://base-ui.com/react/components/hover-card#api-reference) documentation for complete API details.

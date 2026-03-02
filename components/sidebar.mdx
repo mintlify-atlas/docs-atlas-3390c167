@@ -1,0 +1,361 @@
+---
+title: Sidebar
+description: A composable, themeable and customizable sidebar component.
+---
+
+## Installation
+
+<CodeGroup>
+
+```bash npm
+npx shadcn@latest add sidebar
+```
+
+```bash yarn
+yarn dlx shadcn@latest add sidebar
+```
+
+```bash pnpm
+pnpm dlx shadcn@latest add sidebar
+```
+
+</CodeGroup>
+
+## Structure
+
+A `Sidebar` component is composed of the following parts:
+
+- `SidebarProvider` - Handles collapsible state
+- `Sidebar` - The sidebar container
+- `SidebarHeader` and `SidebarFooter` - Sticky at the top and bottom
+- `SidebarContent` - Scrollable content area
+- `SidebarGroup` - Section within the content
+- `SidebarTrigger` - Button to toggle the sidebar
+
+## Usage
+
+```tsx
+import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar"
+import { AppSidebar } from "@/components/app-sidebar"
+
+export default function Layout({ children }: { children: React.ReactNode }) {
+  return (
+    <SidebarProvider>
+      <AppSidebar />
+      <main>
+        <SidebarTrigger />
+        {children}
+      </main>
+    </SidebarProvider>
+  )
+}
+```
+
+```tsx
+import {
+  Sidebar,
+  SidebarContent,
+  SidebarFooter,
+  SidebarGroup,
+  SidebarHeader,
+} from "@/components/ui/sidebar"
+
+export function AppSidebar() {
+  return (
+    <Sidebar>
+      <SidebarHeader />
+      <SidebarContent>
+        <SidebarGroup />
+        <SidebarGroup />
+      </SidebarContent>
+      <SidebarFooter />
+    </Sidebar>
+  )
+}
+```
+
+## Component API
+
+### SidebarProvider
+
+Provides sidebar context and state management.
+
+```tsx
+function SidebarProvider({
+  defaultOpen = true,
+  open: openProp,
+  onOpenChange: setOpenProp,
+  className,
+  style,
+  children,
+  ...props
+}: React.ComponentProps<"div"> & {
+  defaultOpen?: boolean
+  open?: boolean
+  onOpenChange?: (open: boolean) => void
+})
+```
+
+**Props:**
+- `defaultOpen` - Default open state (default: `true`)
+- `open` - Controlled open state
+- `onOpenChange` - Callback when open state changes
+
+### Sidebar
+
+Main sidebar container.
+
+```tsx
+function Sidebar({
+  side = "left",
+  variant = "sidebar",
+  collapsible = "offcanvas",
+  className,
+  children,
+  ...props
+}: React.ComponentProps<"div"> & {
+  side?: "left" | "right"
+  variant?: "sidebar" | "floating" | "inset"
+  collapsible?: "offcanvas" | "icon" | "none"
+})
+```
+
+**Props:**
+- `side` - Which side the sidebar appears on
+- `variant` - Visual variant of the sidebar
+- `collapsible` - How the sidebar collapses
+
+### useSidebar Hook
+
+Access sidebar state and controls.
+
+```tsx
+const {
+  state,        // "expanded" | "collapsed"
+  open,         // boolean
+  setOpen,      // (open: boolean) => void
+  openMobile,   // boolean
+  setOpenMobile, // (open: boolean) => void
+  isMobile,     // boolean
+  toggleSidebar, // () => void
+} = useSidebar()
+```
+
+### SidebarHeader
+
+Sticky header section.
+
+```tsx
+function SidebarHeader({ className, ...props }: React.ComponentProps<"div">)
+```
+
+### SidebarFooter
+
+Sticky footer section.
+
+```tsx
+function SidebarFooter({ className, ...props }: React.ComponentProps<"div">)
+```
+
+### SidebarContent
+
+Scrollable content container.
+
+```tsx
+function SidebarContent({ className, ...props }: React.ComponentProps<"div">)
+```
+
+### SidebarGroup
+
+Groups related sidebar items.
+
+```tsx
+function SidebarGroup({ className, ...props }: React.ComponentProps<"div">)
+```
+
+### SidebarMenu
+
+Menu list container.
+
+```tsx
+function SidebarMenu({ className, ...props }: React.ComponentProps<"ul">)
+```
+
+### SidebarMenuItem
+
+Individual menu item.
+
+```tsx
+function SidebarMenuItem({ className, ...props }: React.ComponentProps<"li">)
+```
+
+### SidebarMenuButton
+
+Clickable menu button.
+
+```tsx
+function SidebarMenuButton({
+  asChild,
+  isActive,
+  variant = "default",
+  size = "default",
+  tooltip,
+  ...props
+}: React.ComponentProps<"button"> & {
+  asChild?: boolean
+  isActive?: boolean
+  variant?: "default" | "outline"
+  size?: "default" | "sm" | "lg"
+  tooltip?: string | React.ComponentProps<typeof TooltipContent>
+})
+```
+
+### SidebarTrigger
+
+Button to toggle sidebar.
+
+```tsx
+function SidebarTrigger({ className, ...props }: React.ComponentProps<typeof Button>)
+```
+
+## Examples
+
+### Basic Sidebar
+
+```tsx
+<SidebarProvider>
+  <Sidebar>
+    <SidebarHeader>
+      <h2 className="px-4 text-lg font-semibold">My App</h2>
+    </SidebarHeader>
+    <SidebarContent>
+      <SidebarGroup>
+        <SidebarMenu>
+          <SidebarMenuItem>
+            <SidebarMenuButton asChild>
+              <a href="/">
+                <Home className="h-4 w-4" />
+                <span>Home</span>
+              </a>
+            </SidebarMenuButton>
+          </SidebarMenuItem>
+        </SidebarMenu>
+      </SidebarGroup>
+    </SidebarContent>
+  </Sidebar>
+  <main className="flex-1">
+    <SidebarTrigger />
+    {/* Content */}
+  </main>
+</SidebarProvider>
+```
+
+### Collapsible to Icons
+
+```tsx
+<Sidebar collapsible="icon">
+  {/* Sidebar content */}
+</Sidebar>
+```
+
+### Right Side
+
+```tsx
+<Sidebar side="right">
+  {/* Sidebar content */}
+</Sidebar>
+```
+
+### Floating Variant
+
+```tsx
+<Sidebar variant="floating">
+  {/* Sidebar content */}
+</Sidebar>
+```
+
+### Inset Variant
+
+```tsx
+<SidebarProvider>
+  <Sidebar variant="inset" />
+  <SidebarInset>
+    <main>{children}</main>
+  </SidebarInset>
+</SidebarProvider>
+```
+
+### Controlled Sidebar
+
+```tsx
+function ControlledSidebar() {
+  const [open, setOpen] = React.useState(false)
+
+  return (
+    <SidebarProvider open={open} onOpenChange={setOpen}>
+      <Sidebar />
+    </SidebarProvider>
+  )
+}
+```
+
+### Custom Width
+
+```tsx
+<SidebarProvider
+  style={{
+    "--sidebar-width": "20rem",
+    "--sidebar-width-mobile": "20rem",
+  } as React.CSSProperties}
+>
+  <Sidebar />
+</SidebarProvider>
+```
+
+### With Collapsible Groups
+
+```tsx
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible"
+
+<Collapsible defaultOpen className="group/collapsible">
+  <SidebarGroup>
+    <SidebarGroupLabel asChild>
+      <CollapsibleTrigger>
+        Help
+        <ChevronDown className="ml-auto transition-transform group-data-[state=open]/collapsible:rotate-180" />
+      </CollapsibleTrigger>
+    </SidebarGroupLabel>
+    <CollapsibleContent>
+      <SidebarGroupContent />
+    </CollapsibleContent>
+  </SidebarGroup>
+</Collapsible>
+```
+
+## Theming
+
+Customize sidebar colors with CSS variables:
+
+```css
+:root {
+  --sidebar-background: 0 0% 98%;
+  --sidebar-foreground: 240 5.3% 26.1%;
+  --sidebar-primary: 240 5.9% 10%;
+  --sidebar-primary-foreground: 0 0% 98%;
+  --sidebar-accent: 240 4.8% 95.9%;
+  --sidebar-accent-foreground: 240 5.9% 10%;
+  --sidebar-border: 220 13% 91%;
+  --sidebar-ring: 217.2 91.2% 59.8%;
+}
+```
+
+## Keyboard Shortcuts
+
+- `Cmd+B` (Mac) or `Ctrl+B` (Windows) - Toggle sidebar
+
+## Accessibility
+
+- Keyboard navigation support
+- Focus management
+- ARIA labels and roles
+- Screen reader announcements

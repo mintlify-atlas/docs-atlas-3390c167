@@ -1,0 +1,207 @@
+---
+title: shadcn search
+description: Search items from registries
+---
+
+The `search` command (also available as `list`) searches for items across one or more registries. Use it to discover available components, themes, and other registry items.
+
+## Usage
+
+```bash
+shadcn search <registries...>
+```
+
+```bash
+shadcn list <registries...>
+```
+
+## Arguments
+
+<ParamField path="registries" type="string[]" required>
+  The registry names or URLs to search. Registry names must be prefixed with `@`.
+</ParamField>
+
+## Options
+
+<ParamField path="--cwd" type="string" optional>
+  The working directory. Defaults to the current directory.
+</ParamField>
+
+<ParamField path="--query" type="string" optional>
+  Query string to filter results.
+</ParamField>
+
+<ParamField path="--limit" type="number" default="100">
+  Maximum number of items to display per registry.
+</ParamField>
+
+<ParamField path="--offset" type="number" default="0">
+  Number of items to skip.
+</ParamField>
+
+## Examples
+
+### Search the default shadcn registry
+
+```bash
+shadcn search @shadcn
+```
+
+### Search with a query
+
+```bash
+shadcn search @shadcn --query button
+```
+
+Output:
+```json
+[
+  {
+    "name": "button",
+    "type": "registry:ui",
+    "description": "Displays a button or a component that looks like a button.",
+    "registry": "@shadcn"
+  }
+]
+```
+
+### Search multiple registries
+
+```bash
+shadcn search @shadcn @custom-registry
+```
+
+### Limit results
+
+```bash
+shadcn search @shadcn --limit 10
+```
+
+### Paginate results
+
+```bash
+shadcn search @shadcn --offset 20 --limit 10
+```
+
+### Search by URL
+
+```bash
+shadcn search https://ui.shadcn.com/r
+```
+
+## What it does
+
+1. Reads your `components.json` (if it exists) or uses default configuration
+2. Resolves registry URLs
+3. Fetches the registry index
+4. Filters results by query (if provided)
+5. Applies limit and offset
+6. Outputs results as JSON
+
+## Output structure
+
+Each search result includes:
+
+- `name` - Item name
+- `type` - Registry type
+- `description` - Item description (if available)
+- `registry` - Registry identifier
+- `meta` - Additional metadata (if available)
+
+## Registry types
+
+Search results can include:
+
+- `registry:ui` - UI components
+- `registry:block` - UI blocks and sections
+- `registry:hook` - React hooks
+- `registry:lib` - Library utilities
+- `registry:theme` - Themes
+- `registry:style` - Style systems
+- `registry:base` - Base configurations
+- `registry:example` - Example implementations
+
+## Working with custom registries
+
+To search a custom registry, add it to your `components.json`:
+
+```json
+{
+  "registries": {
+    "@my-registry": {
+      "url": "https://my-registry.com/r"
+    }
+  }
+}
+```
+
+Then search it:
+
+```bash
+shadcn search @my-registry
+```
+
+Or search directly by URL without configuration:
+
+```bash
+shadcn search https://my-registry.com/r
+```
+
+## Use cases
+
+### Browse available components
+
+```bash
+shadcn search @shadcn | jq -r '.[].name' | sort
+```
+
+### Find form-related components
+
+```bash
+shadcn search @shadcn --query form
+```
+
+### Count available items
+
+```bash
+shadcn search @shadcn | jq 'length'
+```
+
+### Filter by type
+
+```bash
+shadcn search @shadcn | jq '.[] | select(.type == "registry:ui")'
+```
+
+### Get component descriptions
+
+```bash
+shadcn search @shadcn | jq '.[] | {name, description}'
+```
+
+## Working with output
+
+The JSON output can be processed with `jq`:
+
+```bash
+# Get component names only
+shadcn search @shadcn | jq -r '.[].name'
+
+# Filter UI components
+shadcn search @shadcn | jq '.[] | select(.type == "registry:ui")'
+
+# Pretty print
+shadcn search @shadcn | jq '.'
+
+# Save to file
+shadcn search @shadcn > components.json
+```
+
+## Notes
+
+- Registry names must be prefixed with `@`
+- Supports partial `components.json` files
+- Works without a `components.json` file (uses defaults)
+- Automatically configures registries if needed
+- Search queries are case-insensitive
+- Results are always returned as JSON

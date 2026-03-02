@@ -1,0 +1,518 @@
+---
+title: "CLI"
+description: "Use the shadcn CLI to add components and manage your project."
+---
+
+# CLI
+
+Use the CLI to add components to your project, manage dependencies, and more.
+
+## Installation
+
+You don't need to install the CLI globally. Use `npx` to run commands:
+
+```bash
+npx shadcn@latest
+```
+
+This will always use the latest version of the CLI.
+
+## Commands
+
+### init
+
+Initialize your project and install dependencies.
+
+```bash
+npx shadcn@latest init
+```
+
+You can also initialize with components:
+
+```bash
+npx shadcn@latest init button card
+```
+
+#### Options
+
+<ParamField path="-t, --template" type="string">
+  The template to use: `next`, `vite`, `start`, or `next-monorepo`
+  
+  ```bash
+  npx shadcn@latest init --template next
+  ```
+</ParamField>
+
+<ParamField path="-b, --base-color" type="string">
+  The base color: `neutral`, `gray`, `zinc`, `stone`, or `slate`
+  
+  ```bash
+  npx shadcn@latest init --base-color zinc
+  ```
+</ParamField>
+
+<ParamField path="-y, --yes" type="boolean" default="true">
+  Skip confirmation prompt
+  
+  ```bash
+  npx shadcn@latest init --yes
+  ```
+</ParamField>
+
+<ParamField path="-d, --defaults" type="boolean" default="false">
+  Use default configuration
+  
+  ```bash
+  npx shadcn@latest init --defaults
+  ```
+</ParamField>
+
+<ParamField path="-f, --force" type="boolean" default="false">
+  Force overwrite of existing configuration
+  
+  ```bash
+  npx shadcn@latest init --force
+  ```
+</ParamField>
+
+<ParamField path="-c, --cwd" type="string">
+  The working directory (defaults to current directory)
+  
+  ```bash
+  npx shadcn@latest init --cwd ./my-app
+  ```
+</ParamField>
+
+<ParamField path="--src-dir" type="boolean">
+  Use the src directory when creating a new project
+  
+  ```bash
+  npx shadcn@latest init --src-dir
+  ```
+</ParamField>
+
+<ParamField path="--css-variables" type="boolean" default="true">
+  Use CSS variables for theming
+  
+  ```bash
+  npx shadcn@latest init --css-variables
+  npx shadcn@latest init --no-css-variables
+  ```
+</ParamField>
+
+<ParamField path="--rtl" type="boolean" default="false">
+  Enable RTL support
+  
+  ```bash
+  npx shadcn@latest init --rtl
+  ```
+</ParamField>
+
+<ParamField path="--no-base-style" type="boolean">
+  Do not install the base shadcn style
+  
+  ```bash
+  npx shadcn@latest init --no-base-style
+  ```
+</ParamField>
+
+---
+
+### create
+
+Create a new project with shadcn/ui.
+
+```bash
+npx shadcn@latest create my-app
+```
+
+If no name is provided, you'll be prompted to enter one. If no preset is specified, you'll be taken to the create page to build your custom design system.
+
+#### Options
+
+<ParamField path="-t, --template" type="string">
+  The template to use: `next`, `vite`, or `start`
+  
+  ```bash
+  npx shadcn@latest create my-app --template vite
+  ```
+</ParamField>
+
+<ParamField path="-p, --preset" type="string">
+  Use a preset configuration (name or URL)
+  
+  ```bash
+  # Use a named preset
+  npx shadcn@latest create my-app --preset default
+  
+  # Use a URL
+  npx shadcn@latest create my-app --preset https://ui.shadcn.com/init?...
+  ```
+</ParamField>
+
+<ParamField path="-c, --cwd" type="string">
+  The working directory
+  
+  ```bash
+  npx shadcn@latest create --cwd ./projects
+  ```
+</ParamField>
+
+<ParamField path="--src-dir" type="boolean">
+  Use the src directory
+  
+  ```bash
+  npx shadcn@latest create my-app --src-dir
+  ```
+</ParamField>
+
+<ParamField path="--rtl" type="boolean" default="false">
+  Enable RTL support
+  
+  ```bash
+  npx shadcn@latest create my-app --rtl
+  ```
+</ParamField>
+
+---
+
+### add
+
+Add components to your project.
+
+```bash
+npx shadcn@latest add button
+```
+
+You can add multiple components at once:
+
+```bash
+npx shadcn@latest add button card dialog
+```
+
+Or add all components:
+
+```bash
+npx shadcn@latest add --all
+```
+
+#### Adding from URLs
+
+You can also add components from URLs:
+
+```bash
+npx shadcn@latest add https://ui.shadcn.com/r/button.json
+```
+
+#### Adding from Custom Registries
+
+If you've configured custom registries in `components.json`, you can use them:
+
+```bash
+npx shadcn@latest add @acme/button
+```
+
+#### Options
+
+<ParamField path="-y, --yes" type="boolean" default="false">
+  Skip confirmation prompt
+  
+  ```bash
+  npx shadcn@latest add button --yes
+  ```
+</ParamField>
+
+<ParamField path="-o, --overwrite" type="boolean" default="false">
+  Overwrite existing files
+  
+  ```bash
+  npx shadcn@latest add button --overwrite
+  ```
+</ParamField>
+
+<ParamField path="-c, --cwd" type="string">
+  The working directory
+  
+  ```bash
+  npx shadcn@latest add button --cwd ./my-app
+  ```
+</ParamField>
+
+<ParamField path="-a, --all" type="boolean" default="false">
+  Add all available components
+  
+  ```bash
+  npx shadcn@latest add --all
+  ```
+</ParamField>
+
+<ParamField path="-p, --path" type="string">
+  The path to add the component to
+  
+  ```bash
+  npx shadcn@latest add button --path ./src/components
+  ```
+</ParamField>
+
+<ParamField path="-s, --silent" type="boolean" default="false">
+  Mute output
+  
+  ```bash
+  npx shadcn@latest add button --silent
+  ```
+</ParamField>
+
+---
+
+### diff
+
+Check for updates against the registry.
+
+```bash
+npx shadcn@latest diff
+```
+
+This will check all components in your project for updates. To check a specific component:
+
+```bash
+npx shadcn@latest diff button
+```
+
+The command will show you the differences between your local components and the latest versions in the registry.
+
+#### Options
+
+<ParamField path="-y, --yes" type="boolean" default="false">
+  Skip confirmation prompt
+  
+  ```bash
+  npx shadcn@latest diff button --yes
+  ```
+</ParamField>
+
+<ParamField path="-c, --cwd" type="string">
+  The working directory
+  
+  ```bash
+  npx shadcn@latest diff --cwd ./my-app
+  ```
+</ParamField>
+
+---
+
+### view
+
+View items from the registry.
+
+```bash
+npx shadcn@latest view button
+```
+
+This outputs the raw JSON for the component from the registry. Useful for debugging or inspecting component metadata.
+
+You can view multiple items:
+
+```bash
+npx shadcn@latest view button card dialog
+```
+
+#### Options
+
+<ParamField path="-c, --cwd" type="string">
+  The working directory
+  
+  ```bash
+  npx shadcn@latest view button --cwd ./my-app
+  ```
+</ParamField>
+
+---
+
+### search
+
+Search for components in the registry.
+
+```bash
+npx shadcn@latest search button
+```
+
+This searches the registry for components matching your query.
+
+---
+
+### migrate
+
+Migrate from older versions of shadcn/ui.
+
+```bash
+npx shadcn@latest migrate
+```
+
+This command helps you migrate your components when there are breaking changes or new conventions.
+
+---
+
+### info
+
+Display project information.
+
+```bash
+npx shadcn@latest info
+```
+
+Shows information about your project setup, including:
+- Framework detected
+- Package manager
+- Tailwind CSS version
+- Configuration paths
+
+---
+
+## Usage Examples
+
+<CodeGroup>
+```bash Initialize new project
+# Create a new Next.js project with shadcn/ui
+npx shadcn@latest create my-app --template next
+
+# Or initialize in existing project
+npx shadcn@latest init
+```
+
+```bash Add components
+# Add a single component
+npx shadcn@latest add button
+
+# Add multiple components
+npx shadcn@latest add button card dialog
+
+# Add all components
+npx shadcn@latest add --all
+
+# Add and overwrite existing
+npx shadcn@latest add button --overwrite
+```
+
+```bash Check for updates
+# Check all components
+npx shadcn@latest diff
+
+# Check specific component
+npx shadcn@latest diff button
+```
+
+```bash Advanced usage
+# Initialize with specific options
+npx shadcn@latest init \
+  --template next \
+  --base-color zinc \
+  --css-variables \
+  --defaults
+
+# Add component from URL
+npx shadcn@latest add https://ui.shadcn.com/r/button.json
+
+# Add from custom registry
+npx shadcn@latest add @acme/button
+```
+</CodeGroup>
+
+## Environment Variables
+
+The CLI supports environment variables for authentication with custom registries:
+
+```bash .env
+V0_TOKEN=your_token_here
+ACME_API_KEY=your_api_key
+```
+
+Use them in your `components.json`:
+
+```json components.json
+{
+  "registries": {
+    "@v0": {
+      "url": "https://api.v0.dev/registry/{name}.json",
+      "headers": {
+        "Authorization": "Bearer ${V0_TOKEN}"
+      }
+    }
+  }
+}
+```
+
+<Note>
+The CLI automatically loads `.env`, `.env.local`, and other environment files using dotenvx.
+</Note>
+
+## What Happens When You Add a Component?
+
+When you run `shadcn add button`, the CLI:
+
+1. **Fetches the component** from the registry
+2. **Transforms the code** to match your project configuration
+   - Updates import paths based on your aliases
+   - Applies Tailwind prefix if configured
+   - Converts to JSX if TypeScript is disabled
+   - Adds "use client" for React Server Components
+3. **Installs dependencies** required by the component
+4. **Writes the files** to your project
+5. **Updates your CSS** if needed (for new CSS variables)
+
+<Tip>
+All transformations are based on your `components.json` configuration. The CLI reads this file to understand your project structure.
+</Tip>
+
+## Troubleshooting
+
+<AccordionGroup>
+  <Accordion title="Command not found">
+    Make sure you're using `npx` to run the command:
+    
+    ```bash
+    npx shadcn@latest add button
+    ```
+    
+    Not:
+    
+    ```bash
+    shadcn add button  # This won't work
+    ```
+  </Accordion>
+  
+  <Accordion title="Invalid configuration">
+    If you get configuration errors, try:
+    
+    1. Check your `components.json` is valid JSON
+    2. Verify path aliases match your tsconfig.json
+    3. Run `npx shadcn@latest init --force` to reset configuration
+  </Accordion>
+  
+  <Accordion title="Component not found">
+    If a component is not found:
+    
+    1. Check the component name is correct
+    2. Run `npx shadcn@latest search <name>` to find available components
+    3. Make sure you have an internet connection (registry is fetched remotely)
+  </Accordion>
+  
+  <Accordion title="Import errors after adding component">
+    If you get import errors:
+    
+    1. Check your path aliases in tsconfig.json match components.json
+    2. Restart your TypeScript server
+    3. Make sure dependencies were installed (check package.json)
+  </Accordion>
+</AccordionGroup>
+
+## Version
+
+To check the CLI version:
+
+```bash
+npx shadcn@latest --version
+```
+
+<Warning>
+Always use `@latest` to ensure you're running the most recent version of the CLI. The package is updated frequently with bug fixes and new features.
+</Warning>

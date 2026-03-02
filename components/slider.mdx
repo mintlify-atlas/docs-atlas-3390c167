@@ -1,0 +1,258 @@
+---
+title: Slider
+description: An input where the user selects a value from within a given range.
+---
+
+## Installation
+
+<CodeGroup>
+
+```bash npm
+npx shadcn@latest add slider
+```
+
+```bash yarn
+yarn dlx shadcn@latest add slider
+```
+
+```bash pnpm
+pnpm dlx shadcn@latest add slider
+```
+
+</CodeGroup>
+
+## Usage
+
+```tsx
+import { Slider } from "@/components/ui/slider"
+```
+
+```tsx
+<Slider defaultValue={[33]} max={100} step={1} />
+```
+
+## Component API
+
+### Slider
+
+Range slider component built on Radix UI Slider.
+
+```tsx
+function Slider({
+  className,
+  defaultValue,
+  value,
+  min = 0,
+  max = 100,
+  ...props
+}: React.ComponentProps<typeof SliderPrimitive.Root>)
+```
+
+**Props:**
+- `defaultValue` - Default value(s) as array (e.g., `[50]`)
+- `value` - Controlled value(s) as array
+- `onValueChange` - Callback when value changes
+- `min` - Minimum value (default: `0`)
+- `max` - Maximum value (default: `100`)
+- `step` - Step increment (default: `1`)
+- `disabled` - Disables the slider
+- `orientation` - Layout direction (`"horizontal"` | `"vertical"`)
+
+## Implementation
+
+The slider automatically creates thumbs based on the number of values:
+
+```tsx
+<SliderPrimitive.Root>
+  <SliderPrimitive.Track>
+    <SliderPrimitive.Range />
+  </SliderPrimitive.Track>
+  {Array.from({ length: values.length }, (_, index) => (
+    <SliderPrimitive.Thumb key={index} />
+  ))}
+</SliderPrimitive.Root>
+```
+
+## Examples
+
+### Basic Slider
+
+Single value slider:
+
+```tsx
+<Slider defaultValue={[50]} max={100} step={1} />
+```
+
+### Range Slider
+
+Two thumbs for a range:
+
+```tsx
+<Slider defaultValue={[25, 75]} max={100} step={1} />
+```
+
+### Multiple Thumbs
+
+Multiple values:
+
+```tsx
+<Slider defaultValue={[20, 40, 60, 80]} max={100} step={1} />
+```
+
+### With Label
+
+Slider with value display:
+
+```tsx
+function SliderWithLabel() {
+  const [value, setValue] = React.useState([50])
+
+  return (
+    <div className="space-y-4">
+      <div className="flex items-center justify-between">
+        <Label>Volume</Label>
+        <span className="text-sm text-muted-foreground">{value[0]}%</span>
+      </div>
+      <Slider value={value} onValueChange={setValue} max={100} step={1} />
+    </div>
+  )
+}
+```
+
+### Vertical Slider
+
+Vertical orientation:
+
+```tsx
+<Slider
+  defaultValue={[50]}
+  max={100}
+  step={1}
+  orientation="vertical"
+  className="h-[200px]"
+/>
+```
+
+### Controlled Slider
+
+```tsx
+function ControlledSlider() {
+  const [value, setValue] = React.useState([50])
+
+  return (
+    <div className="space-y-4">
+      <Slider value={value} onValueChange={setValue} max={100} step={1} />
+      <div className="flex gap-2">
+        <Button onClick={() => setValue([0])}>Min</Button>
+        <Button onClick={() => setValue([50])}>Middle</Button>
+        <Button onClick={() => setValue([100])}>Max</Button>
+      </div>
+    </div>
+  )
+}
+```
+
+### Disabled Slider
+
+```tsx
+<Slider defaultValue={[50]} max={100} step={1} disabled />
+```
+
+### Custom Step
+
+Larger increments:
+
+```tsx
+<Slider defaultValue={[50]} max={100} step={10} />
+```
+
+### Temperature Control
+
+Practical example:
+
+```tsx
+function TemperatureControl() {
+  const [temp, setTemp] = React.useState([20])
+
+  return (
+    <div className="space-y-4">
+      <div className="flex items-center justify-between">
+        <Label>Temperature</Label>
+        <span className="text-sm font-medium">{temp[0]}°C</span>
+      </div>
+      <Slider
+        value={temp}
+        onValueChange={setTemp}
+        min={16}
+        max={30}
+        step={0.5}
+      />
+      <div className="flex justify-between text-xs text-muted-foreground">
+        <span>16°C</span>
+        <span>30°C</span>
+      </div>
+    </div>
+  )
+}
+```
+
+### Volume Control
+
+```tsx
+function VolumeControl() {
+  const [volume, setVolume] = React.useState([70])
+
+  return (
+    <div className="flex items-center gap-4">
+      <Volume2 className="h-4 w-4" />
+      <Slider
+        value={volume}
+        onValueChange={setVolume}
+        max={100}
+        step={1}
+        className="flex-1"
+      />
+      <span className="w-12 text-sm">{volume[0]}%</span>
+    </div>
+  )
+}
+```
+
+### Price Range
+
+Filter by price range:
+
+```tsx
+function PriceRangeFilter() {
+  const [range, setRange] = React.useState([0, 1000])
+
+  return (
+    <div className="space-y-4">
+      <Label>Price Range</Label>
+      <Slider
+        value={range}
+        onValueChange={setRange}
+        min={0}
+        max={1000}
+        step={10}
+      />
+      <div className="flex justify-between text-sm text-muted-foreground">
+        <span>${range[0]}</span>
+        <span>${range[1]}</span>
+      </div>
+    </div>
+  )
+}
+```
+
+## Accessibility
+
+- Full keyboard support (arrow keys, Home, End, Page Up/Down)
+- Proper ARIA attributes
+- Focus visible states
+- Screen reader announcements
+- Touch-friendly thumb size
+
+## API Reference
+
+See the [Radix UI Slider documentation](https://www.radix-ui.com/primitives/docs/components/slider) for complete API reference.

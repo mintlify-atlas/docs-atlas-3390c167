@@ -1,0 +1,303 @@
+---
+title: MCP Server
+description: Use the shadcn MCP server to browse, search, and install components with AI assistants.
+---
+
+The shadcn MCP Server allows AI assistants to interact with component registries directly. Browse components, search for specific ones, and install them into your project using natural language.
+
+For example, ask an AI assistant to:
+- "Build a landing page using components from the acme registry"
+- "Find me a login form from the shadcn registry"
+- "Add the button, dialog and card components to my project"
+
+## What is MCP?
+
+[Model Context Protocol (MCP)](https://modelcontextprotocol.io) is an open protocol that enables AI assistants to securely connect to external data sources and tools.
+
+With the shadcn MCP server, your AI assistant can:
+
+<CardGroup cols={2}>
+  <Card title="Browse components" icon="list">
+    List all available components, blocks, and templates from any configured registry
+  </Card>
+  <Card title="Search registries" icon="magnifying-glass">
+    Find specific components by name or functionality across multiple sources
+  </Card>
+  <Card title="Install with AI" icon="wand-magic-sparkles">
+    Add components using natural language prompts
+  </Card>
+  <Card title="Multiple registries" icon="database">
+    Access public registries, private company libraries, and third-party sources
+  </Card>
+</CardGroup>
+
+## Quick start
+
+<Tabs>
+  <Tab title="Claude Code">
+    <Steps>
+      <Step title="Initialize MCP">
+        ```bash
+        npx shadcn@latest mcp init --client claude
+        ```
+      </Step>
+      
+      <Step title="Restart Claude Code">
+        Restart Claude Code to load the MCP server.
+      </Step>
+      
+      <Step title="Try it out">
+        Use these prompts:
+        - Show me all available components in the shadcn registry
+        - Add the button, dialog and card components to my project
+        - Create a contact form using components from the shadcn registry
+        
+        <Note>
+        Use `/mcp` command in Claude Code to debug the MCP server.
+        </Note>
+      </Step>
+    </Steps>
+  </Tab>
+  
+  <Tab title="Cursor">
+    <Steps>
+      <Step title="Initialize MCP">
+        ```bash
+        npx shadcn@latest mcp init --client cursor
+        ```
+      </Step>
+      
+      <Step title="Enable in settings">
+        Open Cursor Settings and enable the MCP server for shadcn.
+      </Step>
+      
+      <Step title="Try it out">
+        - Show me all available components in the shadcn registry
+        - Add the button, dialog and card components to my project
+        - Create a contact form using components from the shadcn registry
+      </Step>
+    </Steps>
+  </Tab>
+  
+  <Tab title="VS Code">
+    <Steps>
+      <Step title="Initialize MCP">
+        ```bash
+        npx shadcn@latest mcp init --client vscode
+        ```
+      </Step>
+      
+      <Step title="Start the server">
+        Open `.vscode/mcp.json` and click **Start** next to the shadcn server.
+      </Step>
+      
+      <Step title="Try with Copilot">
+        Use GitHub Copilot with these prompts:
+        - Show me all available components in the shadcn registry
+        - Add the button, dialog and card components to my project
+      </Step>
+    </Steps>
+  </Tab>
+  
+  <Tab title="OpenCode">
+    <Steps>
+      <Step title="Initialize MCP">
+        ```bash
+        npx shadcn@latest mcp init --client opencode
+        ```
+      </Step>
+      
+      <Step title="Restart OpenCode">
+        Restart OpenCode to load the MCP server.
+      </Step>
+      
+      <Step title="Try it out">
+        - Show me all available components in the shadcn registry
+        - Add the button, dialog and card components to my project
+      </Step>
+    </Steps>
+  </Tab>
+</Tabs>
+
+## How it works
+
+The MCP server acts as a bridge between your AI assistant, component registries, and the shadcn CLI:
+
+<Steps>
+  <Step title="Registry connection">
+    MCP connects to configured registries (shadcn/ui, private registries, third-party sources)
+  </Step>
+  
+  <Step title="Natural language">
+    You describe what you need in plain English
+  </Step>
+  
+  <Step title="AI processing">
+    The assistant translates your request into registry commands
+  </Step>
+  
+  <Step title="Component delivery">
+    Resources are fetched and installed in your project
+  </Step>
+</Steps>
+
+## Manual configuration
+
+If you prefer to configure MCP manually, add the shadcn server to your MCP client's configuration:
+
+<Tabs>
+  <Tab title="Claude Code">
+    ```json title=".mcp.json"
+    {
+      "mcpServers": {
+        "shadcn": {
+          "command": "npx",
+          "args": ["shadcn@latest", "mcp"]
+        }
+      }
+    }
+    ```
+    
+    After adding the configuration, restart Claude Code and run `/mcp` to verify the connection.
+  </Tab>
+  
+  <Tab title="Cursor">
+    ```json title=".cursor/mcp.json"
+    {
+      "mcpServers": {
+        "shadcn": {
+          "command": "npx",
+          "args": ["shadcn@latest", "mcp"]
+        }
+      }
+    }
+    ```
+    
+    Enable the shadcn MCP server in Cursor Settings after adding the configuration.
+  </Tab>
+  
+  <Tab title="VS Code">
+    ```json title=".vscode/mcp.json"
+    {
+      "servers": {
+        "shadcn": {
+          "command": "npx",
+          "args": ["shadcn@latest", "mcp"]
+        }
+      }
+    }
+    ```
+    
+    Click **Start** next to the shadcn server in `.vscode/mcp.json`.
+  </Tab>
+</Tabs>
+
+## Supported registries
+
+The MCP server works with any shadcn-compatible registry:
+
+- **shadcn/ui registry** - Default registry with all shadcn/ui components
+- **Third-party registries** - Any registry following the shadcn registry specification
+- **Private registries** - Your company's internal component libraries
+- **Namespaced registries** - Multiple registries with `@namespace` syntax
+
+## Configuring registries
+
+Configure additional registries in your `components.json`:
+
+```json title="components.json"
+{
+  "registries": {
+    "@acme": "https://registry.acme.com/{name}.json",
+    "@internal": {
+      "url": "https://internal.company.com/{name}.json",
+      "headers": {
+        "Authorization": "Bearer ${REGISTRY_TOKEN}"
+      }
+    }
+  }
+}
+```
+
+<Note>
+No configuration needed to access the standard shadcn/ui registry.
+</Note>
+
+## Authentication
+
+For private registries, set environment variables in `.env.local`:
+
+```bash title=".env.local"
+REGISTRY_TOKEN=your_token_here
+API_KEY=your_api_key_here
+```
+
+See [Authentication documentation](/docs/registry/authentication) for more details.
+
+## Example prompts
+
+Once configured, use natural language to interact with registries:
+
+### Browse and search
+
+- Show me all available components in the shadcn registry
+- Find me a login form from the shadcn registry
+- List all dashboard blocks
+
+### Install items
+
+- Add the button component to my project
+- Create a login form using shadcn components
+- Install the Cursor rules from the acme registry
+
+### Work with namespaces
+
+- Show me components from acme registry
+- Install @internal/auth-form
+- Build me a landing page using hero, features and testimonials sections from the acme registry
+
+## Troubleshooting
+
+<Accordion title="MCP not responding">
+  1. **Check configuration** - Verify the MCP server is properly configured and enabled
+  2. **Restart client** - Restart your MCP client after configuration changes
+  3. **Verify installation** - Ensure `shadcn` is installed in your project
+  4. **Check network** - Confirm you can access configured registries
+</Accordion>
+
+<Accordion title="Registry access issues">
+  1. **Check components.json** - Verify registry URLs are correct
+  2. **Test authentication** - Ensure environment variables are set
+  3. **Verify registry** - Confirm the registry is online and accessible
+  4. **Check namespace** - Ensure namespace syntax is correct (`@namespace/component`)
+</Accordion>
+
+<Accordion title="Installation failures">
+  1. **Check project setup** - Ensure you have a valid `components.json` file
+  2. **Verify paths** - Confirm target directories exist
+  3. **Check permissions** - Ensure write permissions for component directories
+  4. **Review dependencies** - Check that required dependencies are installed
+</Accordion>
+
+<Accordion title="No tools or prompts">
+  1. **Clear npx cache** - Run `npx clear-npx-cache`
+  2. **Re-enable server** - Try to re-enable the MCP server in your client
+  3. **Check logs** - In Cursor, view logs under View → Output and select `MCP: project-*`
+</Accordion>
+
+## Learn more
+
+<CardGroup cols={2}>
+  <Card title="Registry documentation" icon="book" href="/docs/registry">
+    Complete guide to shadcn registries
+  </Card>
+  <Card title="Namespaces" icon="folder-tree" href="/docs/registry/namespace">
+    Configure multiple registry sources
+  </Card>
+  <Card title="Authentication" icon="lock" href="/docs/registry/authentication">
+    Secure your private registries
+  </Card>
+  <Card title="MCP specification" icon="file-code" href="https://modelcontextprotocol.io">
+    Learn about Model Context Protocol
+  </Card>
+</CardGroup>

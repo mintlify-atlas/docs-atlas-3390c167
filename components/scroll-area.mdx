@@ -1,0 +1,210 @@
+---
+title: Scroll Area
+description: Augments native scroll functionality for custom, cross-browser styling.
+---
+
+## Installation
+
+<CodeGroup>
+
+```bash npm
+npx shadcn@latest add scroll-area
+```
+
+```bash yarn
+yarn dlx shadcn@latest add scroll-area
+```
+
+```bash pnpm
+pnpm dlx shadcn@latest add scroll-area
+```
+
+</CodeGroup>
+
+## Usage
+
+```tsx
+import { ScrollArea } from "@/components/ui/scroll-area"
+```
+
+```tsx
+<ScrollArea className="h-[200px] w-[350px] rounded-md border p-4">
+  Your scrollable content here.
+</ScrollArea>
+```
+
+## Component API
+
+### ScrollArea
+
+Custom scrollable area with styled scrollbars. Built on Radix UI ScrollArea.
+
+```tsx
+function ScrollArea({
+  className,
+  children,
+  ...props
+}: React.ComponentProps<typeof ScrollAreaPrimitive.Root>)
+```
+
+**Features:**
+- Custom styled scrollbars
+- Cross-browser consistent appearance
+- Automatically includes vertical scrollbar
+- Focuses on viewport with keyboard navigation
+
+### ScrollBar
+
+Custom scrollbar component for horizontal scrolling.
+
+```tsx
+function ScrollBar({
+  className,
+  orientation = "vertical",
+  ...props
+}: React.ComponentProps<typeof ScrollAreaPrimitive.ScrollAreaScrollbar>)
+```
+
+**Props:**
+- `orientation` - Scrollbar orientation (`"vertical"` | `"horizontal"`)
+
+## Implementation
+
+The component structure:
+
+```tsx
+<ScrollAreaPrimitive.Root className="relative">
+  <ScrollAreaPrimitive.Viewport className="size-full rounded-[inherit]">
+    {children}
+  </ScrollAreaPrimitive.Viewport>
+  <ScrollBar />
+  <ScrollAreaPrimitive.Corner />
+</ScrollAreaPrimitive.Root>
+```
+
+## Examples
+
+### Basic Scroll Area
+
+Vertical scrollable content:
+
+```tsx
+<ScrollArea className="h-72 w-full rounded-md border">
+  <div className="p-4">
+    <h4 className="mb-4 text-sm font-medium leading-none">Tags</h4>
+    {Array.from({ length: 50 }).map((_, i) => (
+      <div key={i} className="text-sm">
+        Tag {i + 1}
+      </div>
+    ))}
+  </div>
+</ScrollArea>
+```
+
+### Horizontal Scroll
+
+Horizontal scrollable content:
+
+```tsx
+import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area"
+
+<ScrollArea className="w-96 whitespace-nowrap rounded-md border">
+  <div className="flex w-max space-x-4 p-4">
+    {Array.from({ length: 10 }).map((_, i) => (
+      <figure key={i} className="shrink-0">
+        <div className="h-[250px] w-[200px] rounded-md bg-muted" />
+        <figcaption className="pt-2 text-xs text-muted-foreground">
+          Photo {i + 1}
+        </figcaption>
+      </figure>
+    ))}
+  </div>
+  <ScrollBar orientation="horizontal" />
+</ScrollArea>
+```
+
+### Both Scrollbars
+
+Both horizontal and vertical scrolling:
+
+```tsx
+<ScrollArea className="h-[400px] w-[600px] rounded-md border">
+  <div className="p-4">
+    {/* Wide and tall content */}
+    <div className="w-[1000px]">
+      {Array.from({ length: 50 }).map((_, i) => (
+        <div key={i} className="text-sm">
+          This is a very long line of text that extends beyond the container width.
+        </div>
+      ))}
+    </div>
+  </div>
+  <ScrollBar orientation="horizontal" />
+</ScrollArea>
+```
+
+### With Header
+
+Scrollable content with a fixed header:
+
+```tsx
+<div className="rounded-md border">
+  <div className="border-b p-4">
+    <h3 className="font-semibold">Messages</h3>
+  </div>
+  <ScrollArea className="h-[300px]">
+    <div className="p-4">
+      {messages.map((message) => (
+        <div key={message.id} className="mb-4">
+          {message.text}
+        </div>
+      ))}
+    </div>
+  </ScrollArea>
+</div>
+```
+
+### Chat Interface
+
+Scrollable chat messages:
+
+```tsx
+<div className="flex h-[600px] flex-col rounded-lg border">
+  <div className="border-b p-4">
+    <h2 className="font-semibold">Chat</h2>
+  </div>
+  <ScrollArea className="flex-1 p-4">
+    <div className="space-y-4">
+      {messages.map((msg) => (
+        <div key={msg.id} className="rounded-lg bg-muted p-3">
+          <p className="text-sm">{msg.content}</p>
+        </div>
+      ))}
+    </div>
+  </ScrollArea>
+  <div className="border-t p-4">
+    <Input placeholder="Type a message..." />
+  </div>
+</div>
+```
+
+## Styling
+
+The scrollbar can be customized with CSS:
+
+```tsx
+<ScrollArea className="h-[200px] [&>[data-radix-scroll-area-viewport]]:max-h-full">
+  {/* Content */}
+</ScrollArea>
+```
+
+## Accessibility
+
+- Maintains native scrolling behavior
+- Keyboard navigation supported (arrow keys, page up/down)
+- Focus management on viewport
+- Screen reader accessible
+
+## API Reference
+
+See the [Radix UI ScrollArea documentation](https://www.radix-ui.com/primitives/docs/components/scroll-area) for complete API reference.
