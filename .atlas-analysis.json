@@ -1,0 +1,204 @@
+{
+  "projectType": "framework",
+  "projectName": "shadcn/ui",
+  "projectDescription": "A beautifully-designed, accessible component framework and code distribution platform for React with Tailwind CSS.",
+  "theme": "willow",
+  "primaryColor": "#18181b",
+  "lightColor": "#f4f4f5",
+  "darkColor": "#09090b",
+  "navigation": {
+    "tabs": [
+      {
+        "tab": "Documentation",
+        "groups": [
+          {
+            "group": "Get Started",
+            "pages": [
+              "introduction",
+              "installation",
+              "components-json",
+              "cli"
+            ]
+          },
+          {
+            "group": "Installation",
+            "pages": [
+              "installation/next",
+              "installation/vite",
+              "installation/remix",
+              "installation/astro",
+              "installation/laravel",
+              "installation/gatsby",
+              "installation/manual"
+            ]
+          },
+          {
+            "group": "Customization",
+            "pages": [
+              "theming",
+              "dark-mode",
+              "typography",
+              "figma"
+            ]
+          },
+          {
+            "group": "Guides",
+            "pages": [
+              "monorepo",
+              "rtl",
+              "javascript",
+              "react-19"
+            ]
+          },
+          {
+            "group": "Integrations",
+            "pages": [
+              "blocks",
+              "v0",
+              "mcp"
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "Components",
+        "groups": [
+          {
+            "group": "Base Components",
+            "pages": [
+              "components/accordion",
+              "components/alert",
+              "components/alert-dialog",
+              "components/aspect-ratio",
+              "components/avatar",
+              "components/badge",
+              "components/breadcrumb",
+              "components/button",
+              "components/button-group",
+              "components/calendar",
+              "components/card",
+              "components/carousel",
+              "components/chart",
+              "components/checkbox",
+              "components/collapsible",
+              "components/combobox",
+              "components/command",
+              "components/context-menu",
+              "components/data-table",
+              "components/date-picker",
+              "components/dialog",
+              "components/drawer",
+              "components/dropdown-menu",
+              "components/form",
+              "components/hover-card",
+              "components/input",
+              "components/input-otp",
+              "components/label",
+              "components/menubar",
+              "components/navigation-menu",
+              "components/pagination",
+              "components/popover",
+              "components/progress",
+              "components/radio-group",
+              "components/resizable",
+              "components/scroll-area",
+              "components/select",
+              "components/separator",
+              "components/sheet",
+              "components/sidebar",
+              "components/skeleton",
+              "components/slider",
+              "components/sonner",
+              "components/switch",
+              "components/table",
+              "components/tabs",
+              "components/textarea",
+              "components/toast",
+              "components/toggle",
+              "components/toggle-group",
+              "components/tooltip"
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "CLI Reference",
+        "groups": [
+          {
+            "group": "Commands",
+            "pages": [
+              "cli/init",
+              "cli/create",
+              "cli/add",
+              "cli/diff",
+              "cli/view",
+              "cli/search",
+              "cli/migrate",
+              "cli/info",
+              "cli/build"
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "Registry",
+        "groups": [
+          {
+            "group": "Overview",
+            "pages": [
+              "registry/introduction",
+              "registry/getting-started"
+            ]
+          },
+          {
+            "group": "Schema",
+            "pages": [
+              "registry/registry-json",
+              "registry/registry-item-json",
+              "registry/registry-index"
+            ]
+          },
+          {
+            "group": "Advanced",
+            "pages": [
+              "registry/namespace",
+              "registry/authentication",
+              "registry/examples",
+              "registry/mcp",
+              "registry/faq"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "keyFeatures": [
+    "57+ accessible React components built on Radix UI",
+    "CLI tool for component installation and management",
+    "Custom registry system for component distribution",
+    "Tailwind CSS theming with CSS variables",
+    "Cross-framework support (Next.js, Vite, Remix, Astro, etc.)",
+    "Pre-built blocks and templates",
+    "Dark mode support",
+    "TypeScript and JavaScript support",
+    "Open code philosophy - components owned by developers"
+  ],
+  "publicApiSurface": [
+    "shadcn init - Initialize project configuration",
+    "shadcn create - Create new project with custom design system",
+    "shadcn add [component] - Add components to project",
+    "shadcn diff [component] - View component diff",
+    "shadcn view [component] - View component source",
+    "shadcn search [query] - Search for components",
+    "shadcn migrate - Run migrations",
+    "shadcn info - View project info",
+    "shadcn build - Build registry",
+    "shadcn registry - Manage custom registries",
+    "shadcn mcp - Model Context Protocol integration",
+    "components.json - Configuration file",
+    "Registry API - Custom component distribution",
+    "Component exports (Button, Dialog, Form, etc.)",
+    "Theming system with CSS variables",
+    "Block/template system"
+  ]
+}
