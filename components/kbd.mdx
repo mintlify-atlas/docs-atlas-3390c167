@@ -1,0 +1,137 @@
+---
+title: Kbd
+description: A styled keyboard key component for displaying keyboard shortcuts.
+---
+
+## Installation
+
+```bash
+npx shadcn@latest add kbd
+```
+
+## Usage
+
+```tsx
+import { Kbd, KbdGroup } from "@/components/ui/kbd"
+```
+
+### Basic
+
+```tsx
+<Kbd>⌘</Kbd>
+<Kbd>K</Kbd>
+```
+
+### Keyboard shortcuts
+
+Display common keyboard shortcuts:
+
+```tsx
+<KbdGroup>
+  <Kbd>⌘</Kbd>
+  <Kbd>K</Kbd>
+</KbdGroup>
+```
+
+### With text
+
+```tsx
+<div className="flex items-center gap-2">
+  <span>Search</span>
+  <KbdGroup>
+    <Kbd>Ctrl</Kbd>
+    <Kbd>K</Kbd>
+  </KbdGroup>
+</div>
+```
+
+## Examples
+
+### Navigation shortcuts
+
+```tsx
+<div className="space-y-2">
+  <div className="flex items-center justify-between">
+    <span>Open command menu</span>
+    <KbdGroup>
+      <Kbd>⌘</Kbd>
+      <Kbd>K</Kbd>
+    </KbdGroup>
+  </div>
+  <div className="flex items-center justify-between">
+    <span>Go to dashboard</span>
+    <KbdGroup>
+      <Kbd>G</Kbd>
+      <Kbd>D</Kbd>
+    </KbdGroup>
+  </div>
+</div>
+```
+
+### With icons
+
+```tsx
+import { Command } from "lucide-react"
+
+<KbdGroup>
+  <Kbd>
+    <Command className="size-3" />
+  </Kbd>
+  <Kbd>K</Kbd>
+</KbdGroup>
+```
+
+## Component source
+
+```tsx
+import { cn } from "@/lib/utils"
+
+function Kbd({ className, ...props }: React.ComponentProps<"kbd">) {
+  return (
+    <kbd
+      data-slot="kbd"
+      className={cn(
+        "pointer-events-none inline-flex h-5 w-fit min-w-5 items-center justify-center gap-1 rounded-sm bg-muted px-1 font-sans text-xs font-medium text-muted-foreground select-none",
+        "[&_svg:not([class*='size-'])]:size-3",
+        "[[data-slot=tooltip-content]_&]:bg-background/20 [[data-slot=tooltip-content]_&]:text-background dark:[[data-slot=tooltip-content]_&]:bg-background/10",
+        className
+      )}
+      {...props}
+    />
+  )
+}
+
+function KbdGroup({ className, ...props }: React.ComponentProps<"div">) {
+  return (
+    <kbd
+      data-slot="kbd-group"
+      className={cn("inline-flex items-center gap-1", className)}
+      {...props}
+    />
+  )
+}
+
+export { Kbd, KbdGroup }
+```
+
+## API Reference
+
+### Kbd
+
+| Prop | Type | Description |
+|------|------|-------------|
+| `className` | `string` | Additional CSS classes |
+| `children` | `React.ReactNode` | Key content (text or icon) |
+
+### KbdGroup
+
+| Prop | Type | Description |
+|------|------|-------------|
+| `className` | `string` | Additional CSS classes |
+| `children` | `React.ReactNode` | Multiple Kbd components |
+
+## Accessibility
+
+- Uses semantic `<kbd>` HTML element
+- Includes `pointer-events-none` to prevent accidental clicks
+- Uses `select-none` to prevent text selection

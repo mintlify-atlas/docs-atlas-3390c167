@@ -1,0 +1,106 @@
+---
+title: Spinner
+description: A loading spinner component for indicating loading states.
+---
+
+## Installation
+
+```bash
+npx shadcn@latest add spinner
+```
+
+## Usage
+
+```tsx
+import { Spinner } from "@/components/ui/spinner"
+```
+
+### Basic
+
+```tsx
+<Spinner />
+```
+
+### Custom size
+
+```tsx
+<Spinner className="size-6" />
+<Spinner className="size-8" />
+<Spinner className="size-12" />
+```
+
+## Examples
+
+### In buttons
+
+```tsx
+<Button disabled>
+  <Spinner className="mr-2" />
+  Loading...
+</Button>
+```
+
+### Loading state
+
+```tsx
+function DataComponent() {
+  const [loading, setLoading] = useState(true)
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center p-8">
+        <Spinner className="size-8" />
+      </div>
+    )
+  }
+
+  return <div>Data content</div>
+}
+```
+
+### With text
+
+```tsx
+<div className="flex items-center gap-2">
+  <Spinner />
+  <span>Loading data...</span>
+</div>
+```
+
+## Component source
+
+```tsx
+import { Loader2Icon } from "lucide-react"
+import { cn } from "@/lib/utils"
+
+function Spinner({ className, ...props }: React.ComponentProps<"svg">) {
+  return (
+    <Loader2Icon
+      role="status"
+      aria-label="Loading"
+      className={cn("size-4 animate-spin", className)}
+      {...props}
+    />
+  )
+}
+
+export { Spinner }
+```
+
+## API Reference
+
+| Prop | Type | Description |
+|------|------|-------------|
+| `className` | `string` | Additional CSS classes for sizing and styling |
+
+## Accessibility
+
+- Uses `role="status"` for screen readers
+- Includes `aria-label="Loading"` to announce loading state
+- Automatically animates with `animate-spin` class
+
+## Notes
+
+- Built using Lucide React's `Loader2Icon`
+- Default size is `size-4` (16px)
+- Uses Tailwind's `animate-spin` utility for rotation

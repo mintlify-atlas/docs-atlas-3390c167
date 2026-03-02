@@ -106,6 +106,7 @@
               "components/hover-card",
               "components/input",
               "components/input-otp",
+              "components/kbd",
               "components/label",
               "components/menubar",
               "components/navigation-menu",
@@ -122,6 +123,7 @@
               "components/skeleton",
               "components/slider",
               "components/sonner",
+              "components/spinner",
               "components/switch",
               "components/table",
               "components/tabs",
@@ -148,7 +150,9 @@
               "cli/search",
               "cli/migrate",
               "cli/info",
-              "cli/build"
+              "cli/build",
+              "cli/mcp",
+              "cli/registry"
             ]
           }
         ]

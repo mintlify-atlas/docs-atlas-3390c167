@@ -1,0 +1,102 @@
+---
+title: shadcn mcp
+description: Start the MCP server or configure MCP clients.
+---
+
+The `mcp` command starts the shadcn MCP server or helps you configure MCP clients.
+
+## Usage
+
+Start the MCP server:
+
+```bash
+npx shadcn@latest mcp
+```
+
+Initialize MCP for a specific client:
+
+```bash
+npx shadcn@latest mcp init --client <client-name>
+```
+
+## Options
+
+<ParamField path="--client" type="string">
+  The MCP client to configure. Available options:
+  - `claude` - Claude Code
+  - `cursor` - Cursor
+  - `vscode` - VS Code
+  - `codex` - Codex
+  - `opencode` - OpenCode
+</ParamField>
+
+<ParamField path="-c, --cwd" type="string">
+  The working directory. Defaults to the current directory.
+</ParamField>
+
+## Examples
+
+### Start MCP server
+
+```bash
+npx shadcn@latest mcp
+```
+
+This command starts the MCP server that AI assistants can connect to for browsing and installing components.
+
+### Initialize for Claude Code
+
+```bash
+npx shadcn@latest mcp init --client claude
+```
+
+Creates `.mcp.json` with configuration for Claude Code.
+
+### Initialize for Cursor
+
+```bash
+npx shadcn@latest mcp init --client cursor
+```
+
+Creates `.cursor/mcp.json` with configuration for Cursor.
+
+### Initialize for VS Code
+
+```bash
+npx shadcn@latest mcp init --client vscode
+```
+
+Creates `.vscode/mcp.json` with configuration for VS Code with GitHub Copilot.
+
+## What it does
+
+When you run `mcp init`:
+
+1. **Detects configuration** - Checks for existing MCP configuration
+2. **Creates config file** - Adds shadcn MCP server configuration
+3. **Installs dependencies** - Optionally installs shadcn package
+4. **Provides instructions** - Shows next steps for your specific client
+
+When you run `mcp` without arguments:
+
+1. **Starts MCP server** - Launches the Model Context Protocol server
+2. **Loads registries** - Reads component registries from `components.json`
+3. **Exposes tools** - Makes browsing, searching, and installation tools available to AI assistants
+
+## Configuration
+
+The MCP server reads registry configuration from `components.json`:
+
+```json title="components.json"
+{
+  "registries": {
+    "@acme": "https://acme.com/r/{name}.json"
+  }
+}
+```
+
+## Learn more
+
+- [MCP Integration Guide](/mcp) - Complete guide to using MCP with shadcn/ui
+- [Registry Documentation](/docs/registry) - Learn about component registries
+- [Model Context Protocol](https://modelcontextprotocol.io) - Official MCP specification

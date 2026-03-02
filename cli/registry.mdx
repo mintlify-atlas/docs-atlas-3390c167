@@ -1,0 +1,76 @@
+---
+title: shadcn registry
+description: Manage custom registries and registry items.
+---
+
+The `registry` command helps you manage custom registries and add registry items to your registry.
+
+## Usage
+
+```bash
+npx shadcn@latest registry <command> [options]
+```
+
+## Subcommands
+
+### add
+
+Add an item to your registry:
+
+```bash
+npx shadcn@latest registry add <name>
+```
+
+## Options
+
+<ParamField path="name" type="string" required>
+  The name of the registry item to add
+</ParamField>
+
+<ParamField path="-c, --cwd" type="string">
+  The working directory. Defaults to the current directory.
+</ParamField>
+
+## Examples
+
+### Add item to registry
+
+```bash
+npx shadcn@latest registry add button
+```
+
+Adds the button component to your custom registry.
+
+### Add multiple items
+
+```bash
+npx shadcn@latest registry add button card dialog
+```
+
+## What it does
+
+When you run `registry add`:
+
+1. **Validates item** - Checks that the component exists in your project
+2. **Generates schema** - Creates registry item JSON with metadata
+3. **Updates registry** - Adds the item to your registry.json
+4. **Includes dependencies** - Automatically tracks component dependencies
+
+## Use cases
+
+The `registry` command is useful when you're:
+
+- **Building a custom registry** - Creating your own component library
+- **Sharing components** - Distributing components to other projects
+- **Managing internal libraries** - Maintaining company-wide design systems
+
+## Related commands
+
+- [`shadcn add`](/cli/add) - Add components from registries
+- [`shadcn build`](/cli/build) - Build your registry
+
+## Learn more
+
+- [Registry Documentation](/docs/registry) - Complete guide to registries
+- [Getting Started with Registries](/docs/registry/getting-started) - Create your first registry
+- [Registry Schema](/docs/registry/registry-item-json) - Registry item JSON format
